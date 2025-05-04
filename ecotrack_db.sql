@@ -1,0 +1,11 @@
+USE EcoTrack_DB;
+
+CREATE TABLE user (
+    UserID INT AUTO_INCREMENT PRIMARY KEY,
+    User_FirstName VARCHAR(100) NOT NULL,
+    User_MiddleName VARCHAR(100) NOT NULL,
+    User_LastName VARCHAR(100) NOT NULL,
+    Username VARCHAR(255) NOT NULL UNIQUE,
+    Password VARCHAR(255) NOT NULL,
+    Email VARCHAR(255) NOT NULL
+);
