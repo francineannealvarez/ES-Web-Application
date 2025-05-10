@@ -21,3 +21,17 @@ CREATE TABLE IF NOT EXISTS household (
     timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (UserID) REFERENCES user(UserID) 
 );
+
+CREATE TABLE IF NOT EXISTS transportation (
+    TransportationID INT AUTO_INCREMENT PRIMARY KEY,
+    UserID INT NOT NULL,
+    Gasoline_Carbon REAL,
+    Diesel_Carbon REAL,
+    Tricycle_Carbon REAL,
+    Jeep_Carbon REAL,
+    Van_Carbon REAL,
+    Bus_Carbon REAL,
+    Total_CarbonFootprint_Transportation REAL,
+    timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (UserID) REFERENCES user(UserID)
+);
