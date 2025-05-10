@@ -13,6 +13,20 @@
             "database": "EcoTrack_DB",
             "username": "root",
             "password": ""
+        },
+        {
+            "mysqlOptions": {
+                "authProtocol": "default",
+                "enableSsl": "Disabled"
+            },
+            "previewLimit": 50,
+            "server": "localhost",
+            "port": 3306,
+            "driver": "MariaDB",
+            "name": "localhost",
+            "database": "EcoTrack",
+            "username": "root",
+            "password": ""
         }
     ]
 }

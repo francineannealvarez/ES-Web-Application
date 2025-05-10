@@ -5,5 +5,5 @@ def get_connection():
         host="localhost",
         user="root",
         password="",
-        database="EcoTrack_DB"
+        database="EcoTrack"
     )

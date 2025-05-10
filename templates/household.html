@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Household Carbon Footprint Calculation</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <script>
+        // Function to calculate the carbon footprint dynamically
+        function calculateCarbonFootprint() {
+            let electricity = parseFloat(document.getElementById("electricity").value) || 0;
+            let lpg = parseFloat(document.getElementById("lpg").value) || 0;
+            let water_consumption = parseFloat(document.getElementById("water consumption").value) || 0;
+            let waste = parseFloat(document.getElementById("waste").value) || 0;
+            let members = parseInt(document.getElementById("members").value) || 1;
+
+            // Calculate the carbon footprints
+            let elec_result = (electricity / members) * 0.0498;
+            let lpg_result = (lpg / members) * 0.022454;
+            let water_consumption_result = water_consumption * 0.0106
+            let waste_result = (waste / members) * 1.59;
+            let total = elec_result + lpg_result + waste_result;
+
+            // Update the display fields with the calculated values
+            document.getElementById("elec_result").value = elec_result.toFixed(2);
+            document.getElementById("lpg_result").value = lpg_result.toFixed(2);
+            document.getElementById("water_consumption_result").value = water_consumption_result.toFixed(2);
+            document.getElementById("waste_result").value = waste_result.toFixed(2);
+            document.getElementById("total").innerText = total.toFixed(2);
+        }
+    </script>
+</head>
+<body class="bg-light">
+
+    <!-- Header Section -->
+    <div class="container mt-4">
+        <h3>Household Carbon Footprint Calculation</h3>
+        <p class="lead">Please enter the information below to calculate your household's carbon footprint.</p>
+
+        <!-- Form for Household Carbon Footprint Calculation -->
+        <form method="POST">
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label for="electricity" class="form-label">Electricity Consumption (monthly bill in PHP):</label>
+                    <input type="number" class="form-control" id="electricity" name="electricity" required oninput="calculateCarbonFootprint()">
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Carbon Footprint (kg CO₂):</label>
+                    <input type="text" class="form-control" id="elec_result" disabled>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label for="lpg" class="form-label">LPG Consumption (in PHP):</label>
+                    <input type="number" class="form-control" id="lpg" name="lpg" required oninput="calculateCarbonFootprint()">
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Carbon Footprint (kg CO₂):</label>
+                    <input type="text" class="form-control" id="lpg_result" disabled>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label for="water consumption" class="form-label">Water Consumption (liter per month):</label>
+                    <input type="number" class="form-control" id="water consumption" name="water consumption" required oninput="calculateCarbonFootprint()">
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Carbon Footprint (kg CO₂):</label>
+                    <input type="text" class="form-control" id="water_consumption_result" disabled>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label for="waste" class="form-label">Waste Generation (kg per month):</label>
+                    <input type="number" class="form-control" id="waste" name="waste" required oninput="calculateCarbonFootprint()">
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Carbon Footprint (kg CO₂):</label>
+                    <input type="text" class="form-control" id="waste_result" disabled>
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="members" class="form-label">Number of Household Members:</label>
+                <input type="number" class="form-control" id="members" name="members" required oninput="calculateCarbonFootprint()">
+            </div>
+
+            <button type="submit" class="btn btn-success">Save Calculated Carbon Footprint</button>
+        </form>
+
+        <!-- Displaying the Total Carbon Footprint -->
+        <div class="mt-4">
+            <h4>Your Total Household Carbon Footprint:</h4>
+            <p class="lead">The total carbon footprint of your household is: <strong id="total">0.00</strong> kg CO₂ per month</p>
+        </div>
+    </div>
+
+    <!-- Footer Section -->
+    <div class="container mt-5">
+        <div class="d-flex justify-content-end">
+            <a href="/dashboard" class="btn btn-outline-secondary">Back to Dashboard</a>
+        </div>
+    </div>
+
+</body>
+</html>
