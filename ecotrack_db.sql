@@ -35,3 +35,23 @@ CREATE TABLE IF NOT EXISTS transportation (
     timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (UserID) REFERENCES user(UserID)
 );
+
+CREATE TABLE IF NOT EXISTS food_consumption (
+    FoodConsumptionID INT AUTO_INCREMENT PRIMARY KEY,
+    UserID INT NOT NULL,
+    FreshVegetables_Carbon REAL,
+    Rice_Carbon REAL,
+    Eggs_Carbon REAL,
+    MilkPowder_Carbon REAL,
+    Cheese_Carbon REAL,
+    Butter_Carbon REAL,
+    Beef_Carbon REAL,
+    PigMeat_Carbon REAL,
+    PoultryMeat_Carbon REAL,
+    Fish_Carbon REAL,
+    Coffee_Carbon REAL,
+    Chocolate_Carbon REAL,
+    Total_CarbonFootprint_Food REAL,
+    timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (UserID) REFERENCES user(UserID)
+);

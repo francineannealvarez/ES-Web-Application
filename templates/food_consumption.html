@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Food Consumption Carbon Footprint</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <script>
+        function calculateCarbonFootprint() {
+            const factors = {
+                vegetables: 0.137, beef: 60.0, poultry: 6.0, fish: 5.0,
+                pig: 7.0, eggs: 4.5, rice: 4.0, coffee: 17.0,
+                chocolate: 19.0, cheese: 21.0, milk_powder: 10.1, butter: 7.3
+            };
+
+            let total = 0;
+
+            for (const item in factors) {
+                let input = parseFloat(document.getElementById(item).value) || 0;
+                let result = input * factors[item];
+                document.getElementById(item + "_result").value = result.toFixed(2);
+                total += result;
+            }
+
+            document.getElementById("total").innerText = total.toFixed(2);
+        }
+    </script>
+</head>
+<body class="bg-light">
+    <div class="container mt-4">
+        <h3>Food Consumption Carbon Footprint</h3>
+        <p class="lead">Enter the quantities of food items consumed to calculate your food-related carbon footprint.</p>
+
+        <form method="POST">
+            <div class="accordion" id="foodAccordion">
+
+                <!-- Accordion Item -->
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingOne">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne">
+                            Food Items
+                        </button>
+                    </h2>
+                    <div id="collapseOne" class="accordion-collapse collapse show">
+                        <div class="accordion-body">
+                            <div class="row">
+                                <!-- Repeatable input pairs -->
+                                <div class="col-md-6 mb-3">
+                                    <label for="vegetables" class="form-label">Fresh Vegetables (kg):</label>
+                                    <input type="number" class="form-control" id="vegetables" name="vegetables" oninput="calculateCarbonFootprint()">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Carbon (kg CO₂):</label>
+                                    <input type="text" class="form-control" id="vegetables_result" disabled>
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+                                    <label for="beef" class="form-label">Beef (kg):</label>
+                                    <input type="number" class="form-control" id="beef" name="beef" oninput="calculateCarbonFootprint()">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Carbon (kg CO₂):</label>
+                                    <input type="text" class="form-control" id="beef_result" disabled>
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+                                    <label for="poultry" class="form-label">Poultry Meat (kg):</label>
+                                    <input type="number" class="form-control" id="poultry" name="poultry" oninput="calculateCarbonFootprint()">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Carbon (kg CO₂):</label>
+                                    <input type="text" class="form-control" id="poultry_result" disabled>
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+                                    <label for="fish" class="form-label">Fish (kg):</label>
+                                    <input type="number" class="form-control" id="fish" name="fish" oninput="calculateCarbonFootprint()">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Carbon (kg CO₂):</label>
+                                    <input type="text" class="form-control" id="fish_result" disabled>
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+                                    <label for="pig" class="form-label">Pig Meat (kg):</label>
+                                    <input type="number" class="form-control" id="pig" name="pig" oninput="calculateCarbonFootprint()">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Carbon (kg CO₂):</label>
+                                    <input type="text" class="form-control" id="pig_result" disabled>
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+                                    <label for="eggs" class="form-label">Eggs (kg):</label>
+                                    <input type="number" class="form-control" id="eggs" name="eggs" oninput="calculateCarbonFootprint()">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Carbon (kg CO₂):</label>
+                                    <input type="text" class="form-control" id="eggs_result" disabled>
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+                                    <label for="rice" class="form-label">Rice (kg):</label>
+                                    <input type="number" class="form-control" id="rice" name="rice" oninput="calculateCarbonFootprint()">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Carbon (kg CO₂):</label>
+                                    <input type="text" class="form-control" id="rice_result" disabled>
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+                                    <label for="coffee" class="form-label">Coffee (kg):</label>
+                                    <input type="number" class="form-control" id="coffee" name="coffee" oninput="calculateCarbonFootprint()">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Carbon (kg CO₂):</label>
+                                    <input type="text" class="form-control" id="coffee_result" disabled>
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+                                    <label for="chocolate" class="form-label">Chocolate (kg):</label>
+                                    <input type="number" class="form-control" id="chocolate" name="chocolate" oninput="calculateCarbonFootprint()">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Carbon (kg CO₂):</label>
+                                    <input type="text" class="form-control" id="chocolate_result" disabled>
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+                                    <label for="cheese" class="form-label">Cheese (kg):</label>
+                                    <input type="number" class="form-control" id="cheese" name="cheese" oninput="calculateCarbonFootprint()">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Carbon (kg CO₂):</label>
+                                    <input type="text" class="form-control" id="cheese_result" disabled>
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+                                    <label for="milk_powder" class="form-label">Milk Powder (kg):</label>
+                                    <input type="number" class="form-control" id="milk_powder" name="milk_powder" oninput="calculateCarbonFootprint()">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Carbon (kg CO₂):</label>
+                                    <input type="text" class="form-control" id="milk_powder_result" disabled>
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+                                    <label for="butter" class="form-label">Butter (kg):</label>
+                                    <input type="number" class="form-control" id="butter" name="butter" oninput="calculateCarbonFootprint()">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Carbon (kg CO₂):</label>
+                                    <input type="text" class="form-control" id="butter_result" disabled>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div> <!-- end accordion-item -->
+
+            </div> <!-- end accordion -->
+
+            <button type="submit" class="btn btn-success mt-3">Save Calculated Carbon Footprint</button>
+        </form>
+
+        <div class="mt-4">
+            <h4>Total Food Carbon Footprint:</h4>
+            <p class="lead">Total: <strong id="total">0.00</strong> kg CO₂</p>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
