@@ -19,7 +19,6 @@ def signup():
         password = request.form['password']
         email = request.form['email']
 
-        # Connect to the database
         conn = get_connection()
         cursor = conn.cursor()
 
@@ -32,7 +31,6 @@ def signup():
                 flash("Username already exists. Please choose a different one.")
                 return redirect('/signup')
 
-            # Insert new user into the database 
             cursor.execute("""
                 INSERT INTO user (User_FirstName, User_MiddleName, User_LastName, Username, Password, Email)
                 VALUES (%s, %s, %s, %s, %s, %s)
@@ -62,7 +60,6 @@ def login():
         username = request.form['username']
         password = request.form['password']
 
-        # Connect to the database
         conn = get_connection()
         cursor = conn.cursor()
 
@@ -75,7 +72,6 @@ def login():
                 flash("Username not found. Please try again.")
                 return redirect('/login')
 
-            # Verify the password (no hashing since you're storing it plain text)
             if password != user[5]:  # user[5] is the Password column
                 flash("Incorrect password. Please try again.")
                 return redirect('/login')
@@ -114,7 +110,7 @@ def category_choice():
 
 @app_routes.route('/logout')
 def logout():
-    session.clear()  # This logs the user out by clearing the session
+    session.clear() #logs the user out
     flash("You have been logged out.")
     return redirect('/')
 
@@ -137,7 +133,7 @@ def household():
 
     if request.method == 'POST':
         try:
-            members = int(request.form.get("members", 1)) or 1  # Avoid division by zero
+            members = int(request.form.get("members", 1)) or 1  
             for item, multiplier in multipliers.items():
                 value = float(request.form.get(item, 0))
                 if item in ['electricity', 'lpg', 'waste']:
@@ -145,7 +141,6 @@ def household():
                 results[item] = value * multiplier
                 total += results[item]
 
-            # Insert into DB
             conn = get_connection()
             cursor = conn.cursor()
             cursor.execute("""
@@ -208,7 +203,6 @@ def transportation():
                 results[item] = value * multiplier
                 total += results[item]
 
-            # Insert into DB
             conn = get_connection()
             cursor = conn.cursor()
             cursor.execute("""
@@ -279,8 +273,7 @@ def food_consumption():
                 kg = float(request.form.get(item, 0))
                 results[item] = kg * multiplier
                 total += results[item]
-
-            # Insert into database
+                
             conn = get_connection()
             cursor = conn.cursor()
             cursor.execute("""
@@ -423,7 +416,6 @@ def full_assessment():
 
             total = household_total + transportation_total + food_total
 
-            # Save to DB
             conn = get_connection()
             cursor = conn.cursor()
             cursor.execute("""
