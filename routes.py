@@ -112,25 +112,12 @@ def category_choice():
     return render_template('category_choice.html')
 
 
-
-@app_routes.route('/calculate/full')
-def full_assessment():
-    # Later: Form with all categories
-    return render_template('full_assessment.html')
-
 @app_routes.route('/logout')
 def logout():
     session.clear()  # This logs the user out by clearing the session
     flash("You have been logged out.")
     return redirect('/')
 
-@app_routes.route('/calculate', methods=['POST'])
-def calculate():
-    pass
-
-@app_routes.route('/history')
-def history():
-    pass
 
 @app_routes.route('/calculate/category/household', methods=['GET', 'POST'])
 def household():
@@ -346,3 +333,157 @@ def food_consumption():
 
     return render_template('food_consumption.html', results=results, total=total)
 
+@app_routes.route('/calculate/full-assessment', methods=['GET', 'POST'])
+def full_assessment():
+    if 'username' not in session or 'user_id' not in session:
+        flash("You need to be logged in to complete the assessment.")
+        return redirect('/login')
+
+    results = {}
+    total = 0.0
+    household_total = 0.0
+    transportation_total = 0.0
+    food_total = 0.0
+
+    household_multipliers = {
+        'electricity': 0.0498,
+        'lpg': 0.022454,
+        'water_consumption': 0.0106,
+        'waste': 1.59
+    }
+
+    transportation_multipliers = {
+        'gasoline': 2.31,
+        'diesel': 2.68,
+        'tricycle': 0.0022,
+        'jeep': 0.00104,
+        'van': 0.5408,
+        'bus': 0.272
+    }
+
+    food_multipliers = {
+        'fresh_vegetables': 0.137,
+        'beef': 60.0,
+        'poultry_meat': 6.0,
+        'fish': 5.0,
+        'pig_meat': 7.0,
+        'eggs': 4.5,
+        'rice': 4.0,
+        'coffee': 17.0,
+        'chocolate': 19.0,
+        'cheese': 21.0,
+        'milk_powder': 10.1,
+        'butter': 7.3
+    }
+
+    conn = None
+    cursor = None
+    if request.method == 'POST':
+        try:
+            # Handle member count safely
+            try:
+                members = int(request.form.get("members", 1))
+                if members <= 0:
+                    members = 1
+            except ValueError:
+                members = 1
+
+            # Household
+            for item, multiplier in household_multipliers.items():
+                try:
+                    value = float(request.form.get(item, 0))
+                except ValueError:
+                    value = 0.0
+
+                if item in ['electricity', 'lpg', 'waste']:
+                    value /= members
+                carbon = value * multiplier
+                results[item] = carbon
+                household_total += carbon
+
+            # Transportation
+            for item, multiplier in transportation_multipliers.items():
+                try:
+                    value = float(request.form.get(item, 0))
+                except ValueError:
+                    value = 0.0
+                carbon = value * multiplier
+                results[item] = carbon
+                transportation_total += carbon
+
+            # Food
+            for item, multiplier in food_multipliers.items():
+                try:
+                    value = float(request.form.get(item, 0))
+                except ValueError:
+                    value = 0.0
+                carbon = value * multiplier
+                results[item] = carbon
+                food_total += carbon
+
+            total = household_total + transportation_total + food_total
+
+            # Save to DB
+            conn = get_connection()
+            cursor = conn.cursor()
+            cursor.execute("""
+                INSERT INTO full_assessment (
+                    UserID, Household_Total, Transportation_Total, Food_Consumption_Total, Overall_Total
+                ) VALUES (%s, %s, %s, %s, %s)
+            """, (
+                session['user_id'], household_total, transportation_total, food_total, total
+            ))
+            conn.commit()
+
+            flash(f"Full Assessment Submitted: {total:.2f} kg CO₂", "success")
+            return redirect('/dashboard')
+
+        except Exception as e:
+            if conn:
+                conn.rollback()
+            flash(f"An error occurred: {str(e)}", "error")
+            return redirect('/calculate/full-assessment')
+
+        finally:
+            if cursor:
+                cursor.close()
+            if conn:
+                conn.close()
+
+    return render_template("full_assessment.html", results=results, total=total)
+
+@app_routes.route('/history', methods=['GET', 'POST'])
+def view_history():
+    if 'username' not in session:
+        flash("You need to be logged in to view your history.")
+        return redirect('/login')
+
+    category = None
+    records = []
+
+    if request.method == 'POST':
+        category = request.form.get('category')
+        user_id = session['user_id']
+
+        query_map = {
+            'household': "SELECT Electricity, LPG, WaterConsumption, Waste, Total_CarbonFootprint_Household, timestamp FROM household WHERE UserID = %s ORDER BY timestamp DESC",
+            'transportation': "SELECT Gasoline_Carbon, Diesel_Carbon, Tricycle_Carbon, Jeep_Carbon, Van_Carbon, Bus_Carbon, Total_CarbonFootprint_Transportation, timestamp FROM transportation WHERE UserID = %s ORDER BY timestamp DESC",
+            'food': "SELECT FreshVegetables_Carbon, Rice_Carbon, Eggs_Carbon, MilkPowder_Carbon, Cheese_Carbon, Butter_Carbon, Beef_Carbon, PigMeat_Carbon, PoultryMeat_Carbon, Fish_Carbon, Coffee_Carbon, Chocolate_Carbon, Total_CarbonFootprint_Food, timestamp FROM food_consumption WHERE UserID = %s ORDER BY timestamp DESC",
+            'assessment': "SELECT Household_Total, Transportation_Total, Food_Consumption_Total, Overall_Total, Full_AssessmentDate FROM full_assessment WHERE UserID = %s ORDER BY Full_AssessmentDate DESC"
+        }
+
+        if category in query_map:
+            try:
+                conn = get_connection()
+                cursor = conn.cursor(dictionary=True) 
+                cursor.execute(query_map[category], (user_id,))
+                records = cursor.fetchall()
+            except Exception as e:
+                flash(f"Database error: {str(e)}")
+            finally:
+                cursor.close()
+                conn.close()
+        else:
+            flash("Invalid category selected.")
+
+    return render_template('view_history.html', records=records, category=category)

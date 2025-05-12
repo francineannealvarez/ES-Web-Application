@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Carbon Footprint History</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+<body class="bg-light">
+
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Your Carbon Footprint History</h2>
+
+    <form method="POST" class="mb-4">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <select name="category" class="form-select" required>
+                    <option value="">-- Select Category --</option>
+                    <option value="household">Household</option>
+                    <option value="transportation">Transportation</option>
+                    <option value="food">Food Consumption</option>
+                    <option value="assessment">Full Assessment</option>
+                </select>
+            </div>
+            <div class="col-md-2">
+                <button type="submit" class="btn btn-primary">View History</button>
+            </div>
+        </div>
+    </form>
+
+    {% if records %}
+        <h4 class="text-center mb-3">Results for {{ category|capitalize }} Category</h4>
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        {% for col in records[0].keys() %}
+                            <th>{{ col }}</th>
+                        {% endfor %}
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row in records %}
+                        <tr>
+                            {% for value in row.values() %}
+                                <td>{{ value }}</td>
+                            {% endfor %}
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% elif category %}
+        <div class="alert alert-warning text-center">No history found for {{ category }}.</div>
+    {% endif %}
+</div>
+
+</body>
+</html>

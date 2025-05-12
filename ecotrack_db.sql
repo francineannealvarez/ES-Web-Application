@@ -55,3 +55,14 @@ CREATE TABLE IF NOT EXISTS food_consumption (
     timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (UserID) REFERENCES user(UserID)
 );
+
+CREATE TABLE IF NOT EXISTS full_assessment (
+    Full_AssessmentID INT AUTO_INCREMENT PRIMARY KEY,
+    UserID INT NOT NULL,
+    Household_Total FLOAT NOT NULL,
+    Transportation_Total FLOAT NOT NULL,
+    Food_Consumption_Total FLOAT NOT NULL,
+    Overall_Total FLOAT NOT NULL,
+    Full_AssessmentDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (UserID) REFERENCES user(UserID)
+);
