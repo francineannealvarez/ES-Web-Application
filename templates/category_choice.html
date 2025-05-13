@@ -9,6 +9,20 @@
 </head>
 <body class="bg-light">
 
+    <!--Flash Messages-->
+    <div class="container mt-3">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    </div>
+    
     <!-- Header Section -->
     <div class="container mt-4">
         <h3>Select a Category for Carbon Footprint Calculation:</h3>
