@@ -4,6 +4,41 @@ import hashlib
 
 app_routes = Blueprint('app_routes', __name__)
 
+def get_recommendation(category, total):
+    if category == 'household':
+        if total < 50:
+            return "Great job! Your household carbon footprint is very low."
+        elif total < 150:
+            return "Your household footprint is moderate. Consider saving energy and reducing waste."
+        else:
+            return "Your household footprint is high. Try switching to energy-efficient appliances and limiting water use."
+    
+    elif category == 'transportation':
+        if total < 100:
+            return "You're doing well with transportation emissions!"
+        elif total < 300:
+            return "Your transportation emissions are moderate. Try carpooling or using public transport more."
+        else:
+            return "Your transportation emissions are high. Consider reducing vehicle use or switching to greener options."
+    
+    elif category == 'food':
+        if total < 300:
+            return "Excellent! Your diet has a low environmental impact."
+        elif total < 800:
+            return "Your food emissions are average. Try reducing meat and dairy consumption."
+        else:
+            return "High food emissions. Consider more plant-based meals and reducing food waste."
+    
+    elif category == 'full':
+        if total < 500:
+            return "Fantastic! Your total carbon footprint is impressively low."
+        elif total < 1500:
+            return "Your overall emissions are average. Keep looking for ways to reduce further."
+        else:
+            return "Your overall emissions are high. A shift toward sustainable habits could make a big difference."
+
+    return "No recommendation available."
+
 @app_routes.route('/')
 def home():
     return render_template('home.html')
@@ -163,7 +198,8 @@ def household():
             ))
 
             conn.commit()
-            flash(f"Household Carbon Footprint: {total:.2f} kg CO₂")
+            flash(f"Household Carbon Footprint: {total:.2f} kg CO₂", "success")
+            flash(get_recommendation('household', total), "info")
             return redirect('/calculate/category')
 
         except Exception as e:
@@ -229,7 +265,8 @@ def transportation():
             ))
 
             conn.commit()
-            flash(f"Transportation Carbon Footprint: {total:.2f} kg CO₂")
+            flash(f"Transportation Carbon Footprint: {total:.2f} kg CO₂" "success")
+            flash(get_recommendation('transportation', total), "info")
             return redirect('/calculate/category')
 
         except Exception as e:
@@ -312,7 +349,8 @@ def food_consumption():
             ))
 
             conn.commit()
-            flash(f"Food Consumption Carbon Footprint: {total:.2f} kg CO₂")
+            flash(f"Food Consumption Carbon Footprint: {total:.2f} kg CO₂", "success")
+            flash(get_recommendation('food', total), "info")
             return redirect('/calculate/category')
 
         except Exception as e:
@@ -428,6 +466,7 @@ def full_assessment():
             conn.commit()
 
             flash(f"Full Assessment Submitted: {total:.2f} kg CO₂", "success")
+            flash(get_recommendation('full', total), "info")
             return redirect('/dashboard')
 
         except Exception as e:
