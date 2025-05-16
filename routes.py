@@ -16,15 +16,15 @@ def get_recommendation(category, total):
     elif category == 'transportation':
         if total < 100:
             return "You're doing well with transportation emissions!"
-        elif total < 300:
+        elif total < 250:
             return "Your transportation emissions are moderate. Try carpooling or using public transport more."
         else:
             return "Your transportation emissions are high. Consider reducing vehicle use or switching to greener options."
     
     elif category == 'food':
-        if total < 300:
+        if total < 50:
             return "Excellent! Your diet has a low environmental impact."
-        elif total < 800:
+        elif total < 150:
             return "Your food emissions are average. Try reducing meat and dairy consumption."
         else:
             return "High food emissions. Consider more plant-based meals and reducing food waste."
