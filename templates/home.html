@@ -298,7 +298,7 @@
       border: 1px solid #ccc;
       border-radius: 8px;
       padding: 10px;
-      background: #f9f9f9;
+      background: #e8f6ef;
     }
 
     summary {
@@ -365,7 +365,7 @@
   <!-- Signup Form -->
   <div id="signup-form" class="form-container hidden">
     <h3>Register</h3>
-    <form action="/register" method="POST">
+    <form action="/signup" method="POST">
         <input type="text" name="first_name" placeholder="First Name" required />
         <input type="text" name="middle_name" placeholder="Middle Name" />
         <input type="text" name="last_name" placeholder="Last Name" required />
@@ -439,15 +439,15 @@
   <section id="section4">
   <!-- Login/Register Hero Section -->
   <div class="hero">
+
     <h2>Login or Register to Get Started</h2>
     <div class="toggle-buttons">
-      <button id="loginBtn" class="toggle-btn active" onclick="showLogin()">Login</button>
-      <button id="signupBtn" class="toggle-btn" onclick="showSignup()">Register</button>
+      <button id="loginBtn" class="toggle-btn active" onclick="showLoginSection4()">Login</button>
+      <button id="signupBtn" class="toggle-btn" onclick="showSignupSection4()">Register</button>
     </div>
 
     <!-- Login form -->
-    <div id="login-form" class="form-container">
-      <h3>Login</h3>
+    <div id="section4-login-form" class="form-container">
       <form action="/login" method="POST">
         <input type="text" name="username" placeholder="Username" required />
         <input type="password" name="password" placeholder="Password" required />
@@ -456,7 +456,7 @@
     </div>
 
     <!-- Signup form -->
-    <div id="signup-form" class="form-container hidden">
+    <div id="section4-signup-form" class="form-container hidden">
       <h3>Register</h3>
       <form action="/signup" method="POST">
         <input type="text" name="first_name" placeholder="First Name" required />
@@ -531,6 +531,16 @@
 
 
   <script>
+    function showLoginSection4() {
+      document.getElementById('section4-login-form').classList.remove('hidden');
+      document.getElementById('section4-signup-form').classList.add('hidden');
+    }
+
+    function showSignupSection4() {
+      document.getElementById('section4-signup-form').classList.remove('hidden');
+      document.getElementById('section4-login-form').classList.add('hidden');
+    }
+
     function showLogin() {
       document.getElementById('login-form').classList.remove('hidden');
       document.getElementById('signup-form').classList.add('hidden');

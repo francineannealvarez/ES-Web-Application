@@ -99,6 +99,14 @@
     }
 
     /* Total section */
+    .total-section {
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: #2c3e50;
+      margin-top: 30px;
+      text-align: center;
+    }
+
     .mt-4 h4 {
         color: #34495e;
         font-weight: 700;
@@ -110,6 +118,10 @@
         color: #f1c40f; /* yellow */
     }
 
+    .footer {
+          margin-top: 40px;
+          text-align: center;
+        }
     /* Responsive tweaks */
     @media (max-width: 575px) {
     .container {
@@ -201,7 +213,13 @@
                 <!-- Repeatable input pairs -->
                 <div class="col-md-6 mb-3">
                   <label for="vegetables" class="form-label">Fresh Vegetables (kg):</label>
-                  <input type="number" class="form-control" id="vegetables" name="vegetables" oninput="calculateFoodCarbonFootprint()" min="0" step="0.1" />
+                  <input type="number" step="0.1" min="0" value="0"
+                    class="form-control" id="vegetables" name="vegetables"
+                    placeholder="e.g. 3000"
+                    required
+                    onfocus="if(this.value==0)this.value='';"
+                    onblur="if(this.value=='')this.value='0';"
+                    oninput="calculateFoodCarbonFootprint()" />
                 </div>
                 <div class="col-md-6 mb-3">
                   <label class="form-label">Carbon (kg CO₂):</label>
@@ -210,7 +228,13 @@
 
                 <div class="col-md-6 mb-3">
                   <label for="beef" class="form-label">Beef (kg):</label>
-                  <input type="number" class="form-control" id="beef" name="beef" oninput="calculateFoodCarbonFootprint()" min="0" step="0.1" />
+                  <input type="number" step="0.1" min="0" value="0"
+                    class="form-control" id="beef" name="beef"
+                    placeholder="e.g. 3000"
+                    required
+                    onfocus="if(this.value==0)this.value='';"
+                    onblur="if(this.value=='')this.value='0';"
+                    oninput="calculateFoodCarbonFootprint()" />
                 </div>
                 <div class="col-md-6 mb-3">
                   <label class="form-label">Carbon (kg CO₂):</label>
@@ -219,7 +243,13 @@
 
                 <div class="col-md-6 mb-3">
                   <label for="poultry" class="form-label">Poultry Meat (kg):</label>
-                  <input type="number" class="form-control" id="poultry" name="poultry" oninput="calculateFoodCarbonFootprint()" min="0" step="0.1" />
+                  <input type="number" step="0.1" min="0" value="0"
+                    class="form-control" id="poultry" name="poultry"
+                    placeholder="e.g. 3000"
+                    required
+                    onfocus="if(this.value==0)this.value='';"
+                    onblur="if(this.value=='')this.value='0';"
+                    oninput="calculateFoodCarbonFootprint()" />
                 </div>
                 <div class="col-md-6 mb-3">
                   <label class="form-label">Carbon (kg CO₂):</label>
@@ -228,7 +258,13 @@
 
                 <div class="col-md-6 mb-3">
                   <label for="fish" class="form-label">Fish (kg):</label>
-                  <input type="number" class="form-control" id="fish" name="fish" oninput="calculateFoodCarbonFootprint()" min="0" step="0.1" />
+                  <input type="number" step="0.1" min="0" value="0"
+                    class="form-control" id="fish" name="fish"
+                    placeholder="e.g. 3000"
+                    required
+                    onfocus="if(this.value==0)this.value='';"
+                    onblur="if(this.value=='')this.value='0';"
+                    oninput="calculateFoodCarbonFootprint()" />
                 </div>
                 <div class="col-md-6 mb-3">
                   <label class="form-label">Carbon (kg CO₂):</label>
@@ -237,7 +273,13 @@
 
                 <div class="col-md-6 mb-3">
                   <label for="pig" class="form-label">Pig Meat (kg):</label>
-                  <input type="number" class="form-control" id="pig" name="pig" oninput="calculateFoodCarbonFootprint()" min="0" step="0.1" />
+                  <input type="number" step="0.1" min="0" value="0"
+                    class="form-control" id="pig" name="pig"
+                    placeholder="e.g. 3000"
+                    required
+                    onfocus="if(this.value==0)this.value='';"
+                    onblur="if(this.value=='')this.value='0';"
+                    oninput="calculateFoodCarbonFootprint()" />
                 </div>
                 <div class="col-md-6 mb-3">
                   <label class="form-label">Carbon (kg CO₂):</label>
@@ -246,7 +288,13 @@
 
                 <div class="col-md-6 mb-3">
                   <label for="eggs" class="form-label">Eggs (kg):</label>
-                  <input type="number" class="form-control" id="eggs" name="eggs" oninput="calculateFoodCarbonFootprint()" min="0" step="0.1" />
+                  <input type="number" step="0.1" min="0" value="0"
+                    class="form-control" id="eggs" name="eggs"
+                    placeholder="e.g. 3000"
+                    required
+                    onfocus="if(this.value==0)this.value='';"
+                    onblur="if(this.value=='')this.value='0';"
+                    oninput="calculateFoodCarbonFootprint()" />
                 </div>
                 <div class="col-md-6 mb-3">
                   <label class="form-label">Carbon (kg CO₂):</label>
@@ -255,7 +303,13 @@
 
                 <div class="col-md-6 mb-3">
                   <label for="rice" class="form-label">Rice (kg):</label>
-                  <input type="number" class="form-control" id="rice" name="rice" oninput="calculateFoodCarbonFootprint()" min="0" step="0.1" />
+                  <input type="number" step="0.1" min="0" value="0"
+                    class="form-control" id="rice" name="rice"
+                    placeholder="e.g. 3000"
+                    required
+                    onfocus="if(this.value==0)this.value='';"
+                    onblur="if(this.value=='')this.value='0';"
+                    oninput="calculateFoodCarbonFootprint()" />
                 </div>
                 <div class="col-md-6 mb-3">
                   <label class="form-label">Carbon (kg CO₂):</label>
@@ -264,7 +318,13 @@
 
                 <div class="col-md-6 mb-3">
                   <label for="coffee" class="form-label">Coffee (kg):</label>
-                  <input type="number" class="form-control" id="coffee" name="coffee" oninput="calculateFoodCarbonFootprint()" min="0" step="0.1" />
+                  <input type="number" step="0.1" min="0" value="0"
+                    class="form-control" id="coffee" name="coffee"
+                    placeholder="e.g. 3000"
+                    required
+                    onfocus="if(this.value==0)this.value='';"
+                    onblur="if(this.value=='')this.value='0';"
+                    oninput="calculateFoodCarbonFootprint()" />
                 </div>
                 <div class="col-md-6 mb-3">
                   <label class="form-label">Carbon (kg CO₂):</label>
@@ -273,7 +333,13 @@
 
                 <div class="col-md-6 mb-3">
                   <label for="chocolate" class="form-label">Chocolate (kg):</label>
-                  <input type="number" class="form-control" id="chocolate" name="chocolate" oninput="calculateFoodCarbonFootprint()" min="0" step="0.1" />
+                  <input type="number" step="0.1" min="0" value="0"
+                    class="form-control" id="chocolate" name="chocolate"
+                    placeholder="e.g. 3000"
+                    required
+                    onfocus="if(this.value==0)this.value='';"
+                    onblur="if(this.value=='')this.value='0';"
+                    oninput="calculateFoodCarbonFootprint()" />
                 </div>
                 <div class="col-md-6 mb-3">
                   <label class="form-label">Carbon (kg CO₂):</label>
@@ -282,7 +348,13 @@
 
                 <div class="col-md-6 mb-3">
                   <label for="cheese" class="form-label">Cheese (kg):</label>
-                  <input type="number" class="form-control" id="cheese" name="cheese" oninput="calculateFoodCarbonFootprint()" min="0" step="0.1" />
+                  <input type="number" step="0.1" min="0" value="0"
+                    class="form-control" id="cheese" name="cheese"
+                    placeholder="e.g. 3000"
+                    required
+                    onfocus="if(this.value==0)this.value='';"
+                    onblur="if(this.value=='')this.value='0';"
+                    oninput="calculateFoodCarbonFootprint()" />
                 </div>
                 <div class="col-md-6 mb-3">
                   <label class="form-label">Carbon (kg CO₂):</label>
@@ -291,7 +363,13 @@
 
                 <div class="col-md-6 mb-3">
                   <label for="milk_powder" class="form-label">Milk Powder (kg):</label>
-                  <input type="number" class="form-control" id="milk_powder" name="milk_powder" oninput="calculateFoodCarbonFootprint()" min="0" step="0.1" />
+                  <input type="number" step="0.1" min="0" value="0"
+                    class="form-control" id="milk_powder" name="milk_powder"
+                    placeholder="e.g. 3000"
+                    required
+                    onfocus="if(this.value==0)this.value='';"
+                    onblur="if(this.value=='')this.value='0';"
+                    oninput="calculateFoodCarbonFootprint()" />
                 </div>
                 <div class="col-md-6 mb-3">
                   <label class="form-label">Carbon (kg CO₂):</label>
@@ -300,7 +378,13 @@
 
                 <div class="col-md-6 mb-3">
                   <label for="butter" class="form-label">Butter (kg):</label>
-                  <input type="number" class="form-control" id="butter" name="butter" oninput="calculateFoodCarbonFootprint()" min="0" step="0.1" />
+                  <input type="number" step="0.1" min="0" value="0"
+                    class="form-control" id="butter" name="butter"
+                    placeholder="e.g. 3000"
+                    required
+                    onfocus="if(this.value==0)this.value='';"
+                    onblur="if(this.value=='')this.value='0';"
+                    oninput="calculateFoodCarbonFootprint()" />
                 </div>
                 <div class="col-md-6 mb-3">
                   <label class="form-label">Carbon (kg CO₂):</label>
