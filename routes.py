@@ -30,9 +30,9 @@ def get_recommendation(category, total):
             return "High food emissions. Consider more plant-based meals and reducing food waste."
     
     elif category == 'full':
-        if total < 500:
+        if total < 200:
             return "Fantastic! Your total carbon footprint is impressively low."
-        elif total < 1500:
+        elif total < 600:
             return "Your overall emissions are average. Keep looking for ways to reduce further."
         else:
             return "Your overall emissions are high. A shift toward sustainable habits could make a big difference."
