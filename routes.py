@@ -517,3 +517,51 @@ def view_history():
             flash("Invalid category selected.")
 
     return render_template('view_history.html', records=records, category=category)
+
+@app_routes.route('/tips/<category>')
+def tips(category):
+    tips_map = {
+        'household': [
+            "Unplug unused electronics to reduce 'phantom' energy use [Energy.gov]",
+            "Switch to LED lighting, which uses up to 90% less energy [EPA]",
+            "Install water-saving fixtures like low-flow showerheads and faucets [EPA WaterSense]",
+            "Improve insulation to reduce heating and cooling needs [Energy Star]",
+            "Use a programmable thermostat to reduce unnecessary energy use [DOE]"
+        ],
+        'transportation': [
+            "Use a bike or walk for short trips to cut emissions and improve health [EPA]",
+            "Carpool or use ride-sharing apps to reduce single-occupancy vehicle use [EPA]",
+            "Maintain your vehicle regularly (tire pressure, oil changes) for better fuel efficiency [DOE]",
+            "Avoid idling; turn off the engine if you're stopping for more than 30 seconds [Natural Resources Canada]",
+            "Consider switching to a hybrid or electric vehicle [Union of Concerned Scientists]"
+        ],
+        'food': [
+            "Plan meals and store food properly to reduce waste [UN FAO]",
+            "Buy local and seasonal produce to lower transportation emissions [Harvard T.H. Chan School of Public Health]",
+            "Reduce red meat and dairy consumption; choose plant-based proteins [IPCC Report]",
+            "Compost food scraps instead of sending them to the landfill [EPA]",
+            "Bring reusable bags and containers when shopping to reduce packaging waste [Zero Waste International Alliance]"
+        ],
+        'total': [
+            "Conduct a personal carbon footprint audit to understand your impact [WWF Carbon Footprint Calculator]",
+            "Switch to renewable energy providers if available in your area [EPA Green Power Partnership]",
+            "Offset your emissions through verified carbon offset programs [Gold Standard, Terrapass]",
+            "Reduce consumption overall—buy less, reuse, and recycle mindfully [EPA Sustainable Materials Management]",
+            "Advocate for systemic change: support climate-friendly policies and businesses [UN Environment Programme]"
+        ]
+    }
+    return render_template('tips.html', tips=tips_map.get(category, []), category=category)
+
+@app_routes.route('/get-tips', methods=['POST'])
+def get_tips():
+    category = request.form.get('category')
+    try:
+        total = float(request.form.get('total'))
+    except (ValueError, TypeError):
+        flash("Invalid total value.", "error")
+        return redirect('/dashboard')
+
+    tip = get_recommendation(category, total)
+    flash(f"Tip: {tip}", "info")
+
+    return redirect('/dashboard')
