@@ -121,21 +121,48 @@
     </style>
 
     <script>
-      function calculateCarbonFootprint() {
-        const factors = {
-          vegetables: 0.137, beef: 60.0, poultry: 6.0, fish: 5.0,
-          pig: 7.0, eggs: 4.5, rice: 4.0, coffee: 17.0,
-          chocolate: 19.0, cheese: 21.0, milk_powder: 10.1, butter: 7.3
-        };
+      function calculateFoodCarbonFootprint() {
+        const vegetables = parseFloat(document.getElementById("vegetables").value) || 0;
+        const beef = parseFloat(document.getElementById("beef").value) || 0;
+        const poultry = parseFloat(document.getElementById("poultry").value) || 0;
+        const fish = parseFloat(document.getElementById("fish").value) || 0;
+        const pig = parseFloat(document.getElementById("pig").value) || 0;
+        const eggs = parseFloat(document.getElementById("eggs").value) || 0;
+        const rice = parseFloat(document.getElementById("rice").value) || 0;
+        const coffee = parseFloat(document.getElementById("coffee").value) || 0;
+        const chocolate = parseFloat(document.getElementById("chocolate").value) || 0;
+        const cheese = parseFloat(document.getElementById("cheese").value) || 0;
+        const milk_powder = parseFloat(document.getElementById("milk_powder").value) || 0;
+        const butter = parseFloat(document.getElementById("butter").value) || 0;
 
-        let total = 0;
+        const vegetables_result = vegetables * 0.137;
+        const beef_result = beef * 60.0;
+        const poultry_result = poultry * 6.0;
+        const fish_result = fish * 5.0;
+        const pig_result = pig * 7.0;
+        const eggs_result = eggs * 4.5;
+        const rice_result = rice * 4.0;
+        const coffee_result = coffee * 17.0;
+        const chocolate_result = chocolate * 19.0;
+        const cheese_result = cheese * 21.0;
+        const milk_powder_result = milk_powder * 10.1;
+        const butter_result = butter * 7.3;
 
-        for (const item in factors) {
-          let input = parseFloat(document.getElementById(item).value) || 0;
-          let result = input * factors[item];
-          document.getElementById(item + "_result").value = result.toFixed(2);
-          total += result;
-        }
+        const total = vegetables_result + beef_result + poultry_result + fish_result + pig_result + eggs_result +
+                      rice_result + coffee_result + chocolate_result + cheese_result + milk_powder_result + butter_result;
+
+        document.getElementById("vegetables_result").value = vegetables_result.toFixed(2);
+        document.getElementById("beef_result").value = beef_result.toFixed(2);
+        document.getElementById("poultry_result").value = poultry_result.toFixed(2);
+        document.getElementById("fish_result").value = fish_result.toFixed(2);
+        document.getElementById("pig_result").value = pig_result.toFixed(2);
+        document.getElementById("eggs_result").value = eggs_result.toFixed(2);
+        document.getElementById("rice_result").value = rice_result.toFixed(2);
+        document.getElementById("coffee_result").value = coffee_result.toFixed(2);
+        document.getElementById("chocolate_result").value = chocolate_result.toFixed(2);
+        document.getElementById("cheese_result").value = cheese_result.toFixed(2);
+        document.getElementById("milk_powder_result").value = milk_powder_result.toFixed(2);
+        document.getElementById("butter_result").value = butter_result.toFixed(2);
 
         document.getElementById("total").innerText = total.toFixed(2);
       }
@@ -146,7 +173,7 @@
     <h3>Food Consumption Carbon Footprint</h3>
     <p class="lead">Enter the quantities of food items consumed to calculate your food-related carbon footprint.</p>
 
-    <form method="POST" onsubmit="return false;">
+      <form method="POST" action="/calculate/category/food">
       <div class="accordion" id="foodAccordion">
 
         <!-- Accordion Item -->
@@ -174,7 +201,7 @@
                 <!-- Repeatable input pairs -->
                 <div class="col-md-6 mb-3">
                   <label for="vegetables" class="form-label">Fresh Vegetables (kg):</label>
-                  <input type="number" class="form-control" id="vegetables" name="vegetables" oninput="calculateCarbonFootprint()" min="0" step="0.1" />
+                  <input type="number" class="form-control" id="vegetables" name="vegetables" oninput="calculateFoodCarbonFootprint()" min="0" step="0.1" />
                 </div>
                 <div class="col-md-6 mb-3">
                   <label class="form-label">Carbon (kg CO₂):</label>
@@ -183,7 +210,7 @@
 
                 <div class="col-md-6 mb-3">
                   <label for="beef" class="form-label">Beef (kg):</label>
-                  <input type="number" class="form-control" id="beef" name="beef" oninput="calculateCarbonFootprint()" min="0" step="0.1" />
+                  <input type="number" class="form-control" id="beef" name="beef" oninput="calculateFoodCarbonFootprint()" min="0" step="0.1" />
                 </div>
                 <div class="col-md-6 mb-3">
                   <label class="form-label">Carbon (kg CO₂):</label>
@@ -192,7 +219,7 @@
 
                 <div class="col-md-6 mb-3">
                   <label for="poultry" class="form-label">Poultry Meat (kg):</label>
-                  <input type="number" class="form-control" id="poultry" name="poultry" oninput="calculateCarbonFootprint()" min="0" step="0.1" />
+                  <input type="number" class="form-control" id="poultry" name="poultry" oninput="calculateFoodCarbonFootprint()" min="0" step="0.1" />
                 </div>
                 <div class="col-md-6 mb-3">
                   <label class="form-label">Carbon (kg CO₂):</label>
@@ -201,7 +228,7 @@
 
                 <div class="col-md-6 mb-3">
                   <label for="fish" class="form-label">Fish (kg):</label>
-                  <input type="number" class="form-control" id="fish" name="fish" oninput="calculateCarbonFootprint()" min="0" step="0.1" />
+                  <input type="number" class="form-control" id="fish" name="fish" oninput="calculateFoodCarbonFootprint()" min="0" step="0.1" />
                 </div>
                 <div class="col-md-6 mb-3">
                   <label class="form-label">Carbon (kg CO₂):</label>
@@ -210,7 +237,7 @@
 
                 <div class="col-md-6 mb-3">
                   <label for="pig" class="form-label">Pig Meat (kg):</label>
-                  <input type="number" class="form-control" id="pig" name="pig" oninput="calculateCarbonFootprint()" min="0" step="0.1" />
+                  <input type="number" class="form-control" id="pig" name="pig" oninput="calculateFoodCarbonFootprint()" min="0" step="0.1" />
                 </div>
                 <div class="col-md-6 mb-3">
                   <label class="form-label">Carbon (kg CO₂):</label>
@@ -219,7 +246,7 @@
 
                 <div class="col-md-6 mb-3">
                   <label for="eggs" class="form-label">Eggs (kg):</label>
-                  <input type="number" class="form-control" id="eggs" name="eggs" oninput="calculateCarbonFootprint()" min="0" step="0.1" />
+                  <input type="number" class="form-control" id="eggs" name="eggs" oninput="calculateFoodCarbonFootprint()" min="0" step="0.1" />
                 </div>
                 <div class="col-md-6 mb-3">
                   <label class="form-label">Carbon (kg CO₂):</label>
@@ -228,7 +255,7 @@
 
                 <div class="col-md-6 mb-3">
                   <label for="rice" class="form-label">Rice (kg):</label>
-                  <input type="number" class="form-control" id="rice" name="rice" oninput="calculateCarbonFootprint()" min="0" step="0.1" />
+                  <input type="number" class="form-control" id="rice" name="rice" oninput="calculateFoodCarbonFootprint()" min="0" step="0.1" />
                 </div>
                 <div class="col-md-6 mb-3">
                   <label class="form-label">Carbon (kg CO₂):</label>
@@ -237,7 +264,7 @@
 
                 <div class="col-md-6 mb-3">
                   <label for="coffee" class="form-label">Coffee (kg):</label>
-                  <input type="number" class="form-control" id="coffee" name="coffee" oninput="calculateCarbonFootprint()" min="0" step="0.1" />
+                  <input type="number" class="form-control" id="coffee" name="coffee" oninput="calculateFoodCarbonFootprint()" min="0" step="0.1" />
                 </div>
                 <div class="col-md-6 mb-3">
                   <label class="form-label">Carbon (kg CO₂):</label>
@@ -246,7 +273,7 @@
 
                 <div class="col-md-6 mb-3">
                   <label for="chocolate" class="form-label">Chocolate (kg):</label>
-                  <input type="number" class="form-control" id="chocolate" name="chocolate" oninput="calculateCarbonFootprint()" min="0" step="0.1" />
+                  <input type="number" class="form-control" id="chocolate" name="chocolate" oninput="calculateFoodCarbonFootprint()" min="0" step="0.1" />
                 </div>
                 <div class="col-md-6 mb-3">
                   <label class="form-label">Carbon (kg CO₂):</label>
@@ -255,7 +282,7 @@
 
                 <div class="col-md-6 mb-3">
                   <label for="cheese" class="form-label">Cheese (kg):</label>
-                  <input type="number" class="form-control" id="cheese" name="cheese" oninput="calculateCarbonFootprint()" min="0" step="0.1" />
+                  <input type="number" class="form-control" id="cheese" name="cheese" oninput="calculateFoodCarbonFootprint()" min="0" step="0.1" />
                 </div>
                 <div class="col-md-6 mb-3">
                   <label class="form-label">Carbon (kg CO₂):</label>
@@ -264,7 +291,7 @@
 
                 <div class="col-md-6 mb-3">
                   <label for="milk_powder" class="form-label">Milk Powder (kg):</label>
-                  <input type="number" class="form-control" id="milk_powder" name="milk_powder" oninput="calculateCarbonFootprint()" min="0" step="0.1" />
+                  <input type="number" class="form-control" id="milk_powder" name="milk_powder" oninput="calculateFoodCarbonFootprint()" min="0" step="0.1" />
                 </div>
                 <div class="col-md-6 mb-3">
                   <label class="form-label">Carbon (kg CO₂):</label>
@@ -273,7 +300,7 @@
 
                 <div class="col-md-6 mb-3">
                   <label for="butter" class="form-label">Butter (kg):</label>
-                  <input type="number" class="form-control" id="butter" name="butter" oninput="calculateCarbonFootprint()" min="0" step="0.1" />
+                  <input type="number" class="form-control" id="butter" name="butter" oninput="calculateFoodCarbonFootprint()" min="0" step="0.1" />
                 </div>
                 <div class="col-md-6 mb-3">
                   <label class="form-label">Carbon (kg CO₂):</label>
@@ -282,21 +309,35 @@
               </div>
             </div>
           </div>
+
+        <div class="total-section mt-4" aria-live="polite">
+          <strong>Total Monthly Carbon Footprint (kg CO₂):</strong>
+          <span id="total">0.00</span>
         </div> <!-- end accordion-item -->
 
       </div> <!-- end accordion -->
 
-      <button type="submit" class="btn btn-success mt-3" onclick="calculateCarbonFootprint()">Calculate</button>
-    </form>
+      <input type="hidden" id="vegetables_result_hidden" name="vegetables_result" />
+      <input type="hidden" id="beef_result_hidden" name="beef_result" />
+      <input type="hidden" id="poultry_result_hidden" name="poultry_result" />
+      <input type="hidden" id="fish_result_hidden" name="fish_result" />
+      <input type="hidden" id="pig_result_hidden" name="pig_result" />
+      <input type="hidden" id="eggs_result_hidden" name="eggs_result" />
+      <input type="hidden" id="rice_result_hidden" name="rice_result" />
+      <input type="hidden" id="coffee_result_hidden" name="coffee_result" />
+      <input type="hidden" id="chocolate_result_hidden" name="chocolate_result" />
+      <input type="hidden" id="cheese_resultt_hiddn" name="cheese_result" />
+      <input type="hidden" id="milk_powder_result_hidden" name="milk_powder_result" />
+      <input type="hidden" id="butter_result_hidden" name="butter_result" />
+      <input type="hidden" id="total_hidden" name="total" />
+      <div class="mt-3">
+      <button type="submit" class="btn btn-success w-100">Save to Database</button>
+      </div>
 
-    <div class="mt-4">
-      <h4>Total Carbon Footprint</h4>
-      <p class="lead" id="total">0.00</p>
-    </div>
-    
-    <div class="footer">
-        <a href="/dashboard" class="btn btn-outline-primary mt-4">← Back to Dashboard</a>
-    </div>
+      <div class="footer mt-4">
+        <a href="/dashboard" class="btn btn-outline-primary" aria-label="Back to Dashboard">← Back to Dashboard</a>
+      </div>
+    </form>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
