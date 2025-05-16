@@ -287,6 +287,42 @@
     color: #333;
     }
 
+    .faq-container {
+      max-width: 800px;
+      margin: auto;
+      padding: 20px;
+    }
+
+    .faq-item {
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      padding: 10px;
+      background: #f9f9f9;
+    }
+
+    summary {
+      font-weight: bold;
+      font-size: 18px;
+      cursor: pointer;
+    }
+
+    summary:hover {
+      color: #2e8b57;
+    }
+
+    details[open] summary::after {
+      content: " ▲";
+    }
+
+    summary::after {
+      content: " ▼";
+      float: right;
+    }
+
+    p, ul {
+      margin: 10px 0 0 0;
+    }
 
   </style>
 </head>
@@ -433,6 +469,66 @@
       </form>
     </div>
   </div>
+
+  <section id="section5">
+  <div class="faq-container">
+    <h2>Frequently Asked Questions (FAQs)</h2>
+    <div class="faq-list" style="font-family: Poppins;">
+      
+      <details class="faq-item">
+        <summary>Why is it important to calculate your carbon footprint? ✔️</summary>
+        <p>
+          Calculating your carbon footprint is important because it helps you understand the environmental impact of your lifestyle choices. By knowing how much carbon you emit, you can identify areas where you can make changes to reduce your impact on the environment. This can include reducing energy consumption, using renewable energy sources, minimizing waste, and adopting sustainable transportation options.
+        </p>
+      </details>
+
+      <details class="faq-item">
+        <summary>How can I reduce my carbon footprint? ↘️</summary>
+        <p>
+          There are many ways to reduce your carbon footprint, including:
+        </p>
+        <ul>
+          <li><strong>Reduce energy consumption:</strong> Use energy-efficient appliances, turn off lights when not in use, and adjust your thermostat to conserve energy.</li>
+          <li><strong>Use renewable energy:</strong> Switch to renewable energy sources such as solar or wind power to reduce reliance on fossil fuels.</li>
+          <li><strong>Minimize waste:</strong> Reduce, reuse, and recycle materials whenever possible. Compost organic waste to divert it from landfills.</li>
+          <li><strong>Choose sustainable transportation:</strong> Walk, bike, carpool, or use public transportation instead of driving alone. Consider electric or hybrid vehicles.</li>
+          <li><strong>Eat a plant-based diet:</strong> Reduce your consumption of meat and dairy products, which have high carbon footprints.</li>
+          <li><strong>Support carbon offset projects:</strong> Invest in projects that reduce or offset greenhouse gas emissions, such as reforestation or renewable energy initiatives.</li>
+        </ul>
+      </details>
+
+      <details class="faq-item">
+        <summary>What are some examples of activities that contribute to a carbon footprint? 🧐</summary>
+        <p>Activities that contribute to a carbon footprint include:</p>
+        <ul>
+          <li>Driving gasoline-powered vehicles</li>
+          <li>Using electricity generated from fossil fuels</li>
+          <li>Heating or cooling homes with non-renewable energy sources</li>
+          <li>Flying in airplanes</li>
+          <li>Manufacturing and transportation of goods</li>
+          <li>Consuming products with high carbon emissions in their production process, such as beef and dairy products</li>
+        </ul>
+      </details>
+
+      <details class="faq-item">
+        <summary>Is it possible to have a carbon-neutral lifestyle? 🌳</summary>
+        <p>
+          Achieving a completely carbon-neutral lifestyle may be challenging, but it's possible to significantly reduce your carbon footprint by adopting sustainable practices. This includes reducing energy consumption, using renewable energy sources, minimizing waste, and supporting carbon offset projects. While it may not be feasible for everyone to eliminate all carbon emissions, individuals and organizations can strive to minimize their impact on the environment.
+        </p>
+      </details>
+
+      <details class="faq-item">
+        <summary>How accurate are carbon footprint calculators? 💯</summary>
+        <p>
+          Carbon footprint calculators provide estimates based on average data and assumptions. While they can give you a general idea of your carbon footprint, actual emissions may vary depending on individual circumstances and behaviors. Factors such as location, lifestyle choices, and consumption habits can influence the accuracy of the calculations. It's important to use carbon footprint calculators as a tool for awareness and guidance rather than relying solely on their results. Additionally, choosing a reputable calculator that considers a wide range of factors can improve accuracy.
+        </p>
+      </details>
+
+    </div>
+  </div>
+</section>
+
+
 
   <script>
     function showLogin() {
