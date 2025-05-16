@@ -11,13 +11,24 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
   <style>
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      background: linear-gradient(135deg, #e8f5e9, #ffffff);
-      margin: 0;
-      padding: 0;
-    }
+    body, html {
+            height: 100%;
+            margin: 0;
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg,rgb(82, 178, 88), #ffffff);
+            overflow-x: hidden;
+        }
 
+    .navbar {
+            background-color: #2e5339;
+            padding: 1rem 2rem;
+            color: white;
+            font-size: 1.2rem;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
     .category-wrapper {
       min-height: 70vh;
       display: flex;
@@ -89,26 +100,13 @@
 </head>
 <body>
 
-  <!-- Flash messages -->
-  <div class="alerts-container mx-auto">
-    {% with messages = get_flashed_messages(with_categories=true) %}
-      {% if messages %}
-        {% for category, message in messages %}
-          <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
-            {{ message }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-          </div>
-        {% endfor %}
-      {% endif %}
-    {% endwith %}
-  </div>
+<div class="navbar d-flex justify-content-between align-items-center">
+    <div><i class="fas fa-leaf me-2"></i>Carbon Tracker</div>
+    <a href="/dashboard" class="btn btn-outline-light">
+        <i class="fas fa-arrow-left me-2"></i> Back to Dashboard
+    </a>
+</div>
 
-<div class="container py-5">
-    <div class="d-flex justify-content-end mb-3">
-        <a href="/dashboard" class="btn btn-outline-success fw-semibold" style="border-radius: 10px;">
-            <i class="fas fa-arrow-left me-2"></i> Back to Dashboard
-        </a>
-    </div>
   <!-- Main Content -->
   <div class="category-wrapper">
     <div class="category-card">

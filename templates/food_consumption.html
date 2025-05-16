@@ -1,12 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <title>Food Consumption Carbon Footprint</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <meta charset="UTF-8" />
+  <title>Food Consumption Carbon Footprint</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
 
-    <style>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Font Awesome (optional) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
       /* Base body background and font */
 /* Base body background and font */
     body {
@@ -14,6 +17,18 @@
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         color: #2c3e50;
     }
+
+  
+.navbar {
+            background-color: #2e5339;
+            padding: 1rem 2rem;
+            color: white;
+            font-size: 1.2rem;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
 
     /* Container styling */
     .container {
@@ -26,15 +41,17 @@
     }
 
     h3 {
-        font-weight: 700;
-        color: #34495e;
-        margin-bottom: 12px;
+      font-weight: 700;
+      color: #2c3e50;
+      margin-bottom: 12px;
+      text-align: center;
     }
 
     p.lead {
         font-size: 1.1rem;
         color: #7f8c8d;
         margin-bottom: 30px;
+        text-align: center;
     }
 
     /* Accordion */
@@ -84,15 +101,7 @@
     }
 
     /* Button */
-    button.btn-success {
-        background: #27ae60;
-        border: none;
-        font-weight: 700;
-        padding: 12px 28px;
-        border-radius: 8px;
-        box-shadow: 0 5px 15px rgba(39, 174, 96, 0.4);
-        transition: background-color 0.3s ease;
-    }
+
     button.btn-success:hover {
         background: #2ecc71;
         box-shadow: 0 7px 20px rgba(46, 204, 113, 0.6);
@@ -130,58 +139,114 @@
     }
     }
 
-    </style>
+</style>
+</head>
+<script>
+  function showTips() {
+    const total = parseFloat(document.getElementById("total_hidden").value) || 0;
+    const tipsDiv = document.getElementById('tipsContainer');
+    const tipsList = tipsDiv.querySelector('ul');
+    const tipsHeader = tipsDiv.querySelector('h4');
 
-    <script>
-      function calculateFoodCarbonFootprint() {
-        const vegetables = parseFloat(document.getElementById("vegetables").value) || 0;
-        const beef = parseFloat(document.getElementById("beef").value) || 0;
-        const poultry = parseFloat(document.getElementById("poultry").value) || 0;
-        const fish = parseFloat(document.getElementById("fish").value) || 0;
-        const pig = parseFloat(document.getElementById("pig").value) || 0;
-        const eggs = parseFloat(document.getElementById("eggs").value) || 0;
-        const rice = parseFloat(document.getElementById("rice").value) || 0;
-        const coffee = parseFloat(document.getElementById("coffee").value) || 0;
-        const chocolate = parseFloat(document.getElementById("chocolate").value) || 0;
-        const cheese = parseFloat(document.getElementById("cheese").value) || 0;
-        const milk_powder = parseFloat(document.getElementById("milk_powder").value) || 0;
-        const butter = parseFloat(document.getElementById("butter").value) || 0;
+    tipsDiv.classList.remove('d-none');
 
-        const vegetables_result = vegetables * 0.137;
-        const beef_result = beef * 60.0;
-        const poultry_result = poultry * 6.0;
-        const fish_result = fish * 5.0;
-        const pig_result = pig * 7.0;
-        const eggs_result = eggs * 4.5;
-        const rice_result = rice * 4.0;
-        const coffee_result = coffee * 17.0;
-        const chocolate_result = chocolate * 19.0;
-        const cheese_result = cheese * 21.0;
-        const milk_powder_result = milk_powder * 10.1;
-        const butter_result = butter * 7.3;
+    if (total < 100) {
+      tipsHeader.textContent = "🥗 Excellent! Your Food Footprint is Low";
+      tipsList.innerHTML = `
+        <li>Well done — eating more plant-based foods really helps the planet!</li>
+        <li>Keep minimizing food waste and compost scraps when you can.</li>
+        <li>Support local and seasonal produce to reduce transport emissions.</li>
+      `;
+    } else if (total < 300) {
+      tipsHeader.textContent = "⚠️ Moderate Food Footprint";
+      tipsList.innerHTML = `
+        <li>Try having more meat-free days each week — it makes a big impact.</li>
+        <li>Plan meals to reduce food waste.</li>
+        <li>Buy in bulk and use reusable containers to cut packaging waste.</li>
+        <li>Look for sustainably sourced products when shopping.</li>
+      `;
+    } else {
+      tipsHeader.textContent = "🔥 High Food Footprint – Time to Rethink Habits";
+      tipsList.innerHTML = `
+        <li>Reduce red meat and dairy consumption — these have high emissions.</li>
+        <li>Avoid heavily processed and packaged foods.</li>
+        <li>Be mindful of expiration dates and store food properly to prevent waste.</li>
+        <li>Consider growing your own herbs or veggies if space allows.</li>
+      `;
+    }
 
-        const total = vegetables_result + beef_result + poultry_result + fish_result + pig_result + eggs_result +
+    tipsDiv.scrollIntoView({ behavior: 'smooth' });
+  }
+
+  function calculateFoodCarbonFootprint() {
+    const vegetables = parseFloat(document.getElementById("vegetables").value) || 0;
+    const beef = parseFloat(document.getElementById("beef").value) || 0;
+    const poultry = parseFloat(document.getElementById("poultry").value) || 0;
+    const fish = parseFloat(document.getElementById("fish").value) || 0;
+    const pig = parseFloat(document.getElementById("pig").value) || 0;
+    const eggs = parseFloat(document.getElementById("eggs").value) || 0;
+    const rice = parseFloat(document.getElementById("rice").value) || 0;
+    const coffee = parseFloat(document.getElementById("coffee").value) || 0;
+    const chocolate = parseFloat(document.getElementById("chocolate").value) || 0;
+    const cheese = parseFloat(document.getElementById("cheese").value) || 0;
+    const milk_powder = parseFloat(document.getElementById("milk_powder").value) || 0;
+    const butter = parseFloat(document.getElementById("butter").value) || 0;
+
+    const vegetables_result = vegetables * 0.137;
+    const beef_result = beef * 60.0;
+    const poultry_result = poultry * 6.0;
+    const fish_result = fish * 5.0;
+    const pig_result = pig * 7.0;
+    const eggs_result = eggs * 4.5;
+    const rice_result = rice * 4.0;
+    const coffee_result = coffee * 17.0;
+    const chocolate_result = chocolate * 19.0;
+    const cheese_result = cheese * 21.0;
+    const milk_powder_result = milk_powder * 10.1;
+    const butter_result = butter * 7.3;
+    const total = vegetables_result + beef_result + poultry_result + fish_result + pig_result + eggs_result +
                       rice_result + coffee_result + chocolate_result + cheese_result + milk_powder_result + butter_result;
 
-        document.getElementById("vegetables_result").value = vegetables_result.toFixed(2);
-        document.getElementById("beef_result").value = beef_result.toFixed(2);
-        document.getElementById("poultry_result").value = poultry_result.toFixed(2);
-        document.getElementById("fish_result").value = fish_result.toFixed(2);
-        document.getElementById("pig_result").value = pig_result.toFixed(2);
-        document.getElementById("eggs_result").value = eggs_result.toFixed(2);
-        document.getElementById("rice_result").value = rice_result.toFixed(2);
-        document.getElementById("coffee_result").value = coffee_result.toFixed(2);
-        document.getElementById("chocolate_result").value = chocolate_result.toFixed(2);
-        document.getElementById("cheese_result").value = cheese_result.toFixed(2);
-        document.getElementById("milk_powder_result").value = milk_powder_result.toFixed(2);
-        document.getElementById("butter_result").value = butter_result.toFixed(2);
+    document.getElementById("vegetables_result").value = vegetables_result.toFixed(2);
+    document.getElementById("beef_result").value = beef_result.toFixed(2);
+    document.getElementById("poultry_result").value = poultry_result.toFixed(2);
+    document.getElementById("fish_result").value = fish_result.toFixed(2);
+    document.getElementById("pig_result").value = pig_result.toFixed(2);
+    document.getElementById("eggs_result").value = eggs_result.toFixed(2);
+    document.getElementById("rice_result").value = rice_result.toFixed(2);
+    document.getElementById("coffee_result").value = coffee_result.toFixed(2);
+    document.getElementById("chocolate_result").value = chocolate_result.toFixed(2);
+    document.getElementById("cheese_result").value = cheese_result.toFixed(2);
+    document.getElementById("milk_powder_result").value = milk_powder_result.toFixed(2);
+    document.getElementById("butter_result").value = butter_result.toFixed(2);
+    document.getElementById("total").innerText = total.toFixed(2);
+        
+    document.getElementById("vegetables_result_hidden").value = vegetables_result.toFixed(2);
+    document.getElementById("beef_result_hidden").value = beef_result.toFixed(2);
+    document.getElementById("poultry_result_hidden").value = poultry_result.toFixed(2);
+    document.getElementById("fish_result_hidden").value = fish_result.toFixed(2);
+    document.getElementById("pig_result_hidden").value = pig_result.toFixed(2);
+    document.getElementById("eggs_result_hidden").value = eggs_result.toFixed(2);
+    document.getElementById("rice_result_hidden").value = rice_result.toFixed(2);
+    document.getElementById("coffee_result_hidden").value = coffee_result.toFixed(2);
+    document.getElementById("chocolate_result_hidden").value = chocolate_result.toFixed(2);
+    document.getElementById("cheese_result_hidden").value = cheese_result.toFixed(2);
+    document.getElementById("milk_powder_result_hidden").value = milk_powder_result.toFixed(2);
+    document.getElementById("butter_result_hidden").value = butter_result.toFixed(2);
+    document.getElementById("total_hidden").value = total.toFixed(2);
 
-        document.getElementById("total").innerText = total.toFixed(2);
-      }
-    </script>
-</head>
+    showTips();
+  }
+</script>
 <body>
-  <div class="container mt-4">
+  <div class="navbar d-flex justify-content-between align-items-center">
+    <div><i class="fas fa-leaf me-2"></i>Carbon Tracker</div>
+    <a href="/dashboard" class="btn btn-outline-light">
+        <i class="fas fa-arrow-left me-2"></i> Back to Dashboard
+    </a>
+</div>
+
+  <div class="container mt-4" role="main" aria-label="=Food Consumption Carbon Footprint Calculation Form">
     <h3>Food Consumption Carbon Footprint</h3>
     <p class="lead">Enter the quantities of food items consumed to calculate your food-related carbon footprint.</p>
 
@@ -399,31 +464,34 @@
           <span id="total">0.00</span>
         </div> <!-- end accordion-item -->
 
-      </div> <!-- end accordion -->
+    <input type="hidden" id="vegetables_result_hidden" name="vegetables_result_hidden" />
+    <input type="hidden" id="beef_result_hidden" name="beef_result_hidden" />
+    <input type="hidden" id="poultry_result_hidden" name="poultry_result_hidden" />
+    <input type="hidden" id="fish_result_hidden" name="fish_result_hidden" />
+    <input type="hidden" id="pig_result_hidden" name="pig_result_hidden" />
+    <input type="hidden" id="eggs_result_hidden" name="eggs_result_hidden" />
+    <input type="hidden" id="rice_result_hidden" name="rice_result_hidden" />
+    <input type="hidden" id="coffee_result_hidden" name="coffee_result_hidden" />
+    <input type="hidden" id="chocolate_result_hidden" name="chocolate_result_hidden" />
+    <input type="hidden" id="cheese_result_hidden" name="cheese_result_hidden" />
+    <input type="hidden" id="milk_powder_result_hidden" name="milk_powder_result_hidden" />
+    <input type="hidden" id="butter_result_hidden" name="butter_result_hidden" />
+    <input type="hidden" id="total_hidden" name="total_hidden" />
 
-      <input type="hidden" id="vegetables_result_hidden" name="vegetables_result" />
-      <input type="hidden" id="beef_result_hidden" name="beef_result" />
-      <input type="hidden" id="poultry_result_hidden" name="poultry_result" />
-      <input type="hidden" id="fish_result_hidden" name="fish_result" />
-      <input type="hidden" id="pig_result_hidden" name="pig_result" />
-      <input type="hidden" id="eggs_result_hidden" name="eggs_result" />
-      <input type="hidden" id="rice_result_hidden" name="rice_result" />
-      <input type="hidden" id="coffee_result_hidden" name="coffee_result" />
-      <input type="hidden" id="chocolate_result_hidden" name="chocolate_result" />
-      <input type="hidden" id="cheese_resultt_hiddn" name="cheese_result" />
-      <input type="hidden" id="milk_powder_result_hidden" name="milk_powder_result" />
-      <input type="hidden" id="butter_result_hidden" name="butter_result" />
-      <input type="hidden" id="total_hidden" name="total" />
+
       <div class="mt-3">
-      <button type="submit" class="btn btn-success w-100">Save to Database</button>
+        <button type="submit" class="btn btn-success w-100">Save to History</button>
       </div>
 
-      <div class="footer mt-4">
-        <a href="/dashboard" class="btn btn-outline-primary" aria-label="Back to Dashboard">← Back to Dashboard</a>
+      <!-- Tips container (hidden by default) -->
+      <div id="tipsContainer" class="alert alert-success mt-3 d-none" role="alert">
+        <h4 class="alert-heading">Eco-Friendly Tips:</h4>
+        <ul></ul>
       </div>
+
     </form>
   </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

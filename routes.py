@@ -199,7 +199,7 @@ def household():
             conn.commit()
             flash(f"Household Carbon Footprint: {total:.2f} kg CO₂", "success")
             flash(get_recommendation('household', total), "info")
-            return redirect('/calculate/category')
+            return redirect('/dashboard')
 
         except Exception as e:
             conn.rollback()
@@ -266,7 +266,7 @@ def transportation():
             conn.commit()
             flash(f"Transportation Carbon Footprint: {total:.2f} kg CO₂", "success")
             flash(get_recommendation('transportation', total), "info")
-            return redirect('/calculate/category')
+            return redirect('/dashboard')
 
         except Exception as e:
             conn.rollback()
@@ -350,7 +350,7 @@ def food_consumption():
             conn.commit()
             flash(f"Food Consumption Carbon Footprint: {total:.2f} kg CO₂", "success")
             flash(get_recommendation('food', total), "info")
-            return redirect('/calculate/category')
+            return redirect('/dashboard')
 
         except Exception as e:
             conn.rollback()

@@ -6,39 +6,46 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
-        body {
-            margin: 0;
-            padding: 0;
-            background: linear-gradient(to bottom, #e6f4ea, #cde3d0);
-            font-family: 'Segoe UI', sans-serif;
-            color: #2e5339;
-        }
+        body, html {
+      height: 100%;
+  margin: 0;
+  padding: 0;
+      font-family: 'Nunito', sans-serif;
+      background: linear-gradient(135deg, #d9f8c4, #f6f6eb);
+      color: #2e4939;
+    }
 
-        h2 {
-            font-weight: bold;
+        .navbar {
+            background-color: #2e5339;
+            padding: 1rem 2rem;
+            color: white;
+            font-size: 1.2rem;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
         }
 
         .header-title {
             background: linear-gradient(90deg, #2e5339, #4a7c59);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            font-size: 2.5rem;
+            font-size: 2.8rem;
+            font-weight: 700;
         }
 
         .form-section {
-            background-color: #ffffffcc;
+            background-color: #ffffff;
             border-radius: 20px;
             padding: 2rem;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
-        }
-
-        .custom-select, .btn-custom {
-            border-radius: 10px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
         }
 
         .btn-custom {
             background-color: #2e5339;
             color: white;
+            border: none;
+            border-radius: 10px;
             transition: 0.3s ease;
         }
 
@@ -47,45 +54,50 @@
         }
 
         .glass-card {
-            background: rgba(255, 255, 255, 0.85);
-            border-radius: 18px;
+            background: white;
+            border-radius: 20px;
             padding: 1.5rem;
-            backdrop-filter: blur(8px);
-            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+            border-left: 5px solid #4a7c59;
             transition: transform 0.2s ease, box-shadow 0.3s ease;
-            border-left: 5px solid #2e5339;
         }
 
         .glass-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 10px 24px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 14px 30px rgba(0, 0, 0, 0.12);
         }
 
         .record-meta {
             font-size: 0.9rem;
-            color: #555;
+            color: #444;
         }
 
         .record-value {
-            font-weight: 500;
+            font-weight: 600;
             font-size: 1.1rem;
-        }
-
-        .icon-label {
-            margin-right: 0.5rem;
-            color: #3e694c;
+            color: #1c2d23;
         }
 
         .no-data {
             font-size: 1.2rem;
             padding: 1rem;
-            background-color: #fff8e1;
+            background-color: #fff3cd;
             border-radius: 10px;
-            border-left: 4px solid #ff9800;
+            border-left: 4px solid #ffa000;
         }
 
         .category-select {
             background-color: #f6fdf8;
+        }
+
+        .btn-outline-success {
+            border-color: #3e694c;
+            color: #3e694c;
+        }
+
+        .btn-outline-success:hover {
+            background-color: #3e694c;
+            color: #fff;
         }
 
         .section-divider {
@@ -98,19 +110,20 @@
 </head>
 <body>
 
-<div class="container py-5">
-    <div class="d-flex justify-content-end mb-3">
-        <a href="/dashboard" class="btn btn-outline-success fw-semibold" style="border-radius: 10px;">
-            <i class="fas fa-arrow-left me-2"></i> Back to Dashboard
-        </a>
-    </div>
+<div class="navbar d-flex justify-content-between align-items-center">
+    <div><i class="fas fa-leaf me-2"></i>Carbon Tracker</div>
+    <a href="/dashboard" class="btn btn-outline-light">
+        <i class="fas fa-arrow-left me-2"></i> Back to Dashboard
+    </a>
+</div>
 
+<div class="container py-5">
     <h2 class="text-center mb-4 header-title">Your Carbon Footprint History</h2>
 
     <div class="form-section mb-5">
         <form method="POST">
             <div class="row justify-content-center">
-                <div class="col-md-6 mb-2">
+                <div class="col-md-6 mb-3">
                     <select name="category" class="form-select custom-select category-select" required>
                         <option value="">🌿 Select Category</option>
                         <option value="household">🏠 Household</option>
@@ -119,7 +132,7 @@
                         <option value="assessment">📊 Full Assessment</option>
                     </select>
                 </div>
-                <div class="col-md-2 mb-2">
+                <div class="col-md-2 mb-3">
                     <button type="submit" class="btn btn-custom w-100">View</button>
                 </div>
             </div>
@@ -134,10 +147,9 @@
                 <div class="col-md-6 col-lg-4">
                     <div class="glass-card">
                         {% for key, value in row.items() %}
-                            <div class="mb-2">
+                            <div class="mb-3">
                                 <div class="record-meta">
-                                    <i class="fa-regular fa-circle-dot icon-label"></i>
-                                    {{ key.replace('_', ' ') }}
+                                    <i class="fa-regular fa-circle-dot me-2 text-success"></i>{{ key.replace('_', ' ') }}
                                 </div>
                                 <div class="record-value">{{ value }}</div>
                             </div>

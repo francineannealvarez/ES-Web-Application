@@ -20,6 +20,17 @@
             overflow-x: hidden;
         }
 
+        .navbar {
+            background-color: #2e5339;
+            padding: 1rem 2rem;
+            color: white;
+            font-size: 1.2rem;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
         .background-footprints {
             position: fixed;
             top: 0;
@@ -107,14 +118,14 @@
             opacity: 0.3;
         }
 
-        .tree1 { top: 20px; left: 20px; }
+        .tree1 { top: 70px; left: 20px; }
         .tree2 { bottom: 30px; right: 30px; }
         .tree3 { top: 60%; left: 90px; transform: rotate(25deg); }
 
         /* Alerts styling */
         .alerts-container {
             position: absolute;
-            top: 20px;
+            top: 70px;
             width: 100%;
             max-width: 600px;
             z-index: 999;
@@ -144,31 +155,34 @@
 
     .logout-link {
         position: fixed;
-        top: 15px;
-        right: 20px;
-        font-size: 0.9rem;
-        color: #6c757d; /* Bootstrap’s gray */
+        top: 13px;
+        right: 30px;
+        font-size: 1rem;           /* bigger font size */
+        color: white;                 /* white text */
         text-decoration: none;
-        opacity: 0.6;
-        transition: opacity 0.3s ease;
+        opacity: 0.7;
+        padding: 6px 12px;            /* padding similar to btn */
+        background: rgba(255, 255, 255, 0.15); /* subtle translucent bg */
+        transition: background-color 0.3s ease, opacity 0.3s ease;
         z-index: 9999;
         font-weight: 500;
         display: flex;
         align-items: center;
-        gap: 6px;
+        gap: 10px;
     }
 
     .logout-link:hover {
+        background: rgba(255, 255, 255, 0.3);
         opacity: 1;
-        color: #495057; /* darker gray on hover */
-        text-decoration: underline;
+        text-decoration: none;        /* keep clean, no underline */
     }
 
     .logout-link i {
-        font-size: 1.1rem;
+        font-size: 1.4rem;            /* bigger icon */
     }
 
-    </style>
+
+</style>
 </head>
 <body>
 
@@ -179,10 +193,13 @@
     <div class="tree-icon tree3">🌲</div>
 
      
-    <!-- Logout link -->
+<div class="navbar d-flex justify-content-between align-items-center">
+    <div><i class="fas fa-leaf me-2"></i>Carbon Tracker</div>
     <a href="/logout" class="logout-link" title="Log Out">
     <i class="fas fa-sign-out-alt"></i> Logout
     </a>
+</div>
+    
     
     <!-- Alerts -->
     <div class="alerts-container mx-auto">
