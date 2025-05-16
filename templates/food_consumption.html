@@ -1,174 +1,304 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" />
     <title>Food Consumption Carbon Footprint</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+    <style>
+      /* Base body background and font */
+/* Base body background and font */
+    body {
+        background: #fff9e6; /* soft pale yellow */
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        color: #2c3e50;
+    }
+
+    /* Container styling */
+    .container {
+        max-width: 900px;
+        background: #ffffff;
+        border-radius: 12px;
+        padding: 30px 40px;
+        margin-top: 40px;
+        box-shadow: 0 10px 25px rgba(44, 62, 80, 0.1);
+    }
+
+    h3 {
+        font-weight: 700;
+        color: #34495e;
+        margin-bottom: 12px;
+    }
+
+    p.lead {
+        font-size: 1.1rem;
+        color: #7f8c8d;
+        margin-bottom: 30px;
+    }
+
+    /* Accordion */
+    .accordion-button {
+        background: #f1c40f; /* yellow */
+        color: #fff;
+        font-weight: 600;
+        border-radius: 8px;
+        border: none;
+        box-shadow: 0 4px 8px rgba(241, 196, 15, 0.3);
+        transition: background-color 0.3s ease;
+    }
+    .accordion-button:not(.collapsed) {
+        background: #f39c12; /* darker yellow */
+        color: white;
+        box-shadow: 0 6px 12px rgba(243, 156, 18, 0.4);
+    }
+
+    /* Accordion body background */
+    .accordion-body {
+        background: #fffdea; /* very pale yellow */
+        border-radius: 0 0 8px 8px;
+        padding: 25px;
+        box-shadow: inset 0 0 8px rgba(241, 196, 15, 0.1);
+    }
+
+    /* Form labels */
+    label.form-label {
+        font-weight: 600;
+        color: #34495e;
+    }
+
+    /* Input styling */
+    input.form-control {
+        border-radius: 6px;
+        border: 1.5px solid #f1c40f; /* yellow border */
+        transition: border-color 0.3s ease;
+    }
+    input.form-control:focus {
+        border-color: #f39c12; /* darker yellow */
+        box-shadow: 0 0 6px #f39c12;
+    }
+    input[disabled] {
+        background: #fff7cc;
+        color: #34495e;
+        font-weight: 600;
+    }
+
+    /* Button */
+    button.btn-success {
+        background: #27ae60;
+        border: none;
+        font-weight: 700;
+        padding: 12px 28px;
+        border-radius: 8px;
+        box-shadow: 0 5px 15px rgba(39, 174, 96, 0.4);
+        transition: background-color 0.3s ease;
+    }
+    button.btn-success:hover {
+        background: #2ecc71;
+        box-shadow: 0 7px 20px rgba(46, 204, 113, 0.6);
+    }
+
+    /* Total section */
+    .mt-4 h4 {
+        color: #34495e;
+        font-weight: 700;
+        margin-bottom: 12px;
+    }
+    .mt-4 p.lead {
+        font-size: 1.3rem;
+        font-weight: 700;
+        color: #f1c40f; /* yellow */
+    }
+
+    /* Responsive tweaks */
+    @media (max-width: 575px) {
+    .container {
+        padding: 20px;
+        margin-top: 20px;
+    }
+    }
+
+    </style>
 
     <script>
-        function calculateCarbonFootprint() {
-            const factors = {
-                vegetables: 0.137, beef: 60.0, poultry: 6.0, fish: 5.0,
-                pig: 7.0, eggs: 4.5, rice: 4.0, coffee: 17.0,
-                chocolate: 19.0, cheese: 21.0, milk_powder: 10.1, butter: 7.3
-            };
+      function calculateCarbonFootprint() {
+        const factors = {
+          vegetables: 0.137, beef: 60.0, poultry: 6.0, fish: 5.0,
+          pig: 7.0, eggs: 4.5, rice: 4.0, coffee: 17.0,
+          chocolate: 19.0, cheese: 21.0, milk_powder: 10.1, butter: 7.3
+        };
 
-            let total = 0;
+        let total = 0;
 
-            for (const item in factors) {
-                let input = parseFloat(document.getElementById(item).value) || 0;
-                let result = input * factors[item];
-                document.getElementById(item + "_result").value = result.toFixed(2);
-                total += result;
-            }
-
-            document.getElementById("total").innerText = total.toFixed(2);
+        for (const item in factors) {
+          let input = parseFloat(document.getElementById(item).value) || 0;
+          let result = input * factors[item];
+          document.getElementById(item + "_result").value = result.toFixed(2);
+          total += result;
         }
+
+        document.getElementById("total").innerText = total.toFixed(2);
+      }
     </script>
 </head>
-<body class="bg-light">
-    <div class="container mt-4">
-        <h3>Food Consumption Carbon Footprint</h3>
-        <p class="lead">Enter the quantities of food items consumed to calculate your food-related carbon footprint.</p>
+<body>
+  <div class="container mt-4">
+    <h3>Food Consumption Carbon Footprint</h3>
+    <p class="lead">Enter the quantities of food items consumed to calculate your food-related carbon footprint.</p>
 
-        <form method="POST">
-            <div class="accordion" id="foodAccordion">
+    <form method="POST" onsubmit="return false;">
+      <div class="accordion" id="foodAccordion">
 
-                <!-- Accordion Item -->
-                <div class="accordion-item">
-                    <h2 class="accordion-header" id="headingOne">
-                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne">
-                            Food Items
-                        </button>
-                    </h2>
-                    <div id="collapseOne" class="accordion-collapse collapse show">
-                        <div class="accordion-body">
-                            <div class="row">
-                                <!-- Repeatable input pairs -->
-                                <div class="col-md-6 mb-3">
-                                    <label for="vegetables" class="form-label">Fresh Vegetables (kg):</label>
-                                    <input type="number" class="form-control" id="vegetables" name="vegetables" oninput="calculateCarbonFootprint()">
-                                </div>
-                                <div class="col-md-6 mb-3">
-                                    <label class="form-label">Carbon (kg CO₂):</label>
-                                    <input type="text" class="form-control" id="vegetables_result" disabled>
-                                </div>
+        <!-- Accordion Item -->
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="headingOne">
+            <button
+              class="accordion-button"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#collapseOne"
+              aria-expanded="true"
+              aria-controls="collapseOne"
+            >
+              Food Items
+            </button>
+          </h2>
+          <div
+            id="collapseOne"
+            class="accordion-collapse collapse show"
+            aria-labelledby="headingOne"
+            data-bs-parent="#foodAccordion"
+          >
+            <div class="accordion-body">
+              <div class="row">
+                <!-- Repeatable input pairs -->
+                <div class="col-md-6 mb-3">
+                  <label for="vegetables" class="form-label">Fresh Vegetables (kg):</label>
+                  <input type="number" class="form-control" id="vegetables" name="vegetables" oninput="calculateCarbonFootprint()" min="0" step="0.1" />
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label class="form-label">Carbon (kg CO₂):</label>
+                  <input type="text" class="form-control" id="vegetables_result" disabled />
+                </div>
 
-                                <div class="col-md-6 mb-3">
-                                    <label for="beef" class="form-label">Beef (kg):</label>
-                                    <input type="number" class="form-control" id="beef" name="beef" oninput="calculateCarbonFootprint()">
-                                </div>
-                                <div class="col-md-6 mb-3">
-                                    <label class="form-label">Carbon (kg CO₂):</label>
-                                    <input type="text" class="form-control" id="beef_result" disabled>
-                                </div>
+                <div class="col-md-6 mb-3">
+                  <label for="beef" class="form-label">Beef (kg):</label>
+                  <input type="number" class="form-control" id="beef" name="beef" oninput="calculateCarbonFootprint()" min="0" step="0.1" />
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label class="form-label">Carbon (kg CO₂):</label>
+                  <input type="text" class="form-control" id="beef_result" disabled />
+                </div>
 
-                                <div class="col-md-6 mb-3">
-                                    <label for="poultry" class="form-label">Poultry Meat (kg):</label>
-                                    <input type="number" class="form-control" id="poultry" name="poultry" oninput="calculateCarbonFootprint()">
-                                </div>
-                                <div class="col-md-6 mb-3">
-                                    <label class="form-label">Carbon (kg CO₂):</label>
-                                    <input type="text" class="form-control" id="poultry_result" disabled>
-                                </div>
+                <div class="col-md-6 mb-3">
+                  <label for="poultry" class="form-label">Poultry Meat (kg):</label>
+                  <input type="number" class="form-control" id="poultry" name="poultry" oninput="calculateCarbonFootprint()" min="0" step="0.1" />
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label class="form-label">Carbon (kg CO₂):</label>
+                  <input type="text" class="form-control" id="poultry_result" disabled />
+                </div>
 
-                                <div class="col-md-6 mb-3">
-                                    <label for="fish" class="form-label">Fish (kg):</label>
-                                    <input type="number" class="form-control" id="fish" name="fish" oninput="calculateCarbonFootprint()">
-                                </div>
-                                <div class="col-md-6 mb-3">
-                                    <label class="form-label">Carbon (kg CO₂):</label>
-                                    <input type="text" class="form-control" id="fish_result" disabled>
-                                </div>
+                <div class="col-md-6 mb-3">
+                  <label for="fish" class="form-label">Fish (kg):</label>
+                  <input type="number" class="form-control" id="fish" name="fish" oninput="calculateCarbonFootprint()" min="0" step="0.1" />
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label class="form-label">Carbon (kg CO₂):</label>
+                  <input type="text" class="form-control" id="fish_result" disabled />
+                </div>
 
-                                <div class="col-md-6 mb-3">
-                                    <label for="pig" class="form-label">Pig Meat (kg):</label>
-                                    <input type="number" class="form-control" id="pig" name="pig" oninput="calculateCarbonFootprint()">
-                                </div>
-                                <div class="col-md-6 mb-3">
-                                    <label class="form-label">Carbon (kg CO₂):</label>
-                                    <input type="text" class="form-control" id="pig_result" disabled>
-                                </div>
+                <div class="col-md-6 mb-3">
+                  <label for="pig" class="form-label">Pig Meat (kg):</label>
+                  <input type="number" class="form-control" id="pig" name="pig" oninput="calculateCarbonFootprint()" min="0" step="0.1" />
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label class="form-label">Carbon (kg CO₂):</label>
+                  <input type="text" class="form-control" id="pig_result" disabled />
+                </div>
 
-                                <div class="col-md-6 mb-3">
-                                    <label for="eggs" class="form-label">Eggs (kg):</label>
-                                    <input type="number" class="form-control" id="eggs" name="eggs" oninput="calculateCarbonFootprint()">
-                                </div>
-                                <div class="col-md-6 mb-3">
-                                    <label class="form-label">Carbon (kg CO₂):</label>
-                                    <input type="text" class="form-control" id="eggs_result" disabled>
-                                </div>
+                <div class="col-md-6 mb-3">
+                  <label for="eggs" class="form-label">Eggs (kg):</label>
+                  <input type="number" class="form-control" id="eggs" name="eggs" oninput="calculateCarbonFootprint()" min="0" step="0.1" />
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label class="form-label">Carbon (kg CO₂):</label>
+                  <input type="text" class="form-control" id="eggs_result" disabled />
+                </div>
 
-                                <div class="col-md-6 mb-3">
-                                    <label for="rice" class="form-label">Rice (kg):</label>
-                                    <input type="number" class="form-control" id="rice" name="rice" oninput="calculateCarbonFootprint()">
-                                </div>
-                                <div class="col-md-6 mb-3">
-                                    <label class="form-label">Carbon (kg CO₂):</label>
-                                    <input type="text" class="form-control" id="rice_result" disabled>
-                                </div>
+                <div class="col-md-6 mb-3">
+                  <label for="rice" class="form-label">Rice (kg):</label>
+                  <input type="number" class="form-control" id="rice" name="rice" oninput="calculateCarbonFootprint()" min="0" step="0.1" />
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label class="form-label">Carbon (kg CO₂):</label>
+                  <input type="text" class="form-control" id="rice_result" disabled />
+                </div>
 
-                                <div class="col-md-6 mb-3">
-                                    <label for="coffee" class="form-label">Coffee (kg):</label>
-                                    <input type="number" class="form-control" id="coffee" name="coffee" oninput="calculateCarbonFootprint()">
-                                </div>
-                                <div class="col-md-6 mb-3">
-                                    <label class="form-label">Carbon (kg CO₂):</label>
-                                    <input type="text" class="form-control" id="coffee_result" disabled>
-                                </div>
+                <div class="col-md-6 mb-3">
+                  <label for="coffee" class="form-label">Coffee (kg):</label>
+                  <input type="number" class="form-control" id="coffee" name="coffee" oninput="calculateCarbonFootprint()" min="0" step="0.1" />
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label class="form-label">Carbon (kg CO₂):</label>
+                  <input type="text" class="form-control" id="coffee_result" disabled />
+                </div>
 
-                                <div class="col-md-6 mb-3">
-                                    <label for="chocolate" class="form-label">Chocolate (kg):</label>
-                                    <input type="number" class="form-control" id="chocolate" name="chocolate" oninput="calculateCarbonFootprint()">
-                                </div>
-                                <div class="col-md-6 mb-3">
-                                    <label class="form-label">Carbon (kg CO₂):</label>
-                                    <input type="text" class="form-control" id="chocolate_result" disabled>
-                                </div>
+                <div class="col-md-6 mb-3">
+                  <label for="chocolate" class="form-label">Chocolate (kg):</label>
+                  <input type="number" class="form-control" id="chocolate" name="chocolate" oninput="calculateCarbonFootprint()" min="0" step="0.1" />
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label class="form-label">Carbon (kg CO₂):</label>
+                  <input type="text" class="form-control" id="chocolate_result" disabled />
+                </div>
 
-                                <div class="col-md-6 mb-3">
-                                    <label for="cheese" class="form-label">Cheese (kg):</label>
-                                    <input type="number" class="form-control" id="cheese" name="cheese" oninput="calculateCarbonFootprint()">
-                                </div>
-                                <div class="col-md-6 mb-3">
-                                    <label class="form-label">Carbon (kg CO₂):</label>
-                                    <input type="text" class="form-control" id="cheese_result" disabled>
-                                </div>
+                <div class="col-md-6 mb-3">
+                  <label for="cheese" class="form-label">Cheese (kg):</label>
+                  <input type="number" class="form-control" id="cheese" name="cheese" oninput="calculateCarbonFootprint()" min="0" step="0.1" />
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label class="form-label">Carbon (kg CO₂):</label>
+                  <input type="text" class="form-control" id="cheese_result" disabled />
+                </div>
 
-                                <div class="col-md-6 mb-3">
-                                    <label for="milk_powder" class="form-label">Milk Powder (kg):</label>
-                                    <input type="number" class="form-control" id="milk_powder" name="milk_powder" oninput="calculateCarbonFootprint()">
-                                </div>
-                                <div class="col-md-6 mb-3">
-                                    <label class="form-label">Carbon (kg CO₂):</label>
-                                    <input type="text" class="form-control" id="milk_powder_result" disabled>
-                                </div>
+                <div class="col-md-6 mb-3">
+                  <label for="milk_powder" class="form-label">Milk Powder (kg):</label>
+                  <input type="number" class="form-control" id="milk_powder" name="milk_powder" oninput="calculateCarbonFootprint()" min="0" step="0.1" />
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label class="form-label">Carbon (kg CO₂):</label>
+                  <input type="text" class="form-control" id="milk_powder_result" disabled />
+                </div>
 
-                                <div class="col-md-6 mb-3">
-                                    <label for="butter" class="form-label">Butter (kg):</label>
-                                    <input type="number" class="form-control" id="butter" name="butter" oninput="calculateCarbonFootprint()">
-                                </div>
-                                <div class="col-md-6 mb-3">
-                                    <label class="form-label">Carbon (kg CO₂):</label>
-                                    <input type="text" class="form-control" id="butter_result" disabled>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div> <!-- end accordion-item -->
+                <div class="col-md-6 mb-3">
+                  <label for="butter" class="form-label">Butter (kg):</label>
+                  <input type="number" class="form-control" id="butter" name="butter" oninput="calculateCarbonFootprint()" min="0" step="0.1" />
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label class="form-label">Carbon (kg CO₂):</label>
+                  <input type="text" class="form-control" id="butter_result" disabled />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div> <!-- end accordion-item -->
 
-            </div> <!-- end accordion -->
+      </div> <!-- end accordion -->
 
-            <button type="submit" class="btn btn-success mt-3">Save Calculated Carbon Footprint</button>
-        </form>
+      <button type="submit" class="btn btn-success mt-3" onclick="calculateCarbonFootprint()">Calculate</button>
+    </form>
 
-        <div class="mt-4">
-            <h4>Total Food Carbon Footprint:</h4>
-            <p class="lead">Total: <strong id="total">0.00</strong> kg CO₂</p>
-        </div>
+    <div class="mt-4">
+      <h4>Total Carbon Footprint</h4>
+      <p class="lead" id="total">0.00</p>
     </div>
+    
+    <div class="footer">
+        <a href="/dashboard" class="btn btn-outline-primary mt-4">← Back to Dashboard</a>
+    </div>
+  </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

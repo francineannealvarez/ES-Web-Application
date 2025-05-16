@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Carbon Tracker{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <header>
+        <h1>Carbon Tracker</h1>
+        <nav>
+            <a href="{{ url_for('app_routes.home') }}">Home</a>
+            {% if 'username' in session %}
+                <a href="{{ url_for('app_routes.dashboard') }}">Dashboard</a>
+                <a href="{{ url_for('app_routes.logout') }}">Logout</a>
+            {% else %}
+                <a href="{{ url_for('app_routes.login') }}">Login</a>
+                <a href="{{ url_for('app_routes.signup') }}">Sign Up</a>
+            {% endif %}
+        </nav>
+    </header>
+    <main>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <ul class="flashes">
+                    {% for category, message in messages %}
+                        <li class="{{ category }}">{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+        {% block content %}{% endblock %}
+    </main>
+    <footer>
+        <p>&copy; 2025 Carbon Tracker</p>
+    </footer>
+</body>
+</html>

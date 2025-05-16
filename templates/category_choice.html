@@ -1,52 +1,146 @@
-<!-- category_choice.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Choose a Category</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+  <meta charset="UTF-8">
+  <title>Choose a Category</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Font Awesome (optional) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #e8f5e9, #ffffff);
+      margin: 0;
+      padding: 0;
+    }
+
+    .category-wrapper {
+      min-height: 70vh;
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      flex-direction: column;
+      padding: 2rem;
+      margin-top: 5vh;
+      padding-top: 8vh;
+
+    }
+
+    .category-card {
+      background: linear-gradient(145deg, #f0fff3, #ffffff);
+      border-radius: 24px;
+      box-shadow: 0 10px 25px rgba(76, 175, 80, 0.25);
+      padding: 2.5rem 2rem;
+      width: 100%;
+      max-width: 600px;
+      text-align: center;
+    }
+
+    .category-card h3 {
+      color: #2f6135;
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+    }
+
+    .category-card .list-group-item {
+      background: transparent;
+      border: none;
+      padding: 0.6rem 0;
+    }
+
+    .category-card .btn {
+      padding: 0.8rem;
+      font-size: 1.05rem;
+      font-weight: bold;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      transition: transform 0.2s ease-in-out;
+    }
+
+    .category-card .btn:hover {
+      transform: scale(1.02);
+    }
+
+    .back-btn {
+      margin-top: 2rem;
+    }
+
+    .alerts-container {
+      position: absolute;
+      top: 20px;
+      width: 100%;
+      max-width: 600px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 999;
+    }
+
+    .alert {
+      background-color: #e0e0e0 !important;
+      color: #333 !important;
+      border: none;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+  </style>
 </head>
-<body class="bg-light">
+<body>
 
-    <!--Flash Messages-->
-    <div class="container mt-3">
-        {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-                {% for category, message in messages %}
-                    <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
-                        {{ message }}
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
-                {% endfor %}
-            {% endif %}
-        {% endwith %}
+  <!-- Flash messages -->
+  <div class="alerts-container mx-auto">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+  </div>
+
+<div class="container py-5">
+    <div class="d-flex justify-content-end mb-3">
+        <a href="/dashboard" class="btn btn-outline-success fw-semibold" style="border-radius: 10px;">
+            <i class="fas fa-arrow-left me-2"></i> Back to Dashboard
+        </a>
     </div>
-    
-    <!-- Header Section -->
-    <div class="container mt-4">
-        <h3>Select a Category for Carbon Footprint Calculation:</h3>
-
-        <!-- Category Selection List -->
-        <ul class="list-group">
-            <li class="list-group-item">
-                <a href="/calculate/category/household" class="btn btn-success w-100">Household</a>
-            </li>
-            <li class="list-group-item">
-                <a href="/calculate/category/transportation" class="btn btn-primary w-100">Transportation</a>
-            </li>
-            <li class="list-group-item">
-                <a href="/calculate/category/food" class="btn btn-warning w-100">Food Consumption</a>
-            </li>
-        </ul>
+  <!-- Main Content -->
+  <div class="category-wrapper">
+    <div class="category-card">
+      <h3>🌱 Choose a Category</h3>
+      <ul class="list-group">
+        <li class="list-group-item">
+          <a href="/calculate/category/household" class="btn btn-success w-100">🏠 Household</a>
+        </li>
+        <li class="list-group-item">
+          <a href="/calculate/category/transportation" class="btn btn-primary w-100">🚗 Transportation</a>
+        </li>
+        <li class="list-group-item">
+          <a href="/calculate/category/food" class="btn btn-warning text-dark w-100">🍽️ Food Consumption</a>
+        </li>
+      </ul>
     </div>
+  </div>
+</div>
 
-    <!-- Footer Section -->
-    <div class="container mt-5">
-        <div class="d-flex justify-content-end">
-            <a href="/dashboard" class="btn btn-outline-secondary">Back to Dashboard</a>
-        </div>
-    </div>
-
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    // Auto-dismiss alerts after 5 seconds
+    document.addEventListener("DOMContentLoaded", function () {
+      const alerts = document.querySelectorAll(".alert");
+      alerts.forEach(function (alert) {
+        setTimeout(() => {
+          alert.classList.remove("show");
+          alert.classList.add("fade");
+        }, 5000);
+      });
+    });
+  </script>
 </body>
 </html>

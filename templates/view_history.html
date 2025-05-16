@@ -3,55 +3,157 @@
 <head>
     <meta charset="UTF-8">
     <title>Carbon Footprint History</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(to bottom, #e6f4ea, #cde3d0);
+            font-family: 'Segoe UI', sans-serif;
+            color: #2e5339;
+        }
+
+        h2 {
+            font-weight: bold;
+        }
+
+        .header-title {
+            background: linear-gradient(90deg, #2e5339, #4a7c59);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-size: 2.5rem;
+        }
+
+        .form-section {
+            background-color: #ffffffcc;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+        }
+
+        .custom-select, .btn-custom {
+            border-radius: 10px;
+        }
+
+        .btn-custom {
+            background-color: #2e5339;
+            color: white;
+            transition: 0.3s ease;
+        }
+
+        .btn-custom:hover {
+            background-color: #3e694c;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.85);
+            border-radius: 18px;
+            padding: 1.5rem;
+            backdrop-filter: blur(8px);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s ease, box-shadow 0.3s ease;
+            border-left: 5px solid #2e5339;
+        }
+
+        .glass-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 24px rgba(0, 0, 0, 0.15);
+        }
+
+        .record-meta {
+            font-size: 0.9rem;
+            color: #555;
+        }
+
+        .record-value {
+            font-weight: 500;
+            font-size: 1.1rem;
+        }
+
+        .icon-label {
+            margin-right: 0.5rem;
+            color: #3e694c;
+        }
+
+        .no-data {
+            font-size: 1.2rem;
+            padding: 1rem;
+            background-color: #fff8e1;
+            border-radius: 10px;
+            border-left: 4px solid #ff9800;
+        }
+
+        .category-select {
+            background-color: #f6fdf8;
+        }
+
+        .section-divider {
+            height: 2px;
+            background: linear-gradient(to right, #2e5339, #4a7c59);
+            border: none;
+            margin: 3rem 0 2rem 0;
+        }
+    </style>
 </head>
-<body class="bg-light">
+<body>
 
-<div class="container mt-5">
-    <h2 class="text-center mb-4">Your Carbon Footprint History</h2>
+<div class="container py-5">
+    <div class="d-flex justify-content-end mb-3">
+        <a href="/dashboard" class="btn btn-outline-success fw-semibold" style="border-radius: 10px;">
+            <i class="fas fa-arrow-left me-2"></i> Back to Dashboard
+        </a>
+    </div>
 
-    <form method="POST" class="mb-4">
-        <div class="row justify-content-center">
-            <div class="col-md-6">
-                <select name="category" class="form-select" required>
-                    <option value="">-- Select Category --</option>
-                    <option value="household">Household</option>
-                    <option value="transportation">Transportation</option>
-                    <option value="food">Food Consumption</option>
-                    <option value="assessment">Full Assessment</option>
-                </select>
+    <h2 class="text-center mb-4 header-title">Your Carbon Footprint History</h2>
+
+    <div class="form-section mb-5">
+        <form method="POST">
+            <div class="row justify-content-center">
+                <div class="col-md-6 mb-2">
+                    <select name="category" class="form-select custom-select category-select" required>
+                        <option value="">🌿 Select Category</option>
+                        <option value="household">🏠 Household</option>
+                        <option value="transportation">🚗 Transportation</option>
+                        <option value="food">🍽️ Food Consumption</option>
+                        <option value="assessment">📊 Full Assessment</option>
+                    </select>
+                </div>
+                <div class="col-md-2 mb-2">
+                    <button type="submit" class="btn btn-custom w-100">View</button>
+                </div>
             </div>
-            <div class="col-md-2">
-                <button type="submit" class="btn btn-primary">View History</button>
-            </div>
-        </div>
-    </form>
+        </form>
+    </div>
 
     {% if records %}
-        <h4 class="text-center mb-3">Results for {{ category|capitalize }} Category</h4>
-        <div class="table-responsive">
-            <table class="table table-bordered table-striped">
-                <thead>
-                    <tr>
-                        {% for col in records[0].keys() %}
-                            <th>{{ col }}</th>
+        <h5 class="text-center mb-4 text-muted">📁 Viewing history for <strong>{{ category|capitalize }}</strong></h5>
+
+        <div class="row g-4">
+            {% for row in records %}
+                <div class="col-md-6 col-lg-4">
+                    <div class="glass-card">
+                        {% for key, value in row.items() %}
+                            <div class="mb-2">
+                                <div class="record-meta">
+                                    <i class="fa-regular fa-circle-dot icon-label"></i>
+                                    {{ key.replace('_', ' ') }}
+                                </div>
+                                <div class="record-value">{{ value }}</div>
+                            </div>
                         {% endfor %}
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for row in records %}
-                        <tr>
-                            {% for value in row.values() %}
-                                <td>{{ value }}</td>
-                            {% endfor %}
-                        </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+                    </div>
+                </div>
+            {% endfor %}
         </div>
+
     {% elif category %}
-        <div class="alert alert-warning text-center">No history found for {{ category }}.</div>
+        <div class="text-center mt-4 no-data">
+            <i class="fas fa-leaf me-2 text-warning"></i>
+            No history found for <strong>{{ category }}</strong>.
+        </div>
     {% endif %}
+
 </div>
 
 </body>

@@ -1,2 +1,2 @@
-flask
+flask - pip install flask
 mysql-connector-python

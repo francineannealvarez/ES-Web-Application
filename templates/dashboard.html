@@ -1,38 +1,261 @@
-<div class="container mt-3">
-    {% with messages = get_flashed_messages(with_categories=true) %}
-        {% if messages %}
-            {% for category, message in messages %}
-                <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
-                    {{ message }}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Carbon Footprint Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome (optional) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <style>
+        /* Reset and base styling */
+        body, html {
+            height: 100%;
+            margin: 0;
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #e8f5e9, #ffffff);
+            overflow-x: hidden;
+        }
+
+        .background-footprints {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://i.ibb.co/KxtFK5X/footprints-green.png');
+            background-repeat: repeat;
+            background-size: 80px;
+            opacity: 0.05;
+            z-index: 0;
+        }
+
+        .dashboard-wrapper {
+            position: relative;
+            z-index: 2;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+        }
+
+        .dashboard-card {
+            background: linear-gradient(145deg, #f0fff3, #ffffff);
+            border-radius: 24px;
+            box-shadow: 0 10px 25px rgba(76, 175, 80, 0.25);
+            padding: 2.5rem 2rem;
+            margin: 1.5rem 0;
+            width: 100%;
+            max-width: 600px;
+            min-height: 220px;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .dashboard-card:hover {
+            transform: scale(1.03);
+            box-shadow: 0 14px 35px rgba(56, 142, 60, 0.3);
+        }
+
+        .dashboard-card h4 {
+            color: #2f6135;
+            font-weight: 700;
+            font-size: 1.7rem;
+            margin-bottom: 1rem;
+        }
+
+        .dashboard-card p {
+            color: #5e7c5e;
+            font-size: 1.05rem;
+        }
+
+        .dashboard-card .btn {
+            margin-top: 1.2rem;
+            width: 100%;
+            padding: 0.8rem;
+            font-size: 1.05rem;
+            font-weight: bold;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-success {
+            background-color: #4caf50;
+            border-color: #4caf50;
+        }
+
+        .btn-primary {
+            background-color: #388e3c;
+            border-color: #388e3c;
+        }
+
+        .btn-secondary {
+            background-color: #81c784;
+            border-color: #81c784;
+            color: #fff;
+        }
+
+        /* Tree stickers */
+        .tree-icon {
+            font-size: 2.5rem;
+            position: absolute;
+            opacity: 0.3;
+        }
+
+        .tree1 { top: 20px; left: 20px; }
+        .tree2 { bottom: 30px; right: 30px; }
+        .tree3 { top: 60%; left: 90px; transform: rotate(25deg); }
+
+        /* Alerts styling */
+        .alerts-container {
+            position: absolute;
+            top: 20px;
+            width: 100%;
+            max-width: 600px;
+            z-index: 999;
+        }
+
+        .alert {
+            background-color: #e0e0e0 !important;
+            color: #333 !important;
+            border: none;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        @media (max-width: 576px) {
+            .dashboard-card {
+                padding: 2rem 1.2rem;
+                margin: 1rem;
+            }
+
+            .dashboard-card h4 {
+                font-size: 1.4rem;
+            }
+
+            .dashboard-card p {
+                font-size: 1rem;
+            }
+        }
+
+    .logout-link {
+        position: fixed;
+        top: 15px;
+        right: 20px;
+        font-size: 0.9rem;
+        color: #6c757d; /* Bootstrap’s gray */
+        text-decoration: none;
+        opacity: 0.6;
+        transition: opacity 0.3s ease;
+        z-index: 9999;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+
+    .logout-link:hover {
+        opacity: 1;
+        color: #495057; /* darker gray on hover */
+        text-decoration: underline;
+    }
+
+    .logout-link i {
+        font-size: 1.1rem;
+    }
+
+    </style>
+</head>
+<body>
+
+    <!-- Background and decorative icons -->
+    <div class="background-footprints"></div>
+    <div class="tree-icon tree1">🌳</div>
+    <div class="tree-icon tree2">🌿</div>
+    <div class="tree-icon tree3">🌲</div>
+
+     
+    <!-- Logout link -->
+    <a href="/logout" class="logout-link" title="Log Out">
+    <i class="fas fa-sign-out-alt"></i> Logout
+    </a>
+    
+    <!-- Alerts -->
+    <div class="alerts-container mx-auto">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    </div>
+
+    <!-- Dashboard Cards -->
+   <div class="dashboard-wrapper container">
+    <div class="row justify-content-center g-4">
+        <!-- First two cards side-by-side -->
+        <div class="col-md-6 col-lg-5 d-flex align-items-stretch">
+            <div class="dashboard-card h-100 w-100 d-flex flex-column">
+                <div>
+                    <h4>📊 Calculate by Category</h4>
+                    <p>Select and calculate based on specific lifestyle categories.</p>
                 </div>
-            {% endfor %}
-        {% endif %}
-    {% endwith %}
-</div>
-
-<div class="row justify-content-center mt-4">
-    <div class="col-md-4 mb-3">
-        <div class="card shadow p-3">
-            <h4>📊 Calculate by Category</h4>
-            <p class="text-muted">Select and calculate based on specific lifestyle categories.</p>
-            <a href="/calculate/category" class="btn btn-success">Get Started</a>
+                <a href="/calculate/category" class="btn btn-success mt-auto">Get Started</a>
+                </div>
         </div>
-    </div>
-
-    <div class="col-md-4 mb-3">
-        <div class="card shadow p-3">
-            <h4>🌍 Full Assessment</h4>
-            <p class="text-muted">Comprehensive carbon footprint assessment across all areas.</p>
-            <a href="/calculate/full-assessment" class="btn btn-primary">Start Full Assessment</a>
+        <div class="col-md-6 col-lg-5 d-flex align-items-stretch">
+            <div class="dashboard-card h-100 w-100 d-flex flex-column">
+                <div>
+                    <h4>🌍 Full Assessment</h4>
+                    <p>Comprehensive carbon footprint assessment across all areas.</p>
+                </div>
+                <a href="/calculate/full-assessment" class="btn btn-primary mt-auto">Start Full Assessment</a>
+            </div>
         </div>
-    </div>
 
-    <div class="col-md-4 mb-3">
-        <div class="card shadow p-3">
-            <h4>📁 View History</h4>
-            <p class="text-muted">Review your previous carbon footprint submissions.</p>
-            <a href="/history" class="btn btn-secondary">View History</a>
+        <!-- View history centered below -->
+        <div class="col-12 col-lg-6 d-flex align-items-stretch">
+            <div class="dashboard-card h-100 w-100 d-flex flex-column">
+                <div>
+                    <h4>📁 View History</h4>
+                    <p>Review your previous carbon footprint submissions.</p>
+                </div>
+                <a href="/history" class="btn btn-secondary">View History</a>
+            </div>
+        </div>
         </div>
     </div>
 </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+    // Auto-dismiss alerts after 5 seconds
+    document.addEventListener("DOMContentLoaded", function () {
+        const alerts = document.querySelectorAll(".alert");
+        alerts.forEach(function (alert) {
+            setTimeout(() => {
+                // Start fade out
+                alert.classList.remove("show");
+                alert.classList.add("fade");
+
+                // Remove from DOM after transition ends (~150ms for Bootstrap)
+                setTimeout(() => {
+                    alert.remove();
+                }, 500); 
+            }, 5000);
+        });
+    });
+</script>
+
+
+</body>
+</html>

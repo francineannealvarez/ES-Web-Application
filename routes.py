@@ -43,8 +43,7 @@ def get_recommendation(category, total):
 def home():
     return render_template('home.html')
 
-
-@app_routes.route('/signup', methods=['GET', 'POST'])
+@app_routes.route('/signup', methods=['POST'])
 def signup():
     if request.method == 'POST':
         fname = request.form['first_name']
@@ -73,9 +72,9 @@ def signup():
 
             conn.commit()
             flash("Account created successfully! You can now log in.")
+            return redirect('/') 
 
             # Redirect to the home page after successful sign up
-            return redirect('/')
 
         except Exception as e:
             conn.rollback()
@@ -89,7 +88,7 @@ def signup():
     return render_template('signup.html')
 
 
-@app_routes.route('/login', methods=['GET', 'POST'])
+@app_routes.route('/login', methods=['POST'])
 def login():
     if request.method == 'POST':
         username = request.form['username']
@@ -146,7 +145,7 @@ def category_choice():
 @app_routes.route('/logout')
 def logout():
     session.clear() #logs the user out
-    flash("You have been logged out.")
+    #flash("You have been logged out.")
     return redirect('/')
 
 
@@ -265,7 +264,7 @@ def transportation():
             ))
 
             conn.commit()
-            flash(f"Transportation Carbon Footprint: {total:.2f} kg CO₂" "success")
+            flash(f"Transportation Carbon Footprint: {total:.2f} kg CO₂", "success")
             flash(get_recommendation('transportation', total), "info")
             return redirect('/calculate/category')
 

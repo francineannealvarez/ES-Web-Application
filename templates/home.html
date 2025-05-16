@@ -1,27 +1,443 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home Page</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>GoEcoTrack: Carbon Footprint Tracker</title>
+  
+  <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;700&display=swap" rel="stylesheet" />
+  
+  <style>
+    :root {
+      --primary:rgb(36, 91, 39);
+      --secondary: #4C956C;
+      --accent: #88D498;
+      --bg:rgb(230, 253, 222);
+      --text: #1D3557;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: var(--bg);
+      color: var(--text);
+    }
+
+    header {
+      background: var(--primary);
+      padding: 30px;
+      text-align: center;
+      color: white;
+    }
+
+    header h1 {
+      margin: 0;
+      font-family: 'Raleway', sans-serif;
+      font-size: 2.5rem;
+    }
+
+    nav.navbar {
+      display: flex;
+      justify-content: center;
+      background-color: var(--secondary);
+      padding: 10px;
+    }
+
+    nav.navbar a {
+      color: white;
+      text-decoration: none;
+      margin: 0 15px;
+      font-weight: bold;
+    }
+
+    nav.navbar a:hover {
+      color: var(--accent);
+    }
+
+    .section-container {
+      display: flex;
+      justify-content: space-between;
+      gap: 40px;
+      max-width: 1200px;
+      margin: 40px auto;
+      padding: 0 40px;
+      flex-wrap: wrap;
+    }
+
+    .section-container > div {
+      flex: 1 1 45%;
+    }
+
+    .section-container img {
+      max-width: 100%;
+      border-radius: 10px;
+      height: auto;
+      display: block;
+    }
+
+    section {
+      margin-bottom: 40px;
+    }
+
+    h2 {
+      color: var(--primary);
+      margin-top: 0;
+    }
+
+    hr {
+      border: none;
+      border-top: 2px solid var(--accent);
+      max-width: 900px;
+      margin: 40px auto;
+    }
+
+    .hero {
+      text-align: center;
+      padding: 60px 20px;
+      background: #e8f6ef;
+      max-width: 400px;
+      margin: 0 auto 60px auto;
+      border-radius: 10px;
+    }
+
+    .hero h2 {
+      font-size: 2rem;
+      margin-bottom: 20px;
+      color: var(--primary);
+    }
+
+    .toggle-buttons {
+      margin-bottom: 30px;
+    }
+
+    button.toggle-btn {
+      background-color: var(--primary);
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      margin: 0 10px;
+      font-size: 1rem;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button.toggle-btn:hover {
+      background-color: var(--secondary);
+    }
+
+    button.toggle-btn.active {
+      background-color: var(--secondary);
+      font-weight: bold;
+    }
+
+    .form-container {
+      margin-top: 20px;
+      text-align: left;
+    }
+
+    .form-container h3 {
+      text-align: center;
+      color: var(--secondary);
+      margin-bottom: 20px;
+      font-family: 'Raleway', sans-serif;
+    }
+
+    .form-container input[type="text"],
+    .form-container input[type="password"],
+    .form-container input[type="email"] {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 1rem;
+    }
+
+    .form-container button[type="submit"] {
+      width: 100%;
+      background-color: var(--primary);
+      color: white;
+      padding: 12px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 1.1rem;
+      margin-top: 10px;
+      transition: background-color 0.3s ease;
+    }
+
+    .form-container button[type="submit"]:hover {
+      background-color: var(--secondary);
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4); /* semi-transparent */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    backdrop-filter: blur(3px); /* optional blur */
+    }
+
+    .modal-box {
+    background-color: white;
+    padding: 40px;
+    border-radius: 16px;
+    max-width: 400px;
+    width: 90%;
+    text-align: center;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    position: relative;
+    font-family: 'Poppins', sans-serif;
+    }
+
+    .modal-box h2 {
+    margin-bottom: 10px;
+    color: var(--primary);
+    font-size: 1.6rem;
+    }
+
+    .modal-box p {
+    margin-bottom: 20px;
+    color: #555;
+    font-size: 1rem;
+    }
+
+    .popup-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    }
+
+    .popup-buttons button {
+    background-color: var(--primary);
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    }
+
+    .popup-buttons button:hover {
+    background-color: var(--secondary);
+    }
+
+    .close-btn {
+    position: absolute;
+    top: 12px;
+    right: 16px;
+    font-size: 1.5rem;
+    color: #999;
+    cursor: pointer;
+    transition: color 0.2s;
+    }
+
+    .close-btn:hover {
+    color: #333;
+    }
+
+
+  </style>
 </head>
+
 <body>
-    <h1>Welcome to the Home Page</h1>
+  <header>
+    <h1>GoEcoTrack</h1>
+    <p>Track. Learn. Reduce Your Carbon Footprint.</p>
+  </header>
 
-    <!-- Display flash messages -->
-    {% with messages = get_flashed_messages() %}
-        {% if messages %}
-            <ul>
-                {% for message in messages %}
-                    <li>{{ message }}</li>
-                {% endfor %}
-            </ul>
-        {% endif %}
-    {% endwith %}
+  <nav class="navbar">
+    <a href="#section1">What</a>
+    <a href="#section2">Why</a>
+    <a href="#section3">How</a>
+    <a href="#section4">Log In</a>
+    <a href="#section5">FAQs</a>
+  </nav>
 
-    <div>
-        <a href="/signup">New here? Sign Up</a> <br>
-        <a href="/login">Already have an account? Login</a>
+  <!-- Popup Modal -->
+<div class="modal-overlay" id="modal-overlay">
+    <div class="modal-box">
+    <span class="close-btn" onclick="closeModal()">&times;</span>
+    <h2 id="modal-title">Welcome to GoEcoTrack 🌱</h2>
+    <p id="modal-subtitle">Log in or register to get started with your eco journey!</p>
+    <div class="popup-buttons" id="initial-buttons">
+        <button onclick="showLogin()">Log In</button>
+        <button onclick="showSignup()">Register</button>
     </div>
+
+  <!-- Login Form -->
+  <div id="login-form" class="form-container hidden">
+    <h3>Login</h3>
+    <form action="/login" method="POST">
+       <input type="text" name="username" placeholder="Username" required />
+        <input type="password" name="password" placeholder="Password" required />
+        <button type="submit">Login</button>
+      </form>
+  </div>
+
+  <!-- Signup Form -->
+  <div id="signup-form" class="form-container hidden">
+    <h3>Register</h3>
+    <form action="/register" method="POST">
+        <input type="text" name="first_name" placeholder="First Name" required />
+        <input type="text" name="middle_name" placeholder="Middle Name" />
+        <input type="text" name="last_name" placeholder="Last Name" required />
+        <input type="text" name="username" placeholder="Username" required />
+        <input type="password" name="password" placeholder="Password" required />
+        <input type="email" name="email" placeholder="Email" required />
+        <button type="submit">Register</button>
+      </form>
+  </div>
+</div>
+</div>
+
+  <!-- Informational Sections -->
+  <section id="section1">
+    <div class="section-container">
+      <div>
+        <p>A Carbon Footprint is the total amount of greenhouse gases (including carbon dioxide and methane) that are generated by our actions. The average carbon footprint for a person in the United States is 16 tons, one of the highest rates in the world. Globally, the average carbon footprint is closer to 4 tons. To have the best chance of avoiding a 2℃ rise in global temperatures, the average global carbon footprint per year needs to drop to under 2 tons by 2050. Lowering individual carbon footprints from 16 tons to 2 tons doesn’t happen overnight! By making small changes to our actions, like eating less meat, taking fewer connecting flights and line drying our clothes, we can start making a big difference.</p>
+      </div>
+      <div>
+        <img src="./images/image1.jpg" alt="Carbon Footprint" />
+      </div>
+    </div>
+  </section>
+
+  <hr>
+
+  <section id="section2">
+    <div class="section-container">
+      <div>
+        <img src="./images/image2.jpg" alt="Impact Awareness" />
+      </div>
+      <div>
+        <p>Understanding your carbon footprint is like looking in the mirror and realizing your impact on the world. It's about recognizing how every action, from turning on a light to driving a car, contributes to the greenhouse gases that warm our planet. By calculating your carbon footprint, you gain clarity on your environmental footprint, enabling you to make more mindful choices. It's not just about reducing emissions; it's about taking responsibility for our planet's health and ensuring a brighter future for generations to come. So, let's take that first step, quantify our impact, and embark on a journey towards sustainability together.</p>
+      </div>
+    </div>
+  </section>
+
+  <hr>
+
+  <section id="section3">
+    <div class="section-container">
+      <div>
+        <h2>Transportation</h2>
+        <p style="color: #2E8B57; font-weight: bold;">The emission factor for transportation is 0.14 kgCO2/km.</p>
+        <p>Transportation contributes significantly to carbon emissions, particularly through the burning of fossil fuels in vehicles. By quantifying the distance traveled annually and multiplying it by the emission factor for transportation, we can estimate the carbon emissions associated with our mobility.</p>
+      </div>
+      <div>
+        <h2>Electricity Consumption</h2>
+        <p style="color: #2E8B57; font-weight: bold;">The emission factor for electricity consumption is 0.82 kgCO2/kWh.</p>
+        <p>Electricity usage is a major contributor to carbon emissions, mainly due to the reliance on fossil fuels for electricity generation. By determining the amount of electricity consumed annually and multiplying it by the emission factor for electricity, we can approximate the carbon emissions attributable to our energy consumption.</p>
+      </div>
+    </div>
+
+    <hr>
+
+    <div class="section-container">
+      <div>
+        <h2>Waste Production</h2>
+        <p style="color: #2E8B57; font-weight: bold;">The emission factor for wastage is 0.1 kgCO2/kg.</p>
+        <p>Waste disposal contributes to carbon emissions primarily through landfilling and incineration. The emission factor for waste represents the carbon emissions per kilogram of waste disposed of, reflecting the environmental impact of waste management practices. By multiplying this factor by our yearly waste production, we can estimate the emissions stemming from waste disposal.</p>
+      </div>
+      <div>
+        <h2>Food / Daily Meals</h2>
+        <p style="color: #2E8B57; font-weight: bold;">The emission factor for food is 1.25 kgCO2/meal.</p>
+        <p>Our dietary habits have a significant impact on our carbon footprint due to the energy-intensive nature of food production and distribution. By multiplying this factor by our yearly meal consumption, we can assess the environmental impact of our dietary choices.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="section4">
+  <!-- Login/Register Hero Section -->
+  <div class="hero">
+    <h2>Login or Register to Get Started</h2>
+    <div class="toggle-buttons">
+      <button id="loginBtn" class="toggle-btn active" onclick="showLogin()">Login</button>
+      <button id="signupBtn" class="toggle-btn" onclick="showSignup()">Register</button>
+    </div>
+
+    <!-- Login form -->
+    <div id="login-form" class="form-container">
+      <h3>Login</h3>
+      <form action="/login" method="POST">
+        <input type="text" name="username" placeholder="Username" required />
+        <input type="password" name="password" placeholder="Password" required />
+        <button type="submit">Login</button>
+      </form>
+    </div>
+
+    <!-- Signup form -->
+    <div id="signup-form" class="form-container hidden">
+      <h3>Register</h3>
+      <form action="/signup" method="POST">
+        <input type="text" name="first_name" placeholder="First Name" required />
+        <input type="text" name="middle_name" placeholder="Middle Name" />
+        <input type="text" name="last_name" placeholder="Last Name" required />
+        <input type="text" name="username" placeholder="Username" required />
+        <input type="password" name="password" placeholder="Password" required />
+        <input type="email" name="email" placeholder="Email" required />
+        <button type="submit">Register</button>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    function showLogin() {
+      document.getElementById('login-form').classList.remove('hidden');
+      document.getElementById('signup-form').classList.add('hidden');
+      document.getElementById('loginBtn').classList.add('active');
+      document.getElementById('signupBtn').classList.remove('active');
+    }
+    function showSignup() {
+      document.getElementById('signup-form').classList.remove('hidden');
+      document.getElementById('login-form').classList.add('hidden');
+      document.getElementById('signupBtn').classList.add('active');
+      document.getElementById('loginBtn').classList.remove('active');
+
+    }
+    function closeModal() {
+    document.getElementById('popup-modal').style.display = 'none';
+    // Optional: Reset to initial state when closed
+    document.getElementById('initial-buttons').style.display = 'flex';
+    document.getElementById('login-form').classList.add('hidden');
+    document.getElementById('signup-form').classList.add('hidden');
+    document.getElementById('modal-title').textContent = 'Welcome to GoEcoTrack 🌱';
+    document.getElementById('modal-subtitle').textContent = 'Log in or register to get started with your eco journey!';
+    }
+  // Show modal on page load
+  window.onload = function () {
+    document.getElementById("popup-modal").style.display = "flex";
+  };
+
+  // Close modal
+    function closeModal() {
+        document.getElementById('modal-overlay').style.display = 'none';
+    }
+
+  // Scroll to login section (Section 4)
+  function scrollToLogin() {
+    closeModal();
+    document.getElementById("section4").scrollIntoView({ behavior: "smooth" });
+  }
+  </script>
 </body>
 </html>
