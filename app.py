@@ -1,5 +1,5 @@
 from flask import Flask
-from routes import app_routes  # assuming your code is saved in routes.py
+from routes import app_routes  
 
 app = Flask(__name__)
 app.secret_key = 'ecotrack'

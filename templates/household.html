@@ -1,378 +1,386 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title>Household Carbon Footprint Calculator</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
-  <!-- Bootstrap CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-  <!-- Font Awesome (optional) -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+   <head>
+      <meta charset="UTF-8" />
+      <title>Household Carbon Footprint Calculator</title>
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
+      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
-  <style>
-    body {
-      background: rgb(200, 255, 200); /* lighter green background */
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      color: #2c3e50; /* keep dark text for contrast */
-    }
+      <style>
+         body {
+         background: rgb(200, 255, 200); /* lighter green background */
+         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+         color: #2c3e50; /* keep dark text for contrast */
+         }
 
-    .navbar {
-            background-color: #2e5339;
-            padding: 1rem 2rem;
-            color: white;
-            font-size: 1.2rem;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+         .navbar {
+         background-color: #2e5339;
+         padding: 1rem 2rem;
+         color: white;
+         font-size: 1.2rem;
+         position: sticky;
+         top: 0;
+         z-index: 1000;
+         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+         }
+
+         .container {
+         max-width: 900px;
+         background: #ffffff;
+         border-radius: 12px;
+         padding: 30px 40px;
+         margin-top: 40px;
+         box-shadow: 0 10px 25px rgba(44, 62, 80, 0.1);
+         }
+
+         h3 {
+         font-weight: 700;
+         color: #2c3e50;
+         margin-bottom: 12px;
+         text-align: center;
+         }
+
+         p.lead {
+         font-size: 1.1rem;
+         color: #7f8c8d;
+         margin-bottom: 30px;
+         text-align: center;
+         }
+
+         .accordion-button {
+         background: #27ae60; /* medium green */
+         color: #fff;
+         font-weight: 600;
+         border-radius: 8px;
+         border: none;
+         box-shadow: 0 4px 8px rgba(39, 174, 96, 0.3);
+         transition: background-color 0.3s ease;
+         }
+
+         .accordion-button:not(.collapsed) {
+         background: #1e8449; /* darker green */
+         color: white;
+         box-shadow: 0 6px 12px rgba(30, 132, 73, 0.4);
+         }
+
+         .accordion-body {
+         background: #e6f4ea; /* very light green */
+         border-radius: 0 0 8px 8px;
+         padding: 25px;
+         box-shadow: inset 0 0 8px rgba(39, 174, 96, 0.1);
+         }
+
+         .form-label {
+         font-weight: 600;
+         color: #34495e; /* keep same dark slate for readability */
+         }
+
+         input[type="number"],
+         input[type="text"] {
+         width: 100%;
+         padding: 8px 12px;
+         border-radius: 8px;
+         border: none;
+         font-size: 1rem;
+         box-shadow: inset 0 0 6px rgba(39, 174, 96, 0.15);
+         transition: box-shadow 0.3s ease;
+         }
+
+         input[type="number"]:focus,
+         input[type="text"]:focus {
+         outline: none;
+         box-shadow: 0 0 10px rgba(30, 132, 73, 0.7);
+         }
+
+         input[disabled] {
+         background-color: #e9ecef;
+         color: #555;
+         cursor: not-allowed;
+         box-shadow: none;
+         }
+
+         .btn-primary {
+         background-color: #27ae60;
+         border: none;
+         padding: 12px;
+         font-weight: 600;
+         width: 100%;
+         }
+
+         .btn-primary:hover {
+         background-color: #1e8449;
+         }
+
+         .total-section {
+         font-size: 1.2rem;
+         font-weight: 600;
+         color: #2c3e50;
+         margin-top: 30px;
+         text-align: center;
+         }
+
+         .mt-4 h4 {
+         color: #27ae60;
+         font-weight: 700;
+         margin-bottom: 12px;
+         }
+
+         .mt-4 p.lead {
+         font-size: 1.3rem;
+         font-weight: 700;
+         color: rgb(39, 174, 96);
+         }
+
+         .footer {
+         margin-top: 40px;
+         text-align: center;
+         }
+      </style>
+   </head>
+
+   <script>
+      function showTips() {
+        const total = parseFloat(document.getElementById("total_hidden").value) || 0;
+        const tipsDiv = document.getElementById('tipsContainer');
+        const tipsList = tipsDiv.querySelector('ul');
+        const tipsHeader = tipsDiv.querySelector('h4');
+      
+        tipsDiv.classList.remove('d-none');
+      
+        if (total < 50) {
+          tipsHeader.textContent = "🌱 Great Job! Your Carbon Footprint is Low";
+          tipsList.innerHTML = `
+            <li>You're doing great — keep using energy-efficient appliances!</li>
+            <li>Consider sharing your habits with friends to inspire them.</li>
+            <li>Keep minimizing waste — compost if possible.</li>
+          `;
+        } else if (total < 150) {
+          tipsHeader.textContent = "⚠️ Moderate Carbon Footprint";
+          tipsList.innerHTML = `
+            <li>Try turning off devices when not in use.</li>
+            <li>Fix any water leaks to reduce waste.</li>
+            <li>Use less LPG or switch to induction cooking if available.</li>
+            <li>Be mindful of waste and recycling practices.</li>
+          `;
+        } else {
+          tipsHeader.textContent = "🔥 High Carbon Footprint – Time to Take Action";
+          tipsList.innerHTML = `
+            <li>Switch to LED lighting and energy-efficient appliances.</li>
+            <li>Limit LPG and electricity use where possible.</li>
+            <li>Consider shorter showers and water-saving fixtures.</li>
+            <li>Reduce, reuse, and recycle actively in your household.</li>
+          `;
         }
+      
+        tipsDiv.scrollIntoView({ behavior: 'smooth' });
+      }
 
-    .container {
-      max-width: 900px;
-      background: #ffffff;
-      border-radius: 12px;
-      padding: 30px 40px;
-      margin-top: 40px;
-      box-shadow: 0 10px 25px rgba(44, 62, 80, 0.1);
-    }
-    h3 {
-      font-weight: 700;
-      color: #2c3e50;
-      margin-bottom: 12px;
-      text-align: center;
-    }
-    p.lead {
-      font-size: 1.1rem;
-      color: #7f8c8d;
-      margin-bottom: 30px;
-      text-align: center;
-    }
-    .accordion-button {
-      background: #27ae60; /* medium green */
-      color: #fff;
-      font-weight: 600;
-      border-radius: 8px;
-      border: none;
-      box-shadow: 0 4px 8px rgba(39, 174, 96, 0.3);
-      transition: background-color 0.3s ease;
-    }
-    .accordion-button:not(.collapsed) {
-      background: #1e8449; /* darker green */
-      color: white;
-      box-shadow: 0 6px 12px rgba(30, 132, 73, 0.4);
-    }
-    .accordion-body {
-      background: #e6f4ea; /* very light green */
-      border-radius: 0 0 8px 8px;
-      padding: 25px;
-      box-shadow: inset 0 0 8px rgba(39, 174, 96, 0.1);
-    }
-    .form-label {
-      font-weight: 600;
-      color: #34495e; /* keep same dark slate for readability */
-    }
-    input[type="number"],
-    input[type="text"] {
-      width: 100%;
-      padding: 8px 12px;
-      border-radius: 8px;
-      border: none;
-      font-size: 1rem;
-      box-shadow: inset 0 0 6px rgba(39, 174, 96, 0.15);
-      transition: box-shadow 0.3s ease;
-    }
-    input[type="number"]:focus,
-    input[type="text"]:focus {
-      outline: none;
-      box-shadow: 0 0 10px rgba(30, 132, 73, 0.7);
-    }
-    input[disabled] {
-      background-color: #e9ecef;
-      color: #555;
-      cursor: not-allowed;
-      box-shadow: none;
-    }
-    .btn-primary {
-      background-color: #27ae60;
-      border: none;
-      padding: 12px;
-      font-weight: 600;
-      width: 100%;
-    }
-    .btn-primary:hover {
-      background-color: #1e8449;
-    }
-    .total-section {
-      font-size: 1.2rem;
-      font-weight: 600;
-      color: #2c3e50;
-      margin-top: 30px;
-      text-align: center;
-    }
-    .mt-4 h4 {
-      color: #27ae60;
-      font-weight: 700;
-      margin-bottom: 12px;
-    }
-    .mt-4 p.lead {
-      font-size: 1.3rem;
-      font-weight: 700;
-      color: rgb(39, 174, 96);
-    }
-    .footer {
-      margin-top: 40px;
-      text-align: center;
-    }
-  </style>
-  
-</head>
-<script>
-  function showTips() {
-    const total = parseFloat(document.getElementById("total_hidden").value) || 0;
-    const tipsDiv = document.getElementById('tipsContainer');
-    const tipsList = tipsDiv.querySelector('ul');
-    const tipsHeader = tipsDiv.querySelector('h4');
+      function calculateCarbonFootprint() {
+        const electricity = parseFloat(document.getElementById("electricity").value) || 0;
+        const lpg = parseFloat(document.getElementById("lpg").value) || 0;
+        const water_consumption = parseFloat(document.getElementById("waterConsumption").value) || 0;
+        const waste = parseFloat(document.getElementById("waste").value) || 0;
+        const members = parseInt(document.getElementById("members").value) || 1;
+      
+        const elec_result = (electricity / members) * 0.0498;
+        const lpg_result = (lpg / members) * 0.022454;
+        const water_consumption_result = water_consumption * 0.0106;
+        const waste_result = (waste / members) * 1.59;
+        const total = elec_result + lpg_result + water_consumption_result + waste_result;
+      
+        document.getElementById("elec_result").value = elec_result.toFixed(2);
+        document.getElementById("lpg_result").value = lpg_result.toFixed(2);
+        document.getElementById("water_consumption_result").value = water_consumption_result.toFixed(2);
+        document.getElementById("waste_result").value = waste_result.toFixed(2);
+        document.getElementById("total").textContent = total.toFixed(2);
+      
+        // Update hidden inputs for submission
+        document.getElementById("elec_result_hidden").value = elec_result.toFixed(2);
+        document.getElementById("lpg_result_hidden").value = lpg_result.toFixed(2);
+        document.getElementById("water_consumption_result_hidden").value = water_consumption_result.toFixed(2);
+        document.getElementById("waste_result_hidden").value = waste_result.toFixed(2);
+        document.getElementById("total_hidden").value = total.toFixed(2);
+      
+        showTips();
+      }
+   </script>
 
-    tipsDiv.classList.remove('d-none');
-
-    if (total < 50) {
-      tipsHeader.textContent = "🌱 Great Job! Your Carbon Footprint is Low";
-      tipsList.innerHTML = `
-        <li>You're doing great — keep using energy-efficient appliances!</li>
-        <li>Consider sharing your habits with friends to inspire them.</li>
-        <li>Keep minimizing waste — compost if possible.</li>
-      `;
-    } else if (total < 150) {
-      tipsHeader.textContent = "⚠️ Moderate Carbon Footprint";
-      tipsList.innerHTML = `
-        <li>Try turning off devices when not in use.</li>
-        <li>Fix any water leaks to reduce waste.</li>
-        <li>Use less LPG or switch to induction cooking if available.</li>
-        <li>Be mindful of waste and recycling practices.</li>
-      `;
-    } else {
-      tipsHeader.textContent = "🔥 High Carbon Footprint – Time to Take Action";
-      tipsList.innerHTML = `
-        <li>Switch to LED lighting and energy-efficient appliances.</li>
-        <li>Limit LPG and electricity use where possible.</li>
-        <li>Consider shorter showers and water-saving fixtures.</li>
-        <li>Reduce, reuse, and recycle actively in your household.</li>
-      `;
-    }
-
-    tipsDiv.scrollIntoView({ behavior: 'smooth' });
-  }
-
-  function calculateCarbonFootprint() {
-    const electricity = parseFloat(document.getElementById("electricity").value) || 0;
-    const lpg = parseFloat(document.getElementById("lpg").value) || 0;
-    const water_consumption = parseFloat(document.getElementById("waterConsumption").value) || 0;
-    const waste = parseFloat(document.getElementById("waste").value) || 0;
-    const members = parseInt(document.getElementById("members").value) || 1;
-
-    const elec_result = (electricity / members) * 0.0498;
-    const lpg_result = (lpg / members) * 0.022454;
-    const water_consumption_result = water_consumption * 0.0106;
-    const waste_result = (waste / members) * 1.59;
-    const total = elec_result + lpg_result + water_consumption_result + waste_result;
-
-    document.getElementById("elec_result").value = elec_result.toFixed(2);
-    document.getElementById("lpg_result").value = lpg_result.toFixed(2);
-    document.getElementById("water_consumption_result").value = water_consumption_result.toFixed(2);
-    document.getElementById("waste_result").value = waste_result.toFixed(2);
-    document.getElementById("total").textContent = total.toFixed(2);
-
-    // Update hidden inputs for submission
-    document.getElementById("elec_result_hidden").value = elec_result.toFixed(2);
-    document.getElementById("lpg_result_hidden").value = lpg_result.toFixed(2);
-    document.getElementById("water_consumption_result_hidden").value = water_consumption_result.toFixed(2);
-    document.getElementById("waste_result_hidden").value = waste_result.toFixed(2);
-    document.getElementById("total_hidden").value = total.toFixed(2);
-
-    showTips();
-  }
-</script>
-<body>
-  <div class="navbar d-flex justify-content-between align-items-center">
-    <div><i class="fas fa-leaf me-2"></i>GoEcoTrack: Your Footprint, Your Future</div>
-    <a href="/dashboard" class="btn btn-outline-light">
-        <i class="fas fa-arrow-left me-2"></i> Back to Dashboard
-    </a>
-</div>
-
-  <div class="container mt-4" role="main" aria-label="Household Carbon Footprint Calculation Form">
-    <h3>Household Carbon Footprint Calculator</h3>
-    <p class="lead">Enter your household details below to see your monthly carbon footprint.</p>
-
-    <form method="POST" action="/calculate/category/household">
-      <div class="accordion" id="footprintAccordion">
-
-        <!-- Electricity -->
-        <div class="accordion-item">
-          <h2 class="accordion-header" id="electricityHeader">
-            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#electricityCollapse">
-              Electricity Consumption (monthly bill in PHP)
-            </button>
-          </h2>
-          <div id="electricityCollapse" class="accordion-collapse collapse show" data-bs-parent="#footprintAccordion">
-            <div class="accordion-body">
-              <div class="row g-3">
-                <div class="col-md-6">
-                  <label for="electricity" class="form-label">Electricity Consumption (monthly bill in PHP)</label>
-                  <input type="number" step="0.1" min="0" value="0"
-                    class="form-control" id="electricity" name="electricity"
-                    placeholder="e.g. 3000"
-                    required
-                    onfocus="if(this.value==0)this.value='';"
-                    onblur="if(this.value=='')this.value='0';"
-                    oninput="calculateCarbonFootprint()" />
-                </div>
-                <div class="col-md-6">
-                  <label class="form-label">CO₂ Emissions (kg):</label>
-                  <input type="text" class="form-control" id="elec_result" disabled />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- LPG -->
-        <div class="accordion-item">
-          <h2 class="accordion-header" id="lpgHeader">
-            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#lpgCollapse">
-              LPG Consumption (in PHP)
-            </button>
-          </h2>
-          <div id="lpgCollapse" class="accordion-collapse collapse" aria-labelledby="lpgHeader" data-bs-parent="#footprintAccordion">
-            <div class="accordion-body">
-              <div class="row g-3">
-                <div class="col-md-6">
-                  <label for="lpg" class="form-label">LPG Consumption (in PHP)</label>
-                  <input type="number" step="0.1" min="0" value="0"
-                    class="form-control" id="lpg" name="lpg"
-                    placeholder="e.g. 3000"
-                    required
-                    onfocus="if(this.value==0)this.value='';"
-                    onblur="if(this.value=='')this.value='0';"
-                    oninput="calculateCarbonFootprint()" />
-                </div>
-                <div class="col-md-6">
-                  <label class="form-label">CO₂ Emissions (kg):</label>
-                  <input type="text" class="form-control" id="lpg_result" disabled />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Water Consumption -->
-        <div class="accordion-item">
-          <h2 class="accordion-header" id="waterConsumptionHeader">
-            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#waterConsumptionCollapse">
-              Water Consumption (liters per month)
-            </button>
-          </h2>
-          <div id="waterConsumptionCollapse" class="accordion-collapse collapse" aria-labelledby="waterConsumptionHeader" data-bs-parent="#footprintAccordion">
-            <div class="accordion-body">
-              <div class="row g-3">
-                <div class="col-md-6">
-                  <label for="water-consumption" class="form-label">Water Consumption (liters per month)</label>
-                  <input type="number" step="0.1" min="0" value="0"
-                    class="form-control" id="waterConsumption" name="water_consumption"
-                    placeholder="e.g. 3000"
-                    required
-                    onfocus="if(this.value==0)this.value='';"
-                    onblur="if(this.value=='')this.value='0';"
-                    oninput="calculateCarbonFootprint()" />
-                </div>
-                <div class="col-md-6">
-                  <label class="form-label">CO₂ Emissions (kg):</label>
-                  <input type="text" class="form-control" id="water_consumption_result" disabled />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Waste Generation -->
-        <div class="accordion-item">
-          <h2 class="accordion-header" id="wasteHeader">
-            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#wasteCollapse">
-              Waste Generation (kg per month)
-            </button>
-          </h2>
-          <div id="wasteCollapse" class="accordion-collapse collapse" aria-labelledby="wasteHeader" data-bs-parent="#footprintAccordion">
-            <div class="accordion-body">
-              <div class="row g-3">
-                <div class="col-md-6">
-                  <label for="waste" class="form-label">Waste Generation (kg per month)</label>
-                  <input type="number" step="0.1" min="0" value="0"
-                    class="form-control" id="waste" name="waste"
-                    placeholder="e.g. 3000"
-                    required
-                    onfocus="if(this.value==0)this.value='';"
-                    onblur="if(this.value=='')this.value='0';"
-                    oninput="calculateCarbonFootprint()" />
-                </div>
-                <div class="col-md-6">
-                  <label class="form-label">CO₂ Emissions (kg):</label>
-                  <input type="text" class="form-control" id="waste_result" disabled />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Number of Household Members -->
-        <div class="accordion-item">
-          <h2 class="accordion-header" id="membersHeader">
-            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#membersCollapse">
-              Number of Household Members
-            </button>
-          </h2>
-          <div id="membersCollapse" class="accordion-collapse collapse" aria-labelledby="membersHeader" data-bs-parent="#footprintAccordion">
-            <div class="accordion-body">
-              <label for="members"class="form-label">Number of Household Members</label>
-              <input type="number" step="0.1" min="0" value="1"
-                    class="form-control" id="members" name="members"
-                    placeholder="e.g. 4"
-                    required
-                    onfocus="if(this.value==1)this.value='';"
-                    onblur="if(this.value=='')this.value='1';"
-                    oninput="calculateCarbonFootprint()" />
-            </div>
-          </div>
-        </div>
+   <body>
+      <div class="navbar d-flex justify-content-between align-items-center">
+         <div><i class="fas fa-leaf me-2"></i>GoEcoTrack: Your Footprint, Your Future</div>
+         <a href="/dashboard" class="btn btn-outline-light">
+         <i class="fas fa-arrow-left me-2"></i> Back to Dashboard
+         </a>
       </div>
+      <div class="container mt-4" role="main" aria-label="Household Carbon Footprint Calculation Form">
+         <h3>Household Carbon Footprint Calculator</h3>
+         <p class="lead">Enter your household details below to see your monthly carbon footprint.</p>
+         <form method="POST" action="/calculate/category/household">
+            <div class="accordion" id="footprintAccordion">
 
-      <div class="total-section mt-4" aria-live="polite">
-        <strong>Total Monthly Carbon Footprint (kg CO₂):</strong>
-        <span id="total">0.00</span>
+               <!-- Electricity -->
+               <div class="accordion-item">
+                  <h2 class="accordion-header" id="electricityHeader">
+                     <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#electricityCollapse">
+                     Electricity Consumption (monthly bill in PHP)
+                     </button>
+                  </h2>
+                  <div id="electricityCollapse" class="accordion-collapse collapse show" data-bs-parent="#footprintAccordion">
+                     <div class="accordion-body">
+                        <div class="row g-3">
+                           <div class="col-md-6">
+                              <label for="electricity" class="form-label">Electricity Consumption (monthly bill in PHP)</label>
+                              <input type="number" step="0.1" min="0" value="0"
+                                 class="form-control" id="electricity" name="electricity"
+                                 placeholder="e.g. 3000"
+                                 required
+                                 onfocus="if(this.value==0)this.value='';"
+                                 onblur="if(this.value=='')this.value='0';"
+                                 oninput="calculateCarbonFootprint()" />
+                           </div>
+                           <div class="col-md-6">
+                              <label class="form-label">CO₂ Emissions (kg):</label>
+                              <input type="text" class="form-control" id="elec_result" disabled />
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+
+               <!-- LPG -->
+               <div class="accordion-item">
+                  <h2 class="accordion-header" id="lpgHeader">
+                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#lpgCollapse">
+                     LPG Consumption (in PHP)
+                     </button>
+                  </h2>
+                  <div id="lpgCollapse" class="accordion-collapse collapse" aria-labelledby="lpgHeader" data-bs-parent="#footprintAccordion">
+                     <div class="accordion-body">
+                        <div class="row g-3">
+                           <div class="col-md-6">
+                              <label for="lpg" class="form-label">LPG Consumption (in PHP)</label>
+                              <input type="number" step="0.1" min="0" value="0"
+                                 class="form-control" id="lpg" name="lpg"
+                                 placeholder="e.g. 3000"
+                                 required
+                                 onfocus="if(this.value==0)this.value='';"
+                                 onblur="if(this.value=='')this.value='0';"
+                                 oninput="calculateCarbonFootprint()" />
+                           </div>
+                           <div class="col-md-6">
+                              <label class="form-label">CO₂ Emissions (kg):</label>
+                              <input type="text" class="form-control" id="lpg_result" disabled />
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+
+               <!-- Water Consumption -->
+               <div class="accordion-item">
+                  <h2 class="accordion-header" id="waterConsumptionHeader">
+                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#waterConsumptionCollapse">
+                     Water Consumption (liters per month)
+                     </button>
+                  </h2>
+                  <div id="waterConsumptionCollapse" class="accordion-collapse collapse" aria-labelledby="waterConsumptionHeader" data-bs-parent="#footprintAccordion">
+                     <div class="accordion-body">
+                        <div class="row g-3">
+                           <div class="col-md-6">
+                              <label for="water-consumption" class="form-label">Water Consumption (liters per month)</label>
+                              <input type="number" step="0.1" min="0" value="0"
+                                 class="form-control" id="waterConsumption" name="water_consumption"
+                                 placeholder="e.g. 3000"
+                                 required
+                                 onfocus="if(this.value==0)this.value='';"
+                                 onblur="if(this.value=='')this.value='0';"
+                                 oninput="calculateCarbonFootprint()" />
+                           </div>
+                           <div class="col-md-6">
+                              <label class="form-label">CO₂ Emissions (kg):</label>
+                              <input type="text" class="form-control" id="water_consumption_result" disabled />
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+
+               <!-- Waste Generation -->
+               <div class="accordion-item">
+                  <h2 class="accordion-header" id="wasteHeader">
+                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#wasteCollapse">
+                     Waste Generation (kg per month)
+                     </button>
+                  </h2>
+                  <div id="wasteCollapse" class="accordion-collapse collapse" aria-labelledby="wasteHeader" data-bs-parent="#footprintAccordion">
+                     <div class="accordion-body">
+                        <div class="row g-3">
+                           <div class="col-md-6">
+                              <label for="waste" class="form-label">Waste Generation (kg per month)</label>
+                              <input type="number" step="0.1" min="0" value="0"
+                                 class="form-control" id="waste" name="waste"
+                                 placeholder="e.g. 3000"
+                                 required
+                                 onfocus="if(this.value==0)this.value='';"
+                                 onblur="if(this.value=='')this.value='0';"
+                                 oninput="calculateCarbonFootprint()" />
+                           </div>
+                           <div class="col-md-6">
+                              <label class="form-label">CO₂ Emissions (kg):</label>
+                              <input type="text" class="form-control" id="waste_result" disabled />
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+
+               <!-- Number of Household Members -->
+               <div class="accordion-item">
+                  <h2 class="accordion-header" id="membersHeader">
+                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#membersCollapse">
+                     Number of Household Members
+                     </button>
+                  </h2>
+                  <div id="membersCollapse" class="accordion-collapse collapse" aria-labelledby="membersHeader" data-bs-parent="#footprintAccordion">
+                     <div class="accordion-body">
+                        <label for="members"class="form-label">Number of Household Members</label>
+                        <input type="number" step="0.1" min="0" value="1"
+                           class="form-control" id="members" name="members"
+                           placeholder="e.g. 4"
+                           required
+                           onfocus="if(this.value==1)this.value='';"
+                           onblur="if(this.value=='')this.value='1';"
+                           oninput="calculateCarbonFootprint()" />
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <div class="total-section mt-4" aria-live="polite">
+               <strong>Total Monthly Carbon Footprint (kg CO₂):</strong>
+               <span id="total">0.00</span>
+            </div>
+
+            <!-- Hidden inputs to submit calculated values -->
+            <input type="hidden" id="elec_result_hidden" name="elec_result" />
+            <input type="hidden" id="lpg_result_hidden" name="lpg_result" />
+            <input type="hidden" id="water_consumption_result_hidden" name="water_consumption_result" />
+            <input type="hidden" id="waste_result_hidden" name="waste_result" />
+            <input type="hidden" id="total_hidden" name="total" />
+            <div class="mt-3">
+               <button type="submit" class="btn btn-success w-100">Save to History</button>
+            </div>
+
+            <!-- Tips container (hidden by default) -->
+            <div id="tipsContainer" class="alert alert-success mt-3 d-none" role="alert">
+               <h4 class="alert-heading">Eco-Friendly Tips:</h4>
+               <ul></ul>
+            </div>
+         </form>
       </div>
-
-      <!-- Hidden inputs to submit calculated values -->
-      <input type="hidden" id="elec_result_hidden" name="elec_result" />
-      <input type="hidden" id="lpg_result_hidden" name="lpg_result" />
-      <input type="hidden" id="water_consumption_result_hidden" name="water_consumption_result" />
-      <input type="hidden" id="waste_result_hidden" name="waste_result" />
-      <input type="hidden" id="total_hidden" name="total" />
-
-      <div class="mt-3">
-        <button type="submit" class="btn btn-success w-100">Save to History</button>
-      </div>
-
-      <!-- Tips container (hidden by default) -->
-    <div id="tipsContainer" class="alert alert-success mt-3 d-none" role="alert">
-      <h4 class="alert-heading">Eco-Friendly Tips:</h4>
-      <ul></ul>
-    </div>
-
-    </form>
-  </div>
-
-  <!-- Bootstrap JS Bundle (with Popper) -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
-</body>
+      
+      <!-- Bootstrap JS Bundle (with Popper) -->
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+   </body>
 </html>

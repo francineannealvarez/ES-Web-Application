@@ -1,3 +1,4 @@
+CREATE DATABASE EcoTrack;
 USE EcoTrack;
 
 CREATE TABLE IF NOT EXISTS user (

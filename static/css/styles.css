@@ -1,8 +1,10 @@
-:root {
-      --primary: #2C6E49;
+
+
+    :root {
+      --primary:rgb(36, 91, 39);
       --secondary: #4C956C;
       --accent: #88D498;
-      --bg: #F1FAEE;
+      --bg:rgb(230, 253, 222);
       --text: #1D3557;
     }
 
@@ -27,35 +29,64 @@
 
     header h1 {
       margin: 0;
-      font-family: 'Raleway', sans-serif;
-      font-size: 2.5rem;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 4.5rem; /* much larger */
+      letter-spacing: 2px;
+      color:rgb(243, 243, 243); /* optional: eco-friendly tone */
+      text-transform: uppercase;
     }
 
-    nav.navbar {
-      display: flex;
-      justify-content: center;
-      background-color: var(--secondary);
-      padding: 10px;
+    header p {
+      font-size: 1.25rem;
+      color:rgb(243, 243, 243); 
+      margin-top: 10px;
+      font-family: 'Poppins', sans-serif;
     }
 
-    nav.navbar a {
-      color: white;
-      text-decoration: none;
-      margin: 0 15px;
-      font-weight: bold;
-    }
+    /* Navbar container */
+  .navbar {
+    background-color: #2e7d32; /* forest green */
+    padding: 10px 20px;
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    font-family: 'Poppins', sans-serif; /* your font here */
+  }
 
-    nav.navbar a:hover {
-      color: var(--accent);
-    }
+  /* Navbar links */
+  .navbar a {
+    color: white;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 18px;
+    padding: 8px 15px;
+    border-radius: 8px;
+    transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+  }
+
+  /* Hover effect */
+  .navbar a:hover {
+    background-color: #66bb6a;  /* lighter green */
+    color: #1b5e20;             /* dark green text */
+    transform: scale(1.1);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.25);
+  }
+
+  /* Active/current link style */
+  .navbar a.active {
+    background-color: #1b5e20;
+    color: #a5d6a7;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+  }
 
     .section-container {
       display: flex;
       justify-content: space-between;
-      gap: 20px;
-      max-width: 900px;
+      gap: 40px;
+      max-width: 1200px;
       margin: 40px auto;
-      padding: 0 20px;
+      padding: 0 40px;
       flex-wrap: wrap;
     }
 
@@ -86,218 +117,223 @@
       margin: 40px auto;
     }
 
-.hero {
-  text-align: center;
-  padding: 40px 30px 30px 30px; /* more padding bottom */
-  background: #e8f6ef;
-  max-width: 400px;
-  margin: 0 auto 60px auto;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-}
+    .hero {
+      text-align: center;
+      padding: 60px 20px;
+      background: #e8f6ef;
+      max-width: 600px;
+      margin: 0 auto 60px auto;
+      border-radius: 10px;
+    }
 
-.form-container {
-  margin-top: 20px;
-  text-align: left;
-}
+    .hero h2 {
+      font-size: 2rem;
+      margin-bottom: 20px;
+      color: var(--primary);
+    }
 
-.form-container h3 {
-  text-align: center;
-  color: var(--secondary);
-  margin-bottom: 20px;
-  font-family: 'Raleway', sans-serif;
-}
+    .toggle-buttons {
+      margin-bottom: 30px;
+    }
 
-.form-container input[type="text"],
-.form-container input[type="password"],
-.form-container input[type="email"] {
-  width: 100%;
-  padding: 10px;
-  margin: 8px 0; /* a bit less margin to save space */
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  font-size: 1rem;
-}
+    button.toggle-btn {
+      background-color: var(--primary);
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      margin: 0 10px;
+      font-size: 1rem;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
 
-.form-container button[type="submit"] {
-  width: 100%;
-  background-color: var(--primary);
-  color: white;
-  padding: 12px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 1.1rem;
-  margin-top: 15px; /* a bit more margin top for button */
-  transition: background-color 0.3s ease;
-}
+    button.toggle-btn:hover {
+      background-color: var(--secondary);
+    }
 
-.form-container button[type="submit"]:hover {
-  background-color: var(--secondary);
-}
-.button-group {
-  display: flex;
-  flex-direction: row; /* side by side */
-  justify-content: center;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 20px;
-}
+    button.toggle-btn.active {
+      background-color: var(--secondary);
+      font-weight: bold;
+    }
 
-button.toggle-btn {
-  background-color: var(--primary);
-  color: white;
-  border: none;
-  padding: 8px 16px;
-  font-size: 0.95rem;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  width: 120px;
-  text-align: center;
-}
+    .form-container {
+      margin-top: 20px;
+      text-align: left;
+    }
 
-button.toggle-btn:hover {
-  background-color: var(--secondary);
-}
+    .form-container h3 {
+      text-align: center;
+      color: var(--secondary);
+      margin-bottom: 20px;
+      font-family: 'Raleway', sans-serif;
+    }
 
-button.toggle-btn.active {
-  background-color: var(--secondary);
-  font-weight: bold;
-}
+    .form-container input[type="text"],
+    .form-container input[type="password"],
+    .form-container input[type="email"] {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 1rem;
+    }
 
+    .form-container button[type="submit"] {
+      width: 100%;
+      background-color: var(--primary);
+      color: white;
+      padding: 12px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 1.1rem;
+      margin-top: 10px;
+      transition: background-color 0.3s ease;
+    }
+
+    .form-container button[type="submit"]:hover {
+      background-color: var(--secondary);
+    }
 
     .hidden {
       display: none;
     }
 
-/*household css*/
-    /* Reset and base */
-    body {
-      margin: 0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: #fff;
-      color: #333;
-      display: flex;
-      flex-direction: column;
-      min-height: 100vh;
+    .modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4); /* semi-transparent */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    backdrop-filter: blur(3px); /* optional blur */
+    }
+
+    .modal-box {
+    background-color: white;
+    padding: 30px 40px;
+    border-radius: 10px;
+    max-width: 500px;
+    width: 90%;
+    text-align: center;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    position: relative;
+    font-family: 'Poppins', sans-serif;
+    }
+
+    .modal-box h2 {
+    margin-bottom: 10px;
+    color: var(--primary);
+    font-size: 1.6rem;
+    }
+
+    .modal-box p {
+    margin-bottom: 20px;
+    color: #555;
+    font-size: 1rem;
+    }
+
+    .popup-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    }
+
+    .popup-buttons button {
+    background-color: var(--primary);
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    }
+
+    .popup-buttons button:hover {
+    background-color: var(--secondary);
+    }
+
+    .close-btn {
+    position: absolute;
+    top: 12px;
+    right: 16px;
+    font-size: 1.5rem;
+    color: #999;
+    cursor: pointer;
+    transition: color 0.2s;
+    }
+
+    .close-btn:hover {
+    color: #333;
+    }
+
+    .faq-container {
+      max-width: 800px;
+      margin: auto;
       padding: 20px;
     }
-    .container {
-      max-width: 600px;
-      margin: auto;
-      box-shadow: 0 4px 12px rgb(0 0 0 / 0.1);
-      padding: 30px 40px;
-      border-radius: 12px;
-      background: #fafafa;
-    }
-    h3 {
-      margin-bottom: 8px;
-      color: #2c3e50;
-      font-weight: 700;
-      text-align: center;
-    }
-    p.lead {
-      text-align: center;
-      color: #666;
-      margin-bottom: 30px;
-      font-size: 1rem;
-      font-weight: 400;
-    }
-    form {
-      display: grid;
-      gap: 20px;
-    }
-    label {
-      font-weight: 600;
-      margin-bottom: 6px;
-      display: block;
-      color: #444;
-    }
-    input[type="number"],
-    input[type="text"] {
-      width: 100%;
-      padding: 8px 12px;
-      border: 1.8px solid #ccc;
+
+    .faq-item {
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
       border-radius: 8px;
-      font-size: 0.9rem;
-      transition: border-color 0.3s ease;
-    }
-    input[type="number"]:focus,
-    input[type="text"]:focus {
-      border-color: #28a745;
-      outline: none;
-      box-shadow: 0 0 8px rgba(40, 167, 69, 0.3);
-    }
-    input[disabled] {
-      background-color: #e9ecef;
-      color: #555;
-      cursor: not-allowed;
+      padding: 10px;
+      background: #e8f6ef;
     }
 
-    .row {
-      display: flex;
-      gap: 20px;
-      flex-wrap: wrap;
-      align-items: flex-end;
-    }
-    .row > div {
-      flex: 1 1 48%;
-      min-width: 200px;
-    }
-
-    button {
-      background-color: #28a745;
-      color: white;
-      border: none;
-      font-size: 1.1rem;
-      padding: 12px 0;
-      border-radius: 8px;
+    summary {
+      font-weight: bold;
+      font-size: 18px;
       cursor: pointer;
-      font-weight: 700;
-      transition: background-color 0.25s ease;
-      margin-top: 15px;
-      width: 100%;
-    }
-    button:hover {
-      background-color: #218838;
-    }
-    .total-section {
-      margin-top: 40px;
-      text-align: center;
-      font-size: 1.2rem;
-      font-weight: 600;
-      color: #2c3e50;
-    }
-    .total-section strong {
-      color: #28a745;
-      font-size: 1.5rem;
     }
 
-    .footer {
-      max-width: 600px;
-      margin: 40px auto 0 auto;
-      text-align: right;
-    }
-    .footer a {
-      text-decoration: none;
-      color: #28a745;
-      border: 2px solid #28a745;
-      padding: 8px 18px;
-      border-radius: 8px;
-      font-weight: 600;
-      transition: background-color 0.25s ease, color 0.25s ease;
-    }
-    .footer a:hover {
-      background-color: #28a745;
-      color: white;
+    summary:hover {
+      color: #2e8b57;
     }
 
-    @media (max-width: 480px) {
-      .row > div {
-        flex: 1 1 100%;
-      }
-      .container {
-        padding: 20px;
-      }
+    details[open] summary::after {
+      content: " ▲";
     }
+
+    summary::after {
+      content: " ▼";
+      float: right;
+    }
+
+    p, ul {
+      margin: 10px 0 0 0;
+    }
+.warning-box {
+  background-color: #f8d7da;
+  color: #721c24;
+  padding: 10px 15px;
+  border: 1px solid #f5c6cb;
+  border-radius: 5px;
+  font-size: 0.9rem;
+  position: relative;
+  margin-top: 10px;
+  animation: slideDown 0.5s ease forwards;
+  display: none; /* Hidden by default */
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.hidden {
+  display: none;
+}

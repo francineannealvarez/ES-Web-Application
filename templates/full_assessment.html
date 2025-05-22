@@ -1,317 +1,322 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>🌿 Full Carbon Assessment</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+   <head>
+      <meta charset="UTF-8">
+      <title>🌿 Full Carbon Assessment</title>
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+      <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+      <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;600;800&display=swap" rel="stylesheet">
 
-  <!-- Bootstrap CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;600;800&display=swap" rel="stylesheet">
+      <style>
+         body, html {
+         height: 100%;
+         margin: 0;
+         padding: 0;
+         font-family: 'Nunito', sans-serif;
+         background: linear-gradient(135deg, #d9f8c4, #f6f6eb);
+         color: #2e4939;
+         }
 
-  <style>
-    body, html {
-      height: 100%;
-  margin: 0;
-  padding: 0;
-      font-family: 'Nunito', sans-serif;
-      background: linear-gradient(135deg, #d9f8c4, #f6f6eb);
-      color: #2e4939;
-    }
-    .navbar {
-            background-color: #2e5339;
-            padding: 1rem 2rem;
-            color: white;
-            font-size: 1.2rem;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-        }
+         .navbar {
+         background-color: #2e5339;
+         padding: 1rem 2rem;
+         color: white;
+         font-size: 1.2rem;
+         position: sticky;
+         top: 0;
+         z-index: 1000;
+         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+         }
 
-    h2 {
-      font-weight: 800;
-      color: #256d39;
-    }
-    .form-label {
-      font-weight: 600;
-    }
-    .container {
-      max-width: 900px;
-    }
-    form {
-      background-color: #fffef5;
-      border-radius: 20px;
-      box-shadow: 0 4px 20px rgba(0, 80, 0, 0.1);
-    }
-    .accordion-button {
-      background-color: #e4f8dd;
-      font-weight: bold;
-      color: #205d37;
-    }
-    .accordion-button:not(.collapsed) {
-      background-color: #c3eec0;
-      color: #144d2a;
-    }
-    .accordion-body {
-      background-color: #fcfff7;
-      padding: 20px;
-    }
-    .form-control {
-      border-radius: 10px;
-      border: 1px solid #c7e5c0;
-      transition: box-shadow 0.2s;
-    }
-    .form-control:focus {
-      box-shadow: 0 0 0 0.2rem rgba(46, 102, 55, 0.3);
-      border-color: #3fa861;
-    }
-    .btn-success {
-      background-color: #3fa861;
-      border-color: #3fa861;
-      font-size: 1.1rem;
-      padding: 10px 30px;
-      border-radius: 30px;
-      transition: 0.3s;
-    }
-    .btn-success:hover {
-      background-color: #33804f;
-      border-color: #33804f;
-    }
-  </style>
-</head>
-<body>
+         h2 {
+         font-weight: 800;
+         color: #256d39;
+         }
 
-<div class="navbar d-flex justify-content-between align-items-center">
-    <div><i class="fas fa-leaf me-2"></i>GoEcoTrack: Your Footprint, Your Future</div>
-    <a href="/dashboard" class="btn btn-outline-light">
-        <i class="fas fa-arrow-left me-2"></i> Back to Dashboard
-    </a>
-</div>
+         .form-label {
+         font-weight: 600;
+         }
 
-<div class="container mt-5 mb-5">
-  <h2 class="text-center mb-4">🌍 Full Carbon Footprint Assessment</h2>
+         .container {
+         max-width: 900px;
+         }
 
-  <form method="POST" class="p-4" id="carbonForm">
-    <div class="accordion" id="assessmentSections">
-      <!-- Household Section -->
-      <div class="accordion-item">
-        <h2 class="accordion-header" id="householdHeading">
-          <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#householdSection">
-            🏠 Household Consumption
-          </button>
-        </h2>
-        <div id="householdSection" class="accordion-collapse collapse show" data-bs-parent="#assessmentSections">
-          <div class="accordion-body">
-            <div class="mb-3">
-              <label class="form-label">Electricity (monthly bill in PHP):</label>
-              <input type="number" step="0.1" class="form-control" name="electricity">
-            </div>
-            <div class="mb-3">
-              <label class="form-label">LPG (in PHP):</label>
-              <input type="number" step="0.1" class="form-control" name="lpg">
-            </div>
-            <div class="mb-3">
-              <label class="form-label">Water Consumption (liters per month):</label>
-              <input type="number" step="0.1" class="form-control" name="water_consumption">
-            </div>
-            <div class="mb-3">
-              <label class="form-label">Waste (kg per month):</label>
-              <input type="number" step="0.1" class="form-control" name="waste">
-            </div>
-            <div class="mb-3">
-              <label class="form-label">👨‍👧 Number of Household Members:</label>
-              <input type="number" class="form-control" name="members" min="1" required>
-            </div>
-          </div>
-        </div>
+         form {
+         background-color: #fffef5;
+         border-radius: 20px;
+         box-shadow: 0 4px 20px rgba(0, 80, 0, 0.1);
+         }
+
+         .accordion-button {
+         background-color: #e4f8dd;
+         font-weight: bold;
+         color: #205d37;
+         }
+
+         .accordion-button:not(.collapsed) {
+         background-color: #c3eec0;
+         color: #144d2a;
+         }
+
+         .accordion-body {
+         background-color: #fcfff7;
+         padding: 20px;
+         }
+
+         .form-control {
+         border-radius: 10px;
+         border: 1px solid #c7e5c0;
+         transition: box-shadow 0.2s;
+         }
+
+         .form-control:focus {
+         box-shadow: 0 0 0 0.2rem rgba(46, 102, 55, 0.3);
+         border-color: #3fa861;
+         }
+
+         .btn-success {
+         background-color: #3fa861;
+         border-color: #3fa861;
+         font-size: 1.1rem;
+         padding: 10px 30px;
+         border-radius: 30px;
+         transition: 0.3s;
+         }
+
+         .btn-success:hover {
+         background-color: #33804f;
+         border-color: #33804f;
+         }
+      </style>
+   </head>
+   
+   <body>
+      <div class="navbar d-flex justify-content-between align-items-center">
+         <div><i class="fas fa-leaf me-2"></i>GoEcoTrack: Your Footprint, Your Future</div>
+         <a href="/dashboard" class="btn btn-outline-light">
+         <i class="fas fa-arrow-left me-2"></i> Back to Dashboard
+         </a>
       </div>
 
-      <!-- Private Vehicle Usage -->
-      <div class="accordion-item">
-        <h2 class="accordion-header" id="privateTransportHeader">
-          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#privateTransportCollapse">
-            🚗 Private Vehicle Usage (liters/month)
-          </button>
-        </h2>
-        <div id="privateTransportCollapse" class="accordion-collapse collapse" data-bs-parent="#assessmentSections">
-          <div class="accordion-body">
-            <div class="row g-3">
-              <div class="col-md-6">
-                <label class="form-label">Gasoline (liters per month):</label>
-                <input type="number" step="0.1" class="form-control" name="gasoline">
-              </div>
-              <div class="col-md-6">
-                <label class="form-label">Diesel (liters per month):</label>
-                <input type="number" step="0.1" class="form-control" name="diesel">
-              </div>
+      <div class="container mt-5 mb-5">
+         <h2 class="text-center mb-4">🌍 Full Carbon Footprint Assessment</h2>
+         <form method="POST" class="p-4" id="carbonForm">
+            <div class="accordion" id="assessmentSections">
+
+               <!-- Household Section -->
+               <div class="accordion-item">
+                  <h2 class="accordion-header" id="householdHeading">
+                     <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#householdSection">
+                     🏠 Household Consumption
+                     </button>
+                  </h2>
+                  <div id="householdSection" class="accordion-collapse collapse show" data-bs-parent="#assessmentSections">
+                     <div class="accordion-body">
+                        <div class="mb-3">
+                           <label class="form-label">Electricity (monthly bill in PHP):</label>
+                           <input type="number" step="0.1" class="form-control" name="electricity">
+                        </div>
+                        <div class="mb-3">
+                           <label class="form-label">LPG (in PHP):</label>
+                           <input type="number" step="0.1" class="form-control" name="lpg">
+                        </div>
+                        <div class="mb-3">
+                           <label class="form-label">Water Consumption (liters per month):</label>
+                           <input type="number" step="0.1" class="form-control" name="water_consumption">
+                        </div>
+                        <div class="mb-3">
+                           <label class="form-label">Waste (kg per month):</label>
+                           <input type="number" step="0.1" class="form-control" name="waste">
+                        </div>
+                        <div class="mb-3">
+                           <label class="form-label">👨‍👧 Number of Household Members:</label>
+                           <input type="number" class="form-control" name="members" min="1" required>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+
+               <!-- Private Vehicle Usage -->
+               <div class="accordion-item">
+                  <h2 class="accordion-header" id="privateTransportHeader">
+                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#privateTransportCollapse">
+                     🚗 Private Vehicle Usage (liters/month)
+                     </button>
+                  </h2>
+                  <div id="privateTransportCollapse" class="accordion-collapse collapse" data-bs-parent="#assessmentSections">
+                     <div class="accordion-body">
+                        <div class="row g-3">
+                           <div class="col-md-6">
+                              <label class="form-label">Gasoline (liters per month):</label>
+                              <input type="number" step="0.1" class="form-control" name="gasoline">
+                           </div>
+                           <div class="col-md-6">
+                              <label class="form-label">Diesel (liters per month):</label>
+                              <input type="number" step="0.1" class="form-control" name="diesel">
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+
+               <!-- Public Transport Usage -->
+               <div class="accordion-item">
+                  <h2 class="accordion-header" id="publicTransportHeader">
+                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#publicTransportCollapse">
+                     🚌 Public Transport Usage (PHP/month)
+                     </button>
+                  </h2>
+                  <div id="publicTransportCollapse" class="accordion-collapse collapse" data-bs-parent="#assessmentSections">
+                     <div class="accordion-body">
+                        <div class="row g-3">
+                           <div class="col-md-6">
+                              <label class="form-label">Tricycle (expense in PHP per month):</label>
+                              <input type="number" step="0.1" class="form-control" name="tricycle">
+                           </div>
+                           <div class="col-md-6">
+                              <label class="form-label">Jeep (expense in PHP per month):</label>
+                              <input type="number" step="0.1" class="form-control" name="jeep">
+                           </div>
+                           <div class="col-md-6">
+                              <label class="form-label">Van (expense in PHP per month):</label>
+                              <input type="number" step="0.1" class="form-control" name="van">
+                           </div>
+                           <div class="col-md-6">
+                              <label class="form-label">Bus (expense in PHP per month):</label>
+                              <input type="number" step="0.1" class="form-control" name="bus">
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+
+               <!-- Food Section -->
+               <div class="accordion-item">
+                  <h2 class="accordion-header" id="foodHeading">
+                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#foodSection">
+                     🍽️ Food Consumption
+                     </button>
+                  </h2>
+                  <div id="foodSection" class="accordion-collapse collapse" data-bs-parent="#assessmentSections">
+                     <div class="accordion-body">
+                        <div class="row">
+                           <script>
+                              const foodItems = ['fresh_vegetables', 'beef', 'poultry_meat', 'fish', 'pig_meat', 'eggs', 'rice', 'coffee', 'chocolate', 'cheese', 'milk_powder', 'butter'];
+                              foodItems.forEach(food => {
+                                document.write(`
+                                  <div class="mb-3 col-md-6">
+                                    <label class="form-label">${food.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase())} (kg/month):</label>
+                                    <input type="number" step="0.1" class="form-control" name="${food}">
+                                  </div>
+                                `);
+                              });
+                           </script>
+                        </div>
+                     </div>
+                  </div>
+               </div>
             </div>
-          </div>
-        </div>
-      </div>
 
-      <!-- Public Transport Usage -->
-      <div class="accordion-item">
-        <h2 class="accordion-header" id="publicTransportHeader">
-          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#publicTransportCollapse">
-            🚌 Public Transport Usage (PHP/month)
-          </button>
-        </h2>
-        <div id="publicTransportCollapse" class="accordion-collapse collapse" data-bs-parent="#assessmentSections">
-          <div class="accordion-body">
-            <div class="row g-3">
-              <div class="col-md-6">
-                <label class="form-label">Tricycle (expense in PHP per month):</label>
-                <input type="number" step="0.1" class="form-control" name="tricycle">
-              </div>
-              <div class="col-md-6">
-                <label class="form-label">Jeep (expense in PHP per month):</label>
-                <input type="number" step="0.1" class="form-control" name="jeep">
-              </div>
-              <div class="col-md-6">
-                <label class="form-label">Van (expense in PHP per month):</label>
-                <input type="number" step="0.1" class="form-control" name="van">
-              </div>
-              <div class="col-md-6">
-                <label class="form-label">Bus (expense in PHP per month):</label>
-                <input type="number" step="0.1" class="form-control" name="bus">
-              </div>
+            <!-- Total Display -->
+            <div id="totalContainer" class="mt-4 text-center fs-5 fw-bold text-success">
+               Total Carbon Footprint: <span id="totalFootprint">0.00</span> kg CO₂e/month
             </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Food Section -->
-      <div class="accordion-item">
-        <h2 class="accordion-header" id="foodHeading">
-          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#foodSection">
-            🍽️ Food Consumption
-          </button>
-        </h2>
-        <div id="foodSection" class="accordion-collapse collapse" data-bs-parent="#assessmentSections">
-          <div class="accordion-body">
-            <div class="row">
-              <script>
-                const foodItems = ['fresh_vegetables', 'beef', 'poultry_meat', 'fish', 'pig_meat', 'eggs', 'rice', 'coffee', 'chocolate', 'cheese', 'milk_powder', 'butter'];
-                foodItems.forEach(food => {
-                  document.write(`
-                    <div class="mb-3 col-md-6">
-                      <label class="form-label">${food.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase())} (kg/month):</label>
-                      <input type="number" step="0.1" class="form-control" name="${food}">
-                    </div>
-                  `);
-                });
-              </script>
+            <div class="text-center mt-4">
+               <button type="submit" class="btn btn-success btn-lg">Submit Assessment</button>
             </div>
-          </div>
-        </div>
+
+            <!-- Tips Output -->
+            <div id="tipsContainer" class="mt-4 d-none">
+               <h4 id="tipsHeader" class="mb-2"></h4>
+               <ul id="tipsList" class="mb-0"></ul>
+            </div>
+         </form>
       </div>
-    </div>
-
-        <!-- Total Display -->
-    <div id="totalContainer" class="mt-4 text-center fs-5 fw-bold text-success">
-      Total Carbon Footprint: <span id="totalFootprint">0.00</span> kg CO₂e/month
-    </div>
-    
-    <div class="text-center mt-4">
-      <button type="submit" class="btn btn-success btn-lg">Submit Assessment</button>
-    </div>
-
-    <!-- Tips Output -->
-    <div id="tipsContainer" class="mt-4 d-none">
-      <h4 id="tipsHeader" class="mb-2"></h4>
-      <ul id="tipsList" class="mb-0"></ul>
-    </div>
-
-  </form>
-</div>
-
-<!-- Bootstrap JS -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
-<script>
-  const form = document.getElementById('carbonForm');
-  const tipsContainer = document.getElementById('tipsContainer');
-  const tipsHeader = document.getElementById('tipsHeader');
-  const tipsList = document.getElementById('tipsList');
-  const totalFootprintElement = document.getElementById('totalFootprint');
-
-  function updateTips(total) {
-    tipsContainer.classList.remove('d-none');
-
-    if (total < 150) {
-      tipsHeader.textContent = "🌎 Awesome! Your Total Carbon Footprint is Low";
-      tipsList.innerHTML = `
-        <li>You're making great sustainable choices — keep it up!</li>
-        <li>Share your habits with friends and family to inspire change.</li>
-        <li>Stay informed and continue reducing waste, energy use, and emissions.</li>
-      `;
-    } else if (total < 500) {
-      tipsHeader.textContent = "⚠️ Moderate Total Footprint – Room to Improve";
-      tipsList.innerHTML = `
-        <li>Cut back on meat and dairy, and try more plant-based meals.</li>
-        <li>Use public transportation, bike, or walk when possible.</li>
-        <li>Turn off lights and appliances when not in use.</li>
-        <li>Reduce waste by buying only what you need and recycling consistently.</li>
-      `;
-    } else {
-      tipsHeader.textContent = "🔥 High Total Footprint – Let's Take Action Together";
-      tipsList.innerHTML = `
-        <li>Adopt energy-efficient appliances and switch to LED lighting.</li>
-        <li>Drive less or consider a switch to electric/hybrid vehicles.</li>
-        <li>Eat fewer animal products and minimize food waste.</li>
-        <li>Commit to reducing, reusing, and recycling in all areas of life.</li>
-      `;
-    }
-  }
-
-  function calculateCarbonFootprint() {
-    const data = Object.fromEntries(new FormData(form).entries());
-    const m = parseFloat(data.members) || 1;
-
-    const electricity = (parseFloat(data.electricity) || 0) / m * 0.0498;
-    const lpg = (parseFloat(data.lpg) || 0) / m * 0.022454;
-    const water = (parseFloat(data.water_consumption) || 0) * 0.0106;
-    const waste = (parseFloat(data.waste) || 0) / m * 1.59;
-
-    const gasoline = (parseFloat(data.gasoline) || 0) * 2.31;
-    const diesel = (parseFloat(data.diesel) || 0) * 2.68;
-
-    const tricycle = (parseFloat(data.tricycle) || 0) * 0.0022;
-    const jeep = (parseFloat(data.jeep) || 0) * 0.00104;
-    const van = (parseFloat(data.van) || 0) * 0.5408;
-    const bus = (parseFloat(data.bus) || 0) * 0.272;
-
-    const foodFactors = {
-      fresh_vegetables: 0.137,
-      beef: 60.0,
-      poultry_meat: 6.0,
-      fish: 5.0,
-      pig_meat: 7.0,
-      eggs: 4.5,
-      rice: 4.0,
-      coffee: 17.0,
-      chocolate: 19.0,
-      cheese: 21.0,
-      milk_powder: 10.1,
-      butter: 7.3
-    };
-
-    let food = 0;
-    for (const [item, factor] of Object.entries(foodFactors)) {
-      food += (parseFloat(data[item]) || 0) * factor;
-    }
-
-    return electricity + lpg + water + waste + gasoline + diesel + tricycle + jeep + van + bus + food;
-  }
-
-  form.addEventListener('input', () => {
-    const total = calculateCarbonFootprint();
-    totalFootprintElement.textContent = total.toFixed(2);
-    updateTips(total);
-  });
-</script>
-
-</body>
+      
+      <!-- Bootstrap JS -->
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+      <script>
+         const form = document.getElementById('carbonForm');
+         const tipsContainer = document.getElementById('tipsContainer');
+         const tipsHeader = document.getElementById('tipsHeader');
+         const tipsList = document.getElementById('tipsList');
+         const totalFootprintElement = document.getElementById('totalFootprint');
+         
+         function updateTips(total) {
+           tipsContainer.classList.remove('d-none');
+         
+           if (total < 150) {
+             tipsHeader.textContent = "🌎 Awesome! Your Total Carbon Footprint is Low";
+             tipsList.innerHTML = `
+               <li>You're making great sustainable choices — keep it up!</li>
+               <li>Share your habits with friends and family to inspire change.</li>
+               <li>Stay informed and continue reducing waste, energy use, and emissions.</li>
+             `;
+           } else if (total < 500) {
+             tipsHeader.textContent = "⚠️ Moderate Total Footprint – Room to Improve";
+             tipsList.innerHTML = `
+               <li>Cut back on meat and dairy, and try more plant-based meals.</li>
+               <li>Use public transportation, bike, or walk when possible.</li>
+               <li>Turn off lights and appliances when not in use.</li>
+               <li>Reduce waste by buying only what you need and recycling consistently.</li>
+             `;
+           } else {
+             tipsHeader.textContent = "🔥 High Total Footprint – Let's Take Action Together";
+             tipsList.innerHTML = `
+               <li>Adopt energy-efficient appliances and switch to LED lighting.</li>
+               <li>Drive less or consider a switch to electric/hybrid vehicles.</li>
+               <li>Eat fewer animal products and minimize food waste.</li>
+               <li>Commit to reducing, reusing, and recycling in all areas of life.</li>
+             `;
+           }
+         }
+         
+         function calculateCarbonFootprint() {
+           const data = Object.fromEntries(new FormData(form).entries());
+           const m = parseFloat(data.members) || 1;
+         
+           const electricity = (parseFloat(data.electricity) || 0) / m * 0.0498;
+           const lpg = (parseFloat(data.lpg) || 0) / m * 0.022454;
+           const water = (parseFloat(data.water_consumption) || 0) * 0.0106;
+           const waste = (parseFloat(data.waste) || 0) / m * 1.59;
+         
+           const gasoline = (parseFloat(data.gasoline) || 0) * 2.31;
+           const diesel = (parseFloat(data.diesel) || 0) * 2.68;
+         
+           const tricycle = (parseFloat(data.tricycle) || 0) * 0.0022;
+           const jeep = (parseFloat(data.jeep) || 0) * 0.00104;
+           const van = (parseFloat(data.van) || 0) * 0.5408;
+           const bus = (parseFloat(data.bus) || 0) * 0.272;
+         
+           const foodFactors = {
+             fresh_vegetables: 0.137,
+             beef: 60.0,
+             poultry_meat: 6.0,
+             fish: 5.0,
+             pig_meat: 7.0,
+             eggs: 4.5,
+             rice: 4.0,
+             coffee: 17.0,
+             chocolate: 19.0,
+             cheese: 21.0,
+             milk_powder: 10.1,
+             butter: 7.3
+           };
+         
+           let food = 0;
+           for (const [item, factor] of Object.entries(foodFactors)) {
+             food += (parseFloat(data[item]) || 0) * factor;
+           }
+         
+           return electricity + lpg + water + waste + gasoline + diesel + tricycle + jeep + van + bus + food;
+         }
+         
+         form.addEventListener('input', () => {
+           const total = calculateCarbonFootprint();
+           totalFootprintElement.textContent = total.toFixed(2);
+           updateTips(total);
+         });
+      </script>
+   </body>
 </html>

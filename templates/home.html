@@ -1,579 +1,370 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>GoEcoTrack: Carbon Footprint Tracker</title>
-  
-  <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet" />
-  <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;700&display=swap" rel="stylesheet" />
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+   <head>
+      <meta charset="UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+      <title>GoEcoTrack: Carbon Footprint Tracker</title>
+      <link rel="stylesheet" href="static/css/styles.css">
+      <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet" />
+      <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;700&display=swap" rel="stylesheet" />
+      <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+      <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+   </head>
 
+   <body>
+      <header>
+         <h1>GoEcoTrack</h1>
+         <p>Your Footprint. Your Future</p>
+      </header>
+      <nav class="navbar">
+         <a href="#section1" >What</a>
+         <a href="#section2">Why</a>
+         <a href="#section3">How</a>
+         <a href="#section4">Log In</a>
+         <a href="#section5">FAQs</a>
+      </nav>
 
-  
-  <style>
-    :root {
-      --primary:rgb(36, 91, 39);
-      --secondary: #4C956C;
-      --accent: #88D498;
-      --bg:rgb(230, 253, 222);
-      --text: #1D3557;
-    }
+      <!-- Popup Modal -->
+      <div class="modal-overlay" id="modal-overlay">
+         <div class="modal-box">
+            <span class="close-btn" onclick="closeModal()">&times;</span>
+            <div id="password-warning" class="warning-box hidden">
+               Password must be 8–16 characters and include at least one special character.
+            </div>
+            <div id="username-warning" class="warning-box hidden">
+               Username doesn't exist.
+            </div>
+            <h2 id="modal-title">Welcome to GoEcoTrack 🌱</h2>
+            <p id="modal-subtitle">Log in or register to get started with your eco journey!</p>
+            <div class="popup-buttons" id="initial-buttons">
+               <button onclick="showLogin()">Log In</button>
+               <button onclick="showSignup()">Register</button>
+            </div>
 
-    * {
-      box-sizing: border-box;
-    }
+            <!-- Login Form -->
+            <div id="login-form" class="form-container hidden">
+               <h3>Login</h3>
+               <form action="/login" method="POST">
+                  <input type="text" name="username" placeholder="Username" required />
+                  <input type="password" name="password" placeholder="Password" required />
+                  <small style="color: #666; font-size: 0.8rem;">
+                      Password must be 8–16 characters and include at least one special character.
+                  </small>
+                  <button type="submit">Login</button>
+               </form>
+            </div>
 
-    body {
-      font-family: 'Poppins', sans-serif;
-      margin: 0;
-      padding: 0;
-      background-color: var(--bg);
-      color: var(--text);
-    }
-
-    header {
-      background: var(--primary);
-      padding: 30px;
-      text-align: center;
-      color: white;
-    }
-
-    header h1 {
-      margin: 0;
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 4.5rem; /* much larger */
-      letter-spacing: 2px;
-      color:rgb(243, 243, 243); /* optional: eco-friendly tone */
-      text-transform: uppercase;
-    }
-
-    header p {
-      font-size: 1.25rem;
-      color:rgb(243, 243, 243); 
-      margin-top: 10px;
-      font-family: 'Poppins', sans-serif;
-    }
-
-    /* Navbar container */
-  .navbar {
-    background-color: #2e7d32; /* forest green */
-    padding: 10px 20px;
-    display: flex;
-    justify-content: center;
-    gap: 30px;
-    font-family: 'Poppins', sans-serif; /* your font here */
-  }
-
-  /* Navbar links */
-  .navbar a {
-    color: white;
-    text-decoration: none;
-    font-weight: 600;
-    font-size: 18px;
-    padding: 8px 15px;
-    border-radius: 8px;
-    transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.15);
-  }
-
-  /* Hover effect */
-  .navbar a:hover {
-    background-color: #66bb6a;  /* lighter green */
-    color: #1b5e20;             /* dark green text */
-    transform: scale(1.1);
-    box-shadow: 0 4px 10px rgba(0,0,0,0.25);
-  }
-
-  /* Active/current link style */
-  .navbar a.active {
-    background-color: #1b5e20;
-    color: #a5d6a7;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.4);
-  }
-
-    .section-container {
-      display: flex;
-      justify-content: space-between;
-      gap: 40px;
-      max-width: 1200px;
-      margin: 40px auto;
-      padding: 0 40px;
-      flex-wrap: wrap;
-    }
-
-    .section-container > div {
-      flex: 1 1 45%;
-    }
-
-    .section-container img {
-      max-width: 100%;
-      border-radius: 10px;
-      height: auto;
-      display: block;
-    }
-
-    section {
-      margin-bottom: 40px;
-    }
-
-    h2 {
-      color: var(--primary);
-      margin-top: 0;
-    }
-
-    hr {
-      border: none;
-      border-top: 2px solid var(--accent);
-      max-width: 900px;
-      margin: 40px auto;
-    }
-
-    .hero {
-      text-align: center;
-      padding: 60px 20px;
-      background: #e8f6ef;
-      max-width: 600px;
-      margin: 0 auto 60px auto;
-      border-radius: 10px;
-    }
-
-    .hero h2 {
-      font-size: 2rem;
-      margin-bottom: 20px;
-      color: var(--primary);
-    }
-
-    .toggle-buttons {
-      margin-bottom: 30px;
-    }
-
-    button.toggle-btn {
-      background-color: var(--primary);
-      color: white;
-      border: none;
-      padding: 10px 20px;
-      margin: 0 10px;
-      font-size: 1rem;
-      border-radius: 5px;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-    }
-
-    button.toggle-btn:hover {
-      background-color: var(--secondary);
-    }
-
-    button.toggle-btn.active {
-      background-color: var(--secondary);
-      font-weight: bold;
-    }
-
-    .form-container {
-      margin-top: 20px;
-      text-align: left;
-    }
-
-    .form-container h3 {
-      text-align: center;
-      color: var(--secondary);
-      margin-bottom: 20px;
-      font-family: 'Raleway', sans-serif;
-    }
-
-    .form-container input[type="text"],
-    .form-container input[type="password"],
-    .form-container input[type="email"] {
-      width: 100%;
-      padding: 10px;
-      margin: 10px 0;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      font-size: 1rem;
-    }
-
-    .form-container button[type="submit"] {
-      width: 100%;
-      background-color: var(--primary);
-      color: white;
-      padding: 12px;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      font-size: 1.1rem;
-      margin-top: 10px;
-      transition: background-color 0.3s ease;
-    }
-
-    .form-container button[type="submit"]:hover {
-      background-color: var(--secondary);
-    }
-
-    .hidden {
-      display: none;
-    }
-
-    .modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.4); /* semi-transparent */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 9999;
-    backdrop-filter: blur(3px); /* optional blur */
-    }
-
-    .modal-box {
-    background-color: white;
-    padding: 40px;
-    border-radius: 16px;
-    max-width: 400px;
-    width: 90%;
-    text-align: center;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-    position: relative;
-    font-family: 'Poppins', sans-serif;
-    }
-
-    .modal-box h2 {
-    margin-bottom: 10px;
-    color: var(--primary);
-    font-size: 1.6rem;
-    }
-
-    .modal-box p {
-    margin-bottom: 20px;
-    color: #555;
-    font-size: 1rem;
-    }
-
-    .popup-buttons {
-    display: flex;
-    justify-content: center;
-    gap: 15px;
-    }
-
-    .popup-buttons button {
-    background-color: var(--primary);
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 8px;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    }
-
-    .popup-buttons button:hover {
-    background-color: var(--secondary);
-    }
-
-    .close-btn {
-    position: absolute;
-    top: 12px;
-    right: 16px;
-    font-size: 1.5rem;
-    color: #999;
-    cursor: pointer;
-    transition: color 0.2s;
-    }
-
-    .close-btn:hover {
-    color: #333;
-    }
-
-    .faq-container {
-      max-width: 800px;
-      margin: auto;
-      padding: 20px;
-    }
-
-    .faq-item {
-      margin-bottom: 15px;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      padding: 10px;
-      background: #e8f6ef;
-    }
-
-    summary {
-      font-weight: bold;
-      font-size: 18px;
-      cursor: pointer;
-    }
-
-    summary:hover {
-      color: #2e8b57;
-    }
-
-    details[open] summary::after {
-      content: " ▲";
-    }
-
-    summary::after {
-      content: " ▼";
-      float: right;
-    }
-
-    p, ul {
-      margin: 10px 0 0 0;
-    }
-
-  </style>
-</head>
-
-<body>
-  <header>
-    <h1>GoEcoTrack</h1>
-    <p>Your Footprint. Your Future</p>
-  </header>
-
-  <nav class="navbar">
-    <a href="#section1" >What</a>
-    <a href="#section2">Why</a>
-    <a href="#section3">How</a>
-    <a href="#section4">Log In</a>
-    <a href="#section5">FAQs</a>
-  </nav>
-
-  <!-- Popup Modal -->
-<div class="modal-overlay" id="modal-overlay">
-    <div class="modal-box">
-    <span class="close-btn" onclick="closeModal()">&times;</span>
-    <h2 id="modal-title">Welcome to GoEcoTrack 🌱</h2>
-    <p id="modal-subtitle">Log in or register to get started with your eco journey!</p>
-    <div class="popup-buttons" id="initial-buttons">
-        <button onclick="showLogin()">Log In</button>
-        <button onclick="showSignup()">Register</button>
-    </div>
-
-  <!-- Login Form -->
-  <div id="login-form" class="form-container hidden">
-    <h3>Login</h3>
-    <form action="/login" method="POST">
-       <input type="text" name="username" placeholder="Username" required />
-        <input type="password" name="password" placeholder="Password" required />
-        <button type="submit">Login</button>
-      </form>
-  </div>
-
-  <!-- Signup Form -->
-  <div id="signup-form" class="form-container hidden">
-    <h3>Register</h3>
-    <form action="/signup" method="POST">
-        <input type="text" name="first_name" placeholder="First Name" required />
-        <input type="text" name="middle_name" placeholder="Middle Name" />
-        <input type="text" name="last_name" placeholder="Last Name" required />
-        <input type="text" name="username" placeholder="Username" required />
-        <input type="password" name="password" placeholder="Password" required />
-        <input type="email" name="email" placeholder="Email" required />
-        <button type="submit">Register</button>
-      </form>
-  </div>
-</div>
-</div>
-
-  <!-- Informational Sections -->
-  <section id="section1">
-    <div class="section-container">
-      <div>
-        <p style="text-align: justify;">A Carbon Footprint is the total amount of greenhouse gases (including carbon dioxide and methane) that are generated by our actions. The average carbon footprint for a person in the United States is 16 tons, one of the highest rates in the world. Globally, the average carbon footprint is closer to 4 tons. To have the best chance of avoiding a 2℃ rise in global temperatures, the average global carbon footprint per year needs to drop to under 2 tons by 2050. Lowering individual carbon footprints from 16 tons to 2 tons doesn’t happen overnight! By making small changes to our actions, like eating less meat, taking fewer connecting flights and line drying our clothes, we can start making a big difference.</p>
-      </div>
-      <div>
-        <img src="./static/images/image1.jpg" alt="Carbon Footprint" />
-      </div>
-    </div>
-  </section>
-
-  <hr>
-
-  <section id="section2">
-    <div class="section-container">
-      <div>
-        <img src="./static/images/image2.jpg" alt="Impact Awareness" />
-      </div>
-      <div>
-        <p style="text-align: justify;">Understanding your carbon footprint is like looking in the mirror and realizing your impact on the world. It's about recognizing how every action, from turning on a light to driving a car, contributes to the greenhouse gases that warm our planet. By calculating your carbon footprint, you gain clarity on your environmental footprint, enabling you to make more mindful choices. It's not just about reducing emissions; it's about taking responsibility for our planet's health and ensuring a brighter future for generations to come. So, let's take that first step, quantify our impact, and embark on a journey towards sustainability together.</p>
-      </div>
-    </div>
-  </section>
-
-  <hr>
-
-  <section id="section3">
-    <div class="section-container">
-      <div>
-        <h2>Waste Production</h2>
-        <p>Household waste contributes to carbon emissions through the decomposition of organic waste in landfills, which releases methane—a greenhouse gas more potent than CO₂. Improper waste management and high levels of consumption increase these emissions significantly (UNEP, 2021). Reducing, reusing, recycling, and composting can help lower the carbon footprint of household waste (IPCC, 2022)</p>
-      </div>
-      <div>
-        <h2>Electricity Consumption</h2>
-        <p>Electricity generation is a major source of global carbon emissions, especially when powered by fossil fuels like coal and natural gas. In 2022, electricity and heat production accounted for over 40% of global CO₂ emissions (IEA, 2023). Transitioning to renewable sources like solar and wind can significantly lower these emissions (IPCC, 2022).</p>
-      </div>
-    </div>
-
-    <hr>
-
-    <div class="section-container">
-      <div>
-        <h2>Transportation</h2>
-        <p>Transportation significantly contributes to carbon emissions, accounting for about 24% of global CO₂ emissions from fuel combustion, primarily from road vehicles (IEA, 2023). Cars, trucks, and airplanes burn fossil fuels, releasing greenhouse gases that accelerate climate change. Shifting to public transit, electric vehicles, and non-motorized transport can drastically reduce emissions (IPCC, 2022).</p>
+            <!-- Signup Form -->
+            <div id="signup-form" class="form-container hidden">
+               <h3>Register</h3>
+               <form action="/signup" method="POST">
+                  <input type="text" name="first_name" placeholder="First Name" required />
+                  <input type="text" name="middle_name" placeholder="Middle Name" required />
+                  <input type="text" name="last_name" placeholder="Last Name" required />
+                  <input type="text" name="username" placeholder="Username" required />
+                  <input type="password" name="password" placeholder="Password" required />
+                  <small style="color: #666; font-size: 0.8rem;">
+                      Password must be 8–16 characters and include at least one special character.
+                  </small>
+                  <input type="email" name="email" placeholder="Email" required />
+                  <button type="submit">Register</button>
+               </form>
+            </div>
+         </div>
       </div>
 
-      <div>
-        <h2>Food / Daily Meals</h2>
-        <p>Food production contributes significantly to carbon emissions, accounting for about 31% of global greenhouse gas emissions, largely from livestock, deforestation, and fertilizer use (FAO, 2021). Meat and dairy, especially from ruminant animals, have the highest emissions per calorie produced. Shifting to plant-based diets and reducing food waste can greatly reduce the food sector's carbon footprint (IPCC, 2022).</p>
+      <!-- Informational Sections -->
+      <section id="section1">
+         <div class="section-container">
+            <div>
+               <p style="text-align: justify;">A Carbon Footprint is the total amount of greenhouse gases (including carbon dioxide and methane) that are generated by our actions. The average carbon footprint for a person in the United States is 16 tons, one of the highest rates in the world. Globally, the average carbon footprint is closer to 4 tons. To have the best chance of avoiding a 2℃ rise in global temperatures, the average global carbon footprint per year needs to drop to under 2 tons by 2050. Lowering individual carbon footprints from 16 tons to 2 tons doesn’t happen overnight! By making small changes to our actions, like eating less meat, taking fewer connecting flights and line drying our clothes, we can start making a big difference.</p>
+            </div>
+            <div>
+               <img src="./static/images/image1.jpg" alt="Carbon Footprint" />
+            </div>
+         </div>
+      </section>
+      <hr>
+
+      <section id="section2">
+         <div class="section-container">
+            <div>
+               <img src="./static/images/image2.jpg" alt="Impact Awareness" />
+            </div>
+            <div>
+               <p style="text-align: justify;">Understanding your carbon footprint is like looking in the mirror and realizing your impact on the world. It's about recognizing how every action, from turning on a light to driving a car, contributes to the greenhouse gases that warm our planet. By calculating your carbon footprint, you gain clarity on your environmental footprint, enabling you to make more mindful choices. It's not just about reducing emissions; it's about taking responsibility for our planet's health and ensuring a brighter future for generations to come. So, let's take that first step, quantify our impact, and embark on a journey towards sustainability together.</p>
+            </div>
+         </div>
+      </section>
+      <hr>
+
+      <section id="section3">
+         <div class="section-container">
+            <div>
+               <h2>Waste Production</h2>
+               <p>Household waste contributes to carbon emissions through the decomposition of organic waste in landfills, which releases methane—a greenhouse gas more potent than CO₂. Improper waste management and high levels of consumption increase these emissions significantly (UNEP, 2021). Reducing, reusing, recycling, and composting can help lower the carbon footprint of household waste (IPCC, 2022)</p>
+            </div>
+            <div>
+               <h2>Electricity Consumption</h2>
+               <p>Electricity generation is a major source of global carbon emissions, especially when powered by fossil fuels like coal and natural gas. In 2022, electricity and heat production accounted for over 40% of global CO₂ emissions (IEA, 2023). Transitioning to renewable sources like solar and wind can significantly lower these emissions (IPCC, 2022).</p>
+            </div>
+         </div>
+         <hr>
+         <div class="section-container">
+            <div>
+               <h2>Transportation</h2>
+               <p>Transportation significantly contributes to carbon emissions, accounting for about 24% of global CO₂ emissions from fuel combustion, primarily from road vehicles (IEA, 2023). Cars, trucks, and airplanes burn fossil fuels, releasing greenhouse gases that accelerate climate change. Shifting to public transit, electric vehicles, and non-motorized transport can drastically reduce emissions (IPCC, 2022).</p>
+            </div>
+            <div>
+               <h2>Food / Daily Meals</h2>
+               <p>Food production contributes significantly to carbon emissions, accounting for about 31% of global greenhouse gas emissions, largely from livestock, deforestation, and fertilizer use (FAO, 2021). Meat and dairy, especially from ruminant animals, have the highest emissions per calorie produced. Shifting to plant-based diets and reducing food waste can greatly reduce the food sector's carbon footprint (IPCC, 2022).</p>
+            </div>
+         </div>
+      </section>
+
+      <section id="section4">
+      <!-- Login/Register Hero Section -->
+      <div class="hero">
+
+         <h2>Login or Register to Get Started</h2>
+         <div class="toggle-buttons">
+         <div id="section4-password-warning" class="warning-box hidden">
+            Password must be 8–16 characters and include at least one special character.
+         </div>
+         <div id="section4-username-warning" class="warning-box hidden">
+            Username doesn't exist.
+         </div>
+            <button id="loginBtn" class="toggle-btn active" onclick="showLoginSection4()">Login</button>
+            <button id="signupBtn" class="toggle-btn" onclick="showSignupSection4()">Register</button>
+         </div>
+         <!-- Login form -->
+         <div id="section4-login-form" class="form-container">
+            <h3>Login</h3>
+            <form action="/login" method="POST">
+               <input type="text" name="username" placeholder="Username" required />
+               <input type="password" name="password" placeholder="Password" required />
+               <small style="color: #666; font-size: 0.8rem;">
+               Password must be 8–16 characters and include at least one special character.
+               </small>
+               <button type="submit">Login</button>
+            </form>
+         </div>
+         <!-- Signup form -->
+         <div id="section4-signup-form" class="form-container hidden">
+            <h3>Register</h3>
+            <form action="/signup" method="POST">
+               <input type="text" name="first_name" placeholder="First Name" required />
+               <input type="text" name="middle_name" placeholder="Middle Name" required />
+               <input type="text" name="last_name" placeholder="Last Name" required />
+               <input type="text" name="username" placeholder="Username" required />
+               <input type="password" name="password" placeholder="Password" required />
+               <small style="color: #666; font-size: 0.8rem;">
+               Password must be 8–16 characters and include at least one special character.
+               </small>
+               <input type="email" name="email" placeholder="Email" required />
+               <button type="submit">Register</button>
+            </form>
+         </div>
       </div>
-    </div>
-  </section>
-
-  <section id="section4">
-  <!-- Login/Register Hero Section -->
-  <div class="hero">
-
-    <h2>Login or Register to Get Started</h2>
-    <div class="toggle-buttons">
-      <button id="loginBtn" class="toggle-btn active" onclick="showLoginSection4()">Login</button>
-      <button id="signupBtn" class="toggle-btn" onclick="showSignupSection4()">Register</button>
-    </div>
-
-    <!-- Login form -->
-    <div id="section4-login-form" class="form-container">
-      <form action="/login" method="POST">
-        <input type="text" name="username" placeholder="Username" required />
-        <input type="password" name="password" placeholder="Password" required />
-        <button type="submit">Login</button>
-      </form>
-    </div>
-
-    <!-- Signup form -->
-    <div id="section4-signup-form" class="form-container hidden">
-      <h3>Register</h3>
-      <form action="/signup" method="POST">
-        <input type="text" name="first_name" placeholder="First Name" required />
-        <input type="text" name="middle_name" placeholder="Middle Name" />
-        <input type="text" name="last_name" placeholder="Last Name" required />
-        <input type="text" name="username" placeholder="Username" required />
-        <input type="password" name="password" placeholder="Password" required />
-        <input type="email" name="email" placeholder="Email" required />
-        <button type="submit">Register</button>
-      </form>
-    </div>
-  </div>
-
-  <section id="section5">
-  <div class="faq-container">
-    <h2>Frequently Asked Questions (FAQs)</h2>
-    <div class="faq-list" style="font-family: Poppins; text-align: justify;">
+      <section id="section5">
+         <div class="faq-container">
+            <h2>Frequently Asked Questions (FAQs)</h2>
+            <div class="faq-list" style="font-family: Poppins; text-align: justify;">
+               <details class="faq-item">
+                  <summary>Why is it important to calculate your carbon footprint? ✔️</summary>
+                  <p>
+                     Calculating your carbon footprint is important because it helps you understand the environmental impact of your lifestyle choices. By knowing how much carbon you emit, you can identify areas where you can make changes to reduce your impact on the environment. This can include reducing energy consumption, using renewable energy sources, minimizing waste, and adopting sustainable transportation options.
+                  </p>
+               </details>
+               <details class="faq-item">
+                  <summary>How can I reduce my carbon footprint? ↘️</summary>
+                  <p>
+                     There are many ways to reduce your carbon footprint, including:
+                  </p>
+                  <ul>
+                     <li><strong>Reduce energy consumption:</strong> Use energy-efficient appliances, turn off lights when not in use, and adjust your thermostat to conserve energy.</li>
+                     <li><strong>Use renewable energy:</strong> Switch to renewable energy sources such as solar or wind power to reduce reliance on fossil fuels.</li>
+                     <li><strong>Minimize waste:</strong> Reduce, reuse, and recycle materials whenever possible. Compost organic waste to divert it from landfills.</li>
+                     <li><strong>Choose sustainable transportation:</strong> Walk, bike, carpool, or use public transportation instead of driving alone. Consider electric or hybrid vehicles.</li>
+                     <li><strong>Eat a plant-based diet:</strong> Reduce your consumption of meat and dairy products, which have high carbon footprints.</li>
+                     <li><strong>Support carbon offset projects:</strong> Invest in projects that reduce or offset greenhouse gas emissions, such as reforestation or renewable energy initiatives.</li>
+                  </ul>
+               </details>
+               <details class="faq-item">
+                  <summary>What are some examples of activities that contribute to a carbon footprint? 🧐</summary>
+                  <p>Activities that contribute to a carbon footprint include:</p>
+                  <ul>
+                     <li>Driving gasoline-powered vehicles</li>
+                     <li>Using electricity generated from fossil fuels</li>
+                     <li>Heating or cooling homes with non-renewable energy sources</li>
+                     <li>Flying in airplanes</li>
+                     <li>Manufacturing and transportation of goods</li>
+                     <li>Consuming products with high carbon emissions in their production process, such as beef and dairy products</li>
+                  </ul>
+               </details>
+               <details class="faq-item">
+                  <summary>Is it possible to have a carbon-neutral lifestyle? 🌳</summary>
+                  <p>
+                     Achieving a completely carbon-neutral lifestyle may be challenging, but it's possible to significantly reduce your carbon footprint by adopting sustainable practices. This includes reducing energy consumption, using renewable energy sources, minimizing waste, and supporting carbon offset projects. While it may not be feasible for everyone to eliminate all carbon emissions, individuals and organizations can strive to minimize their impact on the environment.
+                  </p>
+               </details>
+               <details class="faq-item">
+                  <summary>How accurate are carbon footprint calculators? 💯</summary>
+                  <p>
+                     Carbon footprint calculators provide estimates based on average data and assumptions. While they can give you a general idea of your carbon footprint, actual emissions may vary depending on individual circumstances and behaviors. Factors such as location, lifestyle choices, and consumption habits can influence the accuracy of the calculations. It's important to use carbon footprint calculators as a tool for awareness and guidance rather than relying solely on their results. Additionally, choosing a reputable calculator that considers a wide range of factors can improve accuracy.
+                  </p>
+               </details>
+            </div>
+         </div>
+      </section>
       
-      <details class="faq-item">
-        <summary>Why is it important to calculate your carbon footprint? ✔️</summary>
-        <p>
-          Calculating your carbon footprint is important because it helps you understand the environmental impact of your lifestyle choices. By knowing how much carbon you emit, you can identify areas where you can make changes to reduce your impact on the environment. This can include reducing energy consumption, using renewable energy sources, minimizing waste, and adopting sustainable transportation options.
-        </p>
-      </details>
+      <script>
+         function showLoginSection4() {
+           document.getElementById('section4-login-form').classList.remove('hidden');
+           document.getElementById('section4-signup-form').classList.add('hidden');
+           document.getElementById('loginBtn').classList.add('active');
+           document.getElementById('signupBtn').classList.remove('active');
+         }
+         
+         function showSignupSection4() {
+           document.getElementById('section4-signup-form').classList.remove('hidden');
+           document.getElementById('section4-login-form').classList.add('hidden');
+           document.getElementById('signupBtn').classList.add('active');
+           document.getElementById('loginBtn').classList.remove('active');
+         }
+         
+         function showLogin() {
+           document.getElementById('login-form').classList.remove('hidden');
+           document.getElementById('signup-form').classList.add('hidden');
+           document.getElementById('loginBtn').classList.add('active');
+           document.getElementById('signupBtn').classList.remove('active');
+         }
+         function showSignup() {
+           document.getElementById('signup-form').classList.remove('hidden');
+           document.getElementById('login-form').classList.add('hidden');
+           document.getElementById('signupBtn').classList.add('active');
+           document.getElementById('loginBtn').classList.remove('active');
+         
+         }
+         function closeModal() {
+         document.getElementById('popup-modal').style.display = 'none';
+         // Optional: Reset to initial state when closed
+         document.getElementById('initial-buttons').style.display = 'flex';
+         document.getElementById('login-form').classList.add('hidden');
+         document.getElementById('signup-form').classList.add('hidden');
+         document.getElementById('modal-title').textContent = 'Welcome to GoEcoTrack 🌱';
+         document.getElementById('modal-subtitle').textContent = 'Log in or register to get started with your eco journey!';
+         }
+         // Show modal on page load
+         window.onload = function () {
+         document.getElementById("popup-modal").style.display = "flex";
+         };
+         
+         // Close modal
+         function closeModal() {
+             document.getElementById('modal-overlay').style.display = 'none';
+         }
+         
+         // Scroll to login section (Section 4)
+         function scrollToLogin() {
+         closeModal();
+         document.getElementById("section4").scrollIntoView({ behavior: "smooth" });
+         }
+      </script>
 
-      <details class="faq-item">
-        <summary>How can I reduce my carbon footprint? ↘️</summary>
-        <p>
-          There are many ways to reduce your carbon footprint, including:
-        </p>
-        <ul>
-          <li><strong>Reduce energy consumption:</strong> Use energy-efficient appliances, turn off lights when not in use, and adjust your thermostat to conserve energy.</li>
-          <li><strong>Use renewable energy:</strong> Switch to renewable energy sources such as solar or wind power to reduce reliance on fossil fuels.</li>
-          <li><strong>Minimize waste:</strong> Reduce, reuse, and recycle materials whenever possible. Compost organic waste to divert it from landfills.</li>
-          <li><strong>Choose sustainable transportation:</strong> Walk, bike, carpool, or use public transportation instead of driving alone. Consider electric or hybrid vehicles.</li>
-          <li><strong>Eat a plant-based diet:</strong> Reduce your consumption of meat and dairy products, which have high carbon footprints.</li>
-          <li><strong>Support carbon offset projects:</strong> Invest in projects that reduce or offset greenhouse gas emissions, such as reforestation or renewable energy initiatives.</li>
-        </ul>
-      </details>
-
-      <details class="faq-item">
-        <summary>What are some examples of activities that contribute to a carbon footprint? 🧐</summary>
-        <p>Activities that contribute to a carbon footprint include:</p>
-        <ul>
-          <li>Driving gasoline-powered vehicles</li>
-          <li>Using electricity generated from fossil fuels</li>
-          <li>Heating or cooling homes with non-renewable energy sources</li>
-          <li>Flying in airplanes</li>
-          <li>Manufacturing and transportation of goods</li>
-          <li>Consuming products with high carbon emissions in their production process, such as beef and dairy products</li>
-        </ul>
-      </details>
-
-      <details class="faq-item">
-        <summary>Is it possible to have a carbon-neutral lifestyle? 🌳</summary>
-        <p>
-          Achieving a completely carbon-neutral lifestyle may be challenging, but it's possible to significantly reduce your carbon footprint by adopting sustainable practices. This includes reducing energy consumption, using renewable energy sources, minimizing waste, and supporting carbon offset projects. While it may not be feasible for everyone to eliminate all carbon emissions, individuals and organizations can strive to minimize their impact on the environment.
-        </p>
-      </details>
-
-      <details class="faq-item">
-        <summary>How accurate are carbon footprint calculators? 💯</summary>
-        <p>
-          Carbon footprint calculators provide estimates based on average data and assumptions. While they can give you a general idea of your carbon footprint, actual emissions may vary depending on individual circumstances and behaviors. Factors such as location, lifestyle choices, and consumption habits can influence the accuracy of the calculations. It's important to use carbon footprint calculators as a tool for awareness and guidance rather than relying solely on their results. Additionally, choosing a reputable calculator that considers a wide range of factors can improve accuracy.
-        </p>
-      </details>
-
-    </div>
-  </div>
-</section>
-
-
-
-  <script>
-    function showLoginSection4() {
-      document.getElementById('section4-login-form').classList.remove('hidden');
-      document.getElementById('section4-signup-form').classList.add('hidden');
-    }
-
-    function showSignupSection4() {
-      document.getElementById('section4-signup-form').classList.remove('hidden');
-      document.getElementById('section4-login-form').classList.add('hidden');
-    }
-
-    function showLogin() {
-      document.getElementById('login-form').classList.remove('hidden');
-      document.getElementById('signup-form').classList.add('hidden');
-      document.getElementById('loginBtn').classList.add('active');
-      document.getElementById('signupBtn').classList.remove('active');
-    }
-    function showSignup() {
-      document.getElementById('signup-form').classList.remove('hidden');
-      document.getElementById('login-form').classList.add('hidden');
-      document.getElementById('signupBtn').classList.add('active');
-      document.getElementById('loginBtn').classList.remove('active');
-
-    }
-    function closeModal() {
-    document.getElementById('popup-modal').style.display = 'none';
-    // Optional: Reset to initial state when closed
-    document.getElementById('initial-buttons').style.display = 'flex';
-    document.getElementById('login-form').classList.add('hidden');
-    document.getElementById('signup-form').classList.add('hidden');
-    document.getElementById('modal-title').textContent = 'Welcome to GoEcoTrack 🌱';
-    document.getElementById('modal-subtitle').textContent = 'Log in or register to get started with your eco journey!';
-    }
-  // Show modal on page load
-  window.onload = function () {
-    document.getElementById("popup-modal").style.display = "flex";
-  };
-
-  // Close modal
-    function closeModal() {
-        document.getElementById('modal-overlay').style.display = 'none';
-    }
-
-  // Scroll to login section (Section 4)
-  function scrollToLogin() {
-    closeModal();
-    document.getElementById("section4").scrollIntoView({ behavior: "smooth" });
-  }
-  </script>
-</body>
+      <script>
+         function showWarning(message, elementId) {
+           const warning = document.getElementById(elementId);
+           warning.textContent = message;
+           warning.classList.remove('hidden');
+           warning.style.display = 'block';
+         
+           setTimeout(() => {
+             warning.classList.add('hidden');
+             warning.style.display = 'none';
+           }, 3000); // Auto-hide after 3 seconds
+         }
+         
+         function isPasswordValid(password) {
+           const regex = /^(?=.*[!@#$%^&*(),.?":{}|<>])[A-Za-z\d!@#$%^&*(),.?":{}|<>]{8,16}$/;
+           return regex.test(password);
+         }
+         
+         // Signup form validation
+         document.querySelector('#signup-form form').addEventListener('submit', function(e) {
+           const passwordInput = this.querySelector('input[name="password"]');
+           const password = passwordInput.value;
+         
+           if (!isPasswordValid(password)) {
+             e.preventDefault(); // Stop form submission
+             showWarning("Password must be 8–16 characters and include at least one special character.", "password-warning");
+           }
+         });
+         
+         document.querySelector('#login-form form').addEventListener('submit', async function (e) {
+           e.preventDefault();
+         
+           const form = this;
+           const usernameInput = form.querySelector('input[name="username"]');
+           const passwordInput = form.querySelector('input[name="password"]');
+         
+           const username = usernameInput.value.trim();
+           const password = passwordInput.value;
+         
+           // Clear previous warnings
+           clearWarning("username-warning");
+           clearWarning("password-warning");
+         
+           // 1. Check password format
+           if (!isPasswordValid(password)) {
+             showWarning("Password must be 8–16 characters and include at least one special character.", "password-warning");
+             return;
+           }
+         
+           try {
+             const response = await fetch('/check-credentials', {
+               method: 'POST',
+               headers: { 'Content-Type': 'application/json' },
+               body: JSON.stringify({ username, password })
+             });
+         
+             const result = await response.json();
+         
+             if (result.error === "username") {
+               showWarning("Username doesn't exist.", "username-warning");
+               return;
+             }
+         
+             if (result.error === "password") {
+               showWarning("Incorrect password.", "password-warning");
+               return;
+             }
+         
+             form.submit();
+         
+           } catch (error) {
+             console.error("Error checking login:", error);
+             showWarning("An unexpected error occurred.", "username-warning");
+           }
+         });
+         
+         function showWarning(message, elementId) {
+           const warningElement = document.getElementById(elementId);
+           if (warningElement) {
+             warningElement.textContent = message;
+             warningElement.style.display = "block";
+           }
+         }
+         
+         function clearWarning(elementId) {
+           const warningElement = document.getElementById(elementId);
+           if (warningElement) {
+             warningElement.textContent = "";
+             warningElement.style.display = "none";
+           }
+         }
+         
+      </script>
+      
+   </body>
 </html>

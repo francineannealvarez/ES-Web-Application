@@ -1,43 +1,10 @@
-from flask import render_template, request, redirect, flash, Blueprint, session
+from flask import jsonify, render_template, request, redirect, flash, Blueprint, session
 from db_config import get_connection
-import hashlib
+import re
+from datetime import datetime
+from collections import OrderedDict, defaultdict
 
 app_routes = Blueprint('app_routes', __name__)
-
-def get_recommendation(category, total):
-    if category == 'household':
-        if total < 50:
-            return "Great job! Your household carbon footprint is very low."
-        elif total < 150:
-            return "Your household footprint is moderate. Consider saving energy and reducing waste."
-        else:
-            return "Your household footprint is high. Try switching to energy-efficient appliances and limiting water use."
-    
-    elif category == 'transportation':
-        if total < 100:
-            return "You're doing well with transportation emissions!"
-        elif total < 250:
-            return "Your transportation emissions are moderate. Try carpooling or using public transport more."
-        else:
-            return "Your transportation emissions are high. Consider reducing vehicle use or switching to greener options."
-    
-    elif category == 'food':
-        if total < 50:
-            return "Excellent! Your diet has a low environmental impact."
-        elif total < 150:
-            return "Your food emissions are average. Try reducing meat and dairy consumption."
-        else:
-            return "High food emissions. Consider more plant-based meals and reducing food waste."
-    
-    elif category == 'full':
-        if total < 200:
-            return "Fantastic! Your total carbon footprint is impressively low."
-        elif total < 600:
-            return "Your overall emissions are average. Keep looking for ways to reduce further."
-        else:
-            return "Your overall emissions are high. A shift toward sustainable habits could make a big difference."
-
-    return "No recommendation available."
 
 @app_routes.route('/')
 def home():
@@ -53,6 +20,11 @@ def signup():
         password = request.form['password']
         email = request.form['email']
 
+        password_pattern = r'^(?=.*[!@#$%^&*(),.?":{}|<>])[A-Za-z\d!@#$%^&*(),.?":{}|<>]{8,16}$'
+        if not re.match(password_pattern, password):
+            flash("Password must be 8-16 characters long and contain at least one special character.")
+            return redirect('/')
+        
         conn = get_connection()
         cursor = conn.cursor()
 
@@ -63,7 +35,7 @@ def signup():
 
             if existing_user:
                 flash("Username already exists. Please choose a different one.")
-                return redirect('/signup')
+                return redirect('/')
 
             cursor.execute("""
                 INSERT INTO user (User_FirstName, User_MiddleName, User_LastName, Username, Password, Email)
@@ -73,59 +45,83 @@ def signup():
             conn.commit()
             flash("Account created successfully! You can now log in.")
             return redirect('/') 
-
             # Redirect to the home page after successful sign up
 
         except Exception as e:
             conn.rollback()
             flash(f"An error occurred: {str(e)}")
-            return redirect('/signup')
+            return redirect('/')
 
         finally:
             cursor.close()
             conn.close()
 
-    return render_template('signup.html')
-
+    return render_template('home.html')
 
 @app_routes.route('/login', methods=['POST'])
 def login():
-    if request.method == 'POST':
-        username = request.form['username']
-        password = request.form['password']
+    username = request.form['username']
+    password = request.form['password']
 
-        conn = get_connection()
-        cursor = conn.cursor()
+    # Password format validation before querying database
+    if not re.match(r'^(?=.*[!@#$%^&*(),.?":{}|<>])[A-Za-z\d!@#$%^&*(),.?":{}|<>]{8,16}$', password):
+        return render_template("home.html", password_format_error="Password must be 8–16 characters and include at least one special character.")
 
-        try:
-            # Check if the username exists
-            cursor.execute("SELECT * FROM user WHERE Username = %s", (username,))
-            user = cursor.fetchone()
+    conn = get_connection()
+    cursor = conn.cursor()
 
-            if not user:
-                flash("Username not found. Please try again.")
-                return redirect('/login')
+    try:
+        cursor.execute("SELECT * FROM user WHERE Username = %s", (username,))
+        user = cursor.fetchone()
 
-            if password != user[5]:  # user[5] is the Password column
-                flash("Incorrect password. Please try again.")
-                return redirect('/login')
+        if not user:
+            return render_template("home.html", username_error="Username doesn't exist.")
 
-            # Store user ID and username in session for future actions
-            session['user_id'] = user[0]  # user[0] is the UserID column
-            session['username'] = user[4]  # user[4] is the Username column
+        if password != user[5]:  
+            return render_template("home.html", incorrect_password_error="Incorrect password.")
 
-            flash("Login successful!")
-            return redirect('/dashboard')
+        # Successful login
+        session['user_id'] = user[0]  # UserID
+        session['username'] = user[4]  # Username
 
-        except Exception as e:
-            flash(f"An error occurred: {str(e)}")
-            return redirect('/login')
+        flash("Login successful!")
+        return redirect('/dashboard')
 
-        finally:
-            cursor.close()
-            conn.close()
+    except Exception as e:
+        flash(f"An error occurred: {str(e)}")
+        return redirect('/')
 
-    return render_template('login.html')
+    finally:
+        cursor.close()
+        conn.close()
+        
+@app_routes.route('/check-credentials', methods=['POST'])
+def check_credentials():
+    data = request.get_json()
+    username = data.get('username')
+    password = data.get('password')
+
+    conn = get_connection()
+    cursor = conn.cursor()
+
+    try:
+        cursor.execute("SELECT * FROM user WHERE Username = %s", (username,))
+        user = cursor.fetchone()
+
+        if not user:
+            return jsonify({"error": "username"})
+
+        if password != user[5]:  
+            return jsonify({"error": "password"})
+
+        return jsonify({"success": True})
+
+    except Exception as e:
+        return jsonify({"error": "server", "message": str(e)}), 500
+
+    finally:
+        cursor.close()
+        conn.close()
 
 
 @app_routes.route('/dashboard')
@@ -145,9 +141,7 @@ def category_choice():
 @app_routes.route('/logout')
 def logout():
     session.clear() #logs the user out
-    #flash("You have been logged out.")
     return redirect('/')
-
 
 @app_routes.route('/calculate/category/household', methods=['GET', 'POST'])
 def household():
@@ -441,7 +435,7 @@ def full_assessment():
                 results[item] = carbon
                 transportation_total += carbon
 
-            # Food
+            # Food Consumption
             for item, multiplier in food_multipliers.items():
                 try:
                     value = float(request.form.get(item, 0))
@@ -490,78 +484,97 @@ def view_history():
 
     category = None
     records = []
+    available_months = []
+    selected_month = None
+    month_map = {} 
+    query_map = {
+        'household': ("SELECT Electricity, LPG, WaterConsumption, Waste, Total_CarbonFootprint_Household, timestamp FROM household WHERE UserID = %s ORDER BY timestamp DESC", 'timestamp'),
+        'transportation': ("SELECT Gasoline_Carbon, Diesel_Carbon, Tricycle_Carbon, Jeep_Carbon, Van_Carbon, Bus_Carbon, Total_CarbonFootprint_Transportation, timestamp FROM transportation WHERE UserID = %s ORDER BY timestamp DESC", 'timestamp'),
+        'food': ("SELECT FreshVegetables_Carbon, Rice_Carbon, Eggs_Carbon, MilkPowder_Carbon, Cheese_Carbon, Butter_Carbon, Beef_Carbon, PigMeat_Carbon, PoultryMeat_Carbon, Fish_Carbon, Coffee_Carbon, Chocolate_Carbon, Total_CarbonFootprint_Food, timestamp FROM food_consumption WHERE UserID = %s ORDER BY timestamp DESC", 'timestamp'),
+        'assessment': ("SELECT Household_Total, Transportation_Total, Food_Consumption_Total, Overall_Total, Full_AssessmentDate FROM full_assessment WHERE UserID = %s ORDER BY Full_AssessmentDate DESC", 'Full_AssessmentDate')
+    }
 
     if request.method == 'POST':
-        category = request.form.get('category')
-        user_id = session['user_id']
+        
+      user_id = session['user_id']
+      category = request.form.get('category')
 
-        query_map = {
-            'household': "SELECT Electricity, LPG, WaterConsumption, Waste, Total_CarbonFootprint_Household, timestamp FROM household WHERE UserID = %s ORDER BY timestamp DESC",
-            'transportation': "SELECT Gasoline_Carbon, Diesel_Carbon, Tricycle_Carbon, Jeep_Carbon, Van_Carbon, Bus_Carbon, Total_CarbonFootprint_Transportation, timestamp FROM transportation WHERE UserID = %s ORDER BY timestamp DESC",
-            'food': "SELECT FreshVegetables_Carbon, Rice_Carbon, Eggs_Carbon, MilkPowder_Carbon, Cheese_Carbon, Butter_Carbon, Beef_Carbon, PigMeat_Carbon, PoultryMeat_Carbon, Fish_Carbon, Coffee_Carbon, Chocolate_Carbon, Total_CarbonFootprint_Food, timestamp FROM food_consumption WHERE UserID = %s ORDER BY timestamp DESC",
-            'assessment': "SELECT Household_Total, Transportation_Total, Food_Consumption_Total, Overall_Total, Full_AssessmentDate FROM full_assessment WHERE UserID = %s ORDER BY Full_AssessmentDate DESC"
-        }
+    # Only read month if it exists in the form and category is not just newly selected
+      selected_month = request.form.get('month') if 'month' in request.form else None
 
-        if category in query_map:
-            try:
-                conn = get_connection()
-                cursor = conn.cursor(dictionary=True) 
-                cursor.execute(query_map[category], (user_id,))
-                records = cursor.fetchall()
-            except Exception as e:
-                flash(f"Database error: {str(e)}")
-            finally:
-                cursor.close()
-                conn.close()
+    if category in query_map:
+        query, date_col = query_map[category]
+        try:
+            conn = get_connection()
+            cursor = conn.cursor(dictionary=True)
+            cursor.execute(query, (user_id,))
+            all_records = cursor.fetchall()
+
+            # Group by year-month (ex. 2025 May)
+            month_map = defaultdict(list)
+            for record in all_records:
+                raw_date = record[date_col]
+                month_year_str = raw_date.strftime("%Y %B")
+                month_map[month_year_str].append(record)
+
+            available_months = sorted(month_map.keys(), key=lambda x: datetime.strptime(x, "%Y %B"))
+
+            if selected_month in month_map:
+                records = month_map[selected_month]
+            else:
+                selected_month = None
+                records = []
+
+        except Exception as e:
+            flash(f"Database error: {str(e)}")
+        finally:
+            cursor.close()
+            conn.close()
+    else:
+        flash("Invalid category selected.")
+
+        
+    return render_template(
+        'view_history.html',
+        category=category,
+        available_months=available_months,
+        selected_month=selected_month,
+        records=records,
+        month_map=month_map
+        )
+    
+    
+def get_recommendation(category, total):
+    if category == 'household':
+        if total < 50:
+            return "Great job! Your household carbon footprint is very low."
+        elif total < 150:
+            return "Your household footprint is moderate. Consider saving energy and reducing waste."
         else:
-            flash("Invalid category selected.")
+            return "Your household footprint is high. Try switching to energy-efficient appliances and limiting water use."
+    
+    elif category == 'transportation':
+        if total < 100:
+            return "You're doing well with transportation emissions!"
+        elif total < 250:
+            return "Your transportation emissions are moderate. Try carpooling or using public transport more."
+        else:
+            return "Your transportation emissions are high. Consider reducing vehicle use or switching to greener options."
+    
+    elif category == 'food':
+        if total < 50:
+            return "Excellent! Your diet has a low environmental impact."
+        elif total < 150:
+            return "Your food emissions are average. Try reducing meat and dairy consumption."
+        else:
+            return "High food emissions. Consider more plant-based meals and reducing food waste."
+    
+    elif category == 'full':
+        if total < 200:
+            return "Fantastic! Your total carbon footprint is impressively low."
+        elif total < 600:
+            return "Your overall emissions are average. Keep looking for ways to reduce further."
+        else:
+            return "Your overall emissions are high. A shift toward sustainable habits could make a big difference."
 
-    return render_template('view_history.html', records=records, category=category)
-
-@app_routes.route('/tips/<category>')
-def tips(category):
-    tips_map = {
-        'household': [
-            "Unplug unused electronics to reduce 'phantom' energy use [Energy.gov]",
-            "Switch to LED lighting, which uses up to 90% less energy [EPA]",
-            "Install water-saving fixtures like low-flow showerheads and faucets [EPA WaterSense]",
-            "Improve insulation to reduce heating and cooling needs [Energy Star]",
-            "Use a programmable thermostat to reduce unnecessary energy use [DOE]"
-        ],
-        'transportation': [
-            "Use a bike or walk for short trips to cut emissions and improve health [EPA]",
-            "Carpool or use ride-sharing apps to reduce single-occupancy vehicle use [EPA]",
-            "Maintain your vehicle regularly (tire pressure, oil changes) for better fuel efficiency [DOE]",
-            "Avoid idling; turn off the engine if you're stopping for more than 30 seconds [Natural Resources Canada]",
-            "Consider switching to a hybrid or electric vehicle [Union of Concerned Scientists]"
-        ],
-        'food': [
-            "Plan meals and store food properly to reduce waste [UN FAO]",
-            "Buy local and seasonal produce to lower transportation emissions [Harvard T.H. Chan School of Public Health]",
-            "Reduce red meat and dairy consumption; choose plant-based proteins [IPCC Report]",
-            "Compost food scraps instead of sending them to the landfill [EPA]",
-            "Bring reusable bags and containers when shopping to reduce packaging waste [Zero Waste International Alliance]"
-        ],
-        'total': [
-            "Conduct a personal carbon footprint audit to understand your impact [WWF Carbon Footprint Calculator]",
-            "Switch to renewable energy providers if available in your area [EPA Green Power Partnership]",
-            "Offset your emissions through verified carbon offset programs [Gold Standard, Terrapass]",
-            "Reduce consumption overall—buy less, reuse, and recycle mindfully [EPA Sustainable Materials Management]",
-            "Advocate for systemic change: support climate-friendly policies and businesses [UN Environment Programme]"
-        ]
-    }
-    return render_template('tips.html', tips=tips_map.get(category, []), category=category)
-
-@app_routes.route('/get-tips', methods=['POST'])
-def get_tips():
-    category = request.form.get('category')
-    try:
-        total = float(request.form.get('total'))
-    except (ValueError, TypeError):
-        flash("Invalid total value.", "error")
-        return redirect('/dashboard')
-
-    tip = get_recommendation(category, total)
-    flash(f"Tip: {tip}", "info")
-
-    return redirect('/dashboard')
+    return "No recommendation available."

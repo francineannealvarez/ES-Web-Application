@@ -1,359 +1,352 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title>Transportation Carbon Footprint</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
-  <!-- Bootstrap CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-  <!-- Font Awesome (optional) -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+   <head>
+      <meta charset="UTF-8" />
+      <title>Transportation Carbon Footprint</title>
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
+      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
-  <style>
-    body {
-      background:rgb(170, 215, 255);
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      color: #2c3e50;
-    }
+      <style>
+         body {
+         background:rgb(170, 215, 255);
+         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+         color: #2c3e50;
+         }
 
-.navbar {
-            background-color: #2e5339;
-            padding: 1rem 2rem;
-            color: white;
-            font-size: 1.2rem;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-        }
-        
-    .container {
-      max-width: 900px;
-      background: #ffffff;
-      border-radius: 12px;
-      padding: 30px 40px;
-      margin-top: 40px;
-      box-shadow: 0 10px 25px rgba(44, 62, 80, 0.1);
-    }
+         .navbar {
+         background-color: #2e5339;
+         padding: 1rem 2rem;
+         color: white;
+         font-size: 1.2rem;
+         position: sticky;
+         top: 0;
+         z-index: 1000;
+         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+         }
 
-    h3 {
-      font-weight: 700;
-      color: #2c3e50;
-      margin-bottom: 12px;
-    }
+         .container {
+         max-width: 900px;
+         background: #ffffff;
+         border-radius: 12px;
+         padding: 30px 40px;
+         margin-top: 40px;
+         box-shadow: 0 10px 25px rgba(44, 62, 80, 0.1);
+         }
 
-    p.lead {
-      font-size: 1.1rem;
-      color: #7f8c8d;
-      margin-bottom: 30px;
-    }
+         h3 {
+         font-weight: 700;
+         color: #2c3e50;
+         margin-bottom: 12px;
+         }
 
-    .accordion-button {
-      background: #3498db;
-      color: #fff;
-      font-weight: 600;
-      border-radius: 8px;
-      border: none;
-      box-shadow: 0 4px 8px rgba(52, 152, 219, 0.3);
-      transition: background-color 0.3s ease;
-    }
+         p.lead {
+         font-size: 1.1rem;
+         color: #7f8c8d;
+         margin-bottom: 30px;
+         }
 
-    .accordion-button:not(.collapsed) {
-      background: #2980b9;
-      color: white;
-      box-shadow: 0 6px 12px rgba(41, 128, 185, 0.4);
-    }
+         .accordion-button {
+         background: #3498db;
+         color: #fff;
+         font-weight: 600;
+         border-radius: 8px;
+         border: none;
+         box-shadow: 0 4px 8px rgba(52, 152, 219, 0.3);
+         transition: background-color 0.3s ease;
+         }
 
-    .accordion-body {
-      background: #ecf6fd;
-      border-radius: 0 0 8px 8px;
-      padding: 25px;
-      box-shadow: inset 0 0 8px rgba(52, 152, 219, 0.1);
-    }
+         .accordion-button:not(.collapsed) {
+         background: #2980b9;
+         color: white;
+         box-shadow: 0 6px 12px rgba(41, 128, 185, 0.4);
+         }
 
-    .form-label {
-      font-weight: 600;
-      color: #34495e;
-    }
+         .accordion-body {
+         background: #ecf6fd;
+         border-radius: 0 0 8px 8px;
+         padding: 25px;
+         box-shadow: inset 0 0 8px rgba(52, 152, 219, 0.1);
+         }
 
-    input[disabled] {
-      background-color: #e9ecef;
-      color: #555;
-    }
+         .form-label {
+         font-weight: 600;
+         color: #34495e;
+         }
 
-    .btn-primary {
-      background-color: #3498db;
-      border: none;
-      padding: 12px;
-      font-weight: 600;
-    }
+         input[disabled] {
+         background-color: #e9ecef;
+         color: #555;
+         }
 
-    .btn-primary:hover {
-      background-color: #2980b9;
-    }
+         .btn-primary {
+         background-color: #3498db;
+         border: none;
+         padding: 12px;
+         font-weight: 600;
+         }
 
-    .total-section {
-      font-size: 1.2rem;
-      font-weight: 600;
-      color: #2c3e50;
-      margin-top: 30px;
-      text-align: center;
-    }
+         .btn-primary:hover {
+         background-color: #2980b9;
+         }
+         
+         .total-section {
+         font-size: 1.2rem;
+         font-weight: 600;
+         color: #2c3e50;
+         margin-top: 30px;
+         text-align: center;
+         }
 
- /* Total section */
-    .mt-4 h4 {
-        color: #3498db;
-        font-weight: 700;
-        margin-bottom: 12px;
-    }
-    .mt-4 p.lead {
-        font-size: 1.3rem;
-        font-weight: 700;
-        color:rgb(33, 130, 227); /* yellow */
-    }
-    .footer {
-      margin-top: 40px;
-      text-align: center;
-    }
-  </style>
+         /* Total section */
+         .mt-4 h4 {
+         color: #3498db;
+         font-weight: 700;
+         margin-bottom: 12px;
+         }
 
-  <script>
-      function showTips() {
-    const total = parseFloat(document.getElementById("total_hidden").value) || 0;
-    const tipsDiv = document.getElementById('tipsContainer');
-    const tipsList = tipsDiv.querySelector('ul');
-    const tipsHeader = tipsDiv.querySelector('h4');
+         .mt-4 p.lead {
+         font-size: 1.3rem;
+         font-weight: 700;
+         color:rgb(33, 130, 227); /* yellow */
+         }
 
-    tipsDiv.classList.remove('d-none');
+         .footer {
+         margin-top: 40px;
+         text-align: center;
+         }
+      </style>
 
-    if (total < 50) {
-      tipsHeader.textContent = "🚲 Great Job! Your Transportation Footprint is Low";
-      tipsList.innerHTML = `
-        <li>You're doing great — walking, biking, or using public transport makes a big difference!</li>
-        <li>Keep up the low-emission habits and encourage others to follow your lead.</li>
-        <li>Regular maintenance of your vehicle (if you use one) keeps emissions lower.</li>
-      `;
-    } else if (total < 300) {
-      tipsHeader.textContent = "⚠️ Moderate Transportation Footprint";
-      tipsList.innerHTML = `
-        <li>Carpool or use public transport more often to cut down emissions.</li>
-        <li>Consider combining trips to reduce fuel consumption.</li>
-        <li>Keep your tires properly inflated — it improves fuel efficiency.</li>
-        <li>Think about transitioning to a hybrid or electric vehicle if possible.</li>
-      `;
-    } else {
-      tipsHeader.textContent = "🔥 High Transportation Footprint – Let's Make a Change";
-      tipsList.innerHTML = `
-        <li>Limit solo car rides and explore public transport, biking, or walking options.</li>
-        <li>Switch to electric or hybrid vehicles if you're able to.</li>
-        <li>Cut down on air travel or choose more efficient airlines when you fly.</li>
-        <li>Offset your carbon emissions through certified programs if travel is necessary.</li>
-      `;
-    }
-    
-    tipsDiv.scrollIntoView({ behavior: 'smooth' });
-  }
+      <script>
+         function showTips() {
+         const total = parseFloat(document.getElementById("total_hidden").value) || 0;
+         const tipsDiv = document.getElementById('tipsContainer');
+         const tipsList = tipsDiv.querySelector('ul');
+         const tipsHeader = tipsDiv.querySelector('h4');
+         
+         tipsDiv.classList.remove('d-none');
+         
+         if (total < 50) {
+         tipsHeader.textContent = "🚲 Great Job! Your Transportation Footprint is Low";
+         tipsList.innerHTML = `
+           <li>You're doing great — walking, biking, or using public transport makes a big difference!</li>
+           <li>Keep up the low-emission habits and encourage others to follow your lead.</li>
+           <li>Regular maintenance of your vehicle (if you use one) keeps emissions lower.</li>
+         `;
+         } else if (total < 300) {
+         tipsHeader.textContent = "⚠️ Moderate Transportation Footprint";
+         tipsList.innerHTML = `
+           <li>Carpool or use public transport more often to cut down emissions.</li>
+           <li>Consider combining trips to reduce fuel consumption.</li>
+           <li>Keep your tires properly inflated — it improves fuel efficiency.</li>
+           <li>Think about transitioning to a hybrid or electric vehicle if possible.</li>
+         `;
+         } else {
+         tipsHeader.textContent = "🔥 High Transportation Footprint – Let's Make a Change";
+         tipsList.innerHTML = `
+           <li>Limit solo car rides and explore public transport, biking, or walking options.</li>
+           <li>Switch to electric or hybrid vehicles if you're able to.</li>
+           <li>Cut down on air travel or choose more efficient airlines when you fly.</li>
+           <li>Offset your carbon emissions through certified programs if travel is necessary.</li>
+         `;
+         }
+         
+         tipsDiv.scrollIntoView({ behavior: 'smooth' });
+         }
+         
+         function calculateTransportationFootprint() {
+         const gasoline = parseFloat(document.getElementById("gasoline").value) || 0;
+         const diesel = parseFloat(document.getElementById("diesel").value) || 0;
+         const tricycle = parseFloat(document.getElementById("tricycle").value) || 0;
+         const jeep = parseFloat(document.getElementById("jeep").value) || 0;
+         const van = parseFloat(document.getElementById("van").value) || 0;
+         const bus = parseFloat(document.getElementById("bus").value) || 0;
+         
+         const gasoline_result = gasoline * 2.31;
+         const diesel_result = diesel * 2.68;
+         const tricycle_result = tricycle * 0.0022;
+         const jeep_result = jeep * 0.00104;
+         const van_result = van * 0.5408;
+         const bus_result = bus * 0.272;
+         
+         const total = gasoline_result + diesel_result + tricycle_result + jeep_result + van_result + bus_result;
+         
+         document.getElementById("gasoline_result").value = gasoline_result.toFixed(2);
+         document.getElementById("diesel_result").value = diesel_result.toFixed(2);
+         document.getElementById("tricycle_result").value = tricycle_result.toFixed(2);
+         document.getElementById("jeep_result").value = jeep_result.toFixed(2);
+         document.getElementById("van_result").value = van_result.toFixed(2);
+         document.getElementById("bus_result").value = bus_result.toFixed(2);
+         document.getElementById("total").innerText = total.toFixed(2);
+         
+             // Update hidden inputs for submission
+         document.getElementById("gasoline_result_hidden").value = gasoline_result.toFixed(2);
+         document.getElementById("diesel_result_hidden").value = diesel_result.toFixed(2);
+         document.getElementById("tricycle_result_hidden").value = tricycle_result.toFixed(2);
+         document.getElementById("jeep_result_hidden").value = jeep_result.toFixed(2);
+         document.getElementById("van_result_hidden").value = van_result.toFixed(2);
+         document.getElementById("bus_result_hidden").value = bus_result.toFixed(2);
+         document.getElementById("total_hidden").value = total.toFixed(2);
+         
+         showTips();
+         }
+      </script>
+   </head>
 
-    function calculateTransportationFootprint() {
-      const gasoline = parseFloat(document.getElementById("gasoline").value) || 0;
-      const diesel = parseFloat(document.getElementById("diesel").value) || 0;
-      const tricycle = parseFloat(document.getElementById("tricycle").value) || 0;
-      const jeep = parseFloat(document.getElementById("jeep").value) || 0;
-      const van = parseFloat(document.getElementById("van").value) || 0;
-      const bus = parseFloat(document.getElementById("bus").value) || 0;
-
-      const gasoline_result = gasoline * 2.31;
-      const diesel_result = diesel * 2.68;
-      const tricycle_result = tricycle * 0.0022;
-      const jeep_result = jeep * 0.00104;
-      const van_result = van * 0.5408;
-      const bus_result = bus * 0.272;
-
-      const total = gasoline_result + diesel_result + tricycle_result + jeep_result + van_result + bus_result;
-
-      document.getElementById("gasoline_result").value = gasoline_result.toFixed(2);
-      document.getElementById("diesel_result").value = diesel_result.toFixed(2);
-      document.getElementById("tricycle_result").value = tricycle_result.toFixed(2);
-      document.getElementById("jeep_result").value = jeep_result.toFixed(2);
-      document.getElementById("van_result").value = van_result.toFixed(2);
-      document.getElementById("bus_result").value = bus_result.toFixed(2);
-      document.getElementById("total").innerText = total.toFixed(2);
-
-          // Update hidden inputs for submission
-      document.getElementById("gasoline_result_hidden").value = gasoline_result.toFixed(2);
-      document.getElementById("diesel_result_hidden").value = diesel_result.toFixed(2);
-      document.getElementById("tricycle_result_hidden").value = tricycle_result.toFixed(2);
-      document.getElementById("jeep_result_hidden").value = jeep_result.toFixed(2);
-      document.getElementById("van_result_hidden").value = van_result.toFixed(2);
-      document.getElementById("bus_result_hidden").value = bus_result.toFixed(2);
-      document.getElementById("total_hidden").value = total.toFixed(2);
-
-      showTips();
-    }
-  </script>
-</head>
-<body>
-  <div class="navbar d-flex justify-content-between align-items-center">
-    <div><i class="fas fa-leaf me-2"></i>GoEcoTrack: Your Footprint, Your Future</div>
-    <a href="/dashboard" class="btn btn-outline-light">
-        <i class="fas fa-arrow-left me-2"></i> Back to Dashboard
-    </a>
-</div>
-
-     <div class="container mt-4">
-    <h3 class="text-center">Transportation Carbon Footprint</h3>
-    <p class="lead text-center">Enter your monthly fuel usage and public transport spending.</p>
-
-    <form method="POST" action="/calculate/category/transportation">
-    <div class="accordion" id="transportAccordion">
-
- <!-- Private Vehicle Usage -->
-        <div class="accordion-item">
-          <h2 class="accordion-header" id="privateVehicleHeader">
-            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#privateVehicleCollapse">
-              Private Vehicle Usage (liters/month)
-            </button>
-          </h2>
-          <div id="privateVehicleCollapse" class="accordion-collapse collapse show" data-bs-parent="#transportAccordion">
-            <div class="accordion-body">
-              <div class="row g-3">
-                <div class="col-md-6">
-                  <label for="gasoline" class="form-label">Gasoline (liters):</label>
-                  <input type="number" step="0.1" min="0" value="0"
-                    class="form-control" id="gasoline" name="gasoline"
-                    placeholder="e.g. 3000"
-                    required
-                    onfocus="if(this.value==0)this.value='';"
-                    onblur="if(this.value=='')this.value='0';"
-                    oninput="calculateTransportationFootprint()" />
-                </div>
-                <div class="col-md-6">
-                  <label class="form-label">CO₂ Emissions (kg):</label>
-                  <input type="text" class="form-control" id="gasoline_result" disabled />
-                </div>
-
-                <div class="col-md-6">
-                  <label for="diesel" class="form-label">Diesel (liters):</label>
-                  <input type="number" step="0.1" min="0" value="0"
-                    class="form-control" id="diesel" name="diesel"
-                    placeholder="e.g. 3000"
-                    required
-                    onfocus="if(this.value==0)this.value='';"
-                    onblur="if(this.value=='')this.value='0';"
-                    oninput="calculateTransportationFootprint()" />
-                </div>
-                <div class="col-md-6">
-                  <label class="form-label">CO₂ Emissions (kg):</label>
-                  <input type="text" class="form-control" id="diesel_result" disabled />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Public Transport -->
-        <div class="accordion-item">
-          <h2 class="accordion-header" id="publicTransportHeader">
-            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#publicTransportCollapse">
-              Public Transport Expenses (PHP/month)
-            </button>
-          </h2>
-          <div id="publicTransportCollapse" class="accordion-collapse collapse" data-bs-parent="#transportAccordion">
-            <div class="accordion-body">
-              <div class="row g-3">
-                <div class="col-md-6">
-                  <label for="bus" class="form-label">Bus:</label>
-                  <input type="number" step="0.1" min="0" value="0"
-                    class="form-control" id="bus" name="bus"
-                    placeholder="e.g. 3000"
-                    required
-                    onfocus="if(this.value==0)this.value='';"
-                    onblur="if(this.value=='')this.value='0';"
-                    oninput="calculateTransportationFootprint()" />
-                </div>
-                <div class="col-md-6">
-                  <label class="form-label">CO₂ Emissions (kg):</label>
-                  <input type="text" class="form-control" id="bus_result" disabled />
-                </div>
-
-                <div class="col-md-6">
-                  <label for="jeep" class="form-label">Jeep:</label>
-                  <input type="number" step="0.1" min="0" value="0"
-                    class="form-control" id="jeep" name="jeep"
-                    placeholder="e.g. 3000"
-                    required
-                    onfocus="if(this.value==0)this.value='';"
-                    onblur="if(this.value=='')this.value='0';"
-                    oninput="calculateTransportationFootprint()" />
-                </div>
-                <div class="col-md-6">
-                  <label class="form-label">CO₂ Emissions (kg):</label>
-                  <input type="text" class="form-control" id="jeep_result" disabled />
-                </div>
-
-                <div class="col-md-6">
-                  <label for="van" class="form-label">Van:</label>
-                  <input type="number" step="0.1" min="0" value="0"
-                    class="form-control" id="van" name="van"
-                    placeholder="e.g. 3000"
-                    required
-                    onfocus="if(this.value==0)this.value='';"
-                    onblur="if(this.value=='')this.value='0';"
-                    oninput="calculateTransportationFootprint()" />
-                </div>
-                <div class="col-md-6">
-                  <label class="form-label">CO₂ Emissions (kg):</label>
-                  <input type="text" class="form-control" id="van_result" disabled />
-                </div>
-
-                <div class="col-md-6">
-                  <label for="tricycle" class="form-label">Tricycle:</label>
-                  <input type="number" step="0.1" min="0" value="0"
-                    class="form-control" id="tricycle" name="tricycle"
-                    placeholder="e.g. 3000"
-                    required
-                    onfocus="if(this.value==0)this.value='';"
-                    onblur="if(this.value=='')this.value='0';"
-                    oninput="calculateTransportationFootprint()" />
-                </div>
-                <div class="col-md-6">
-                  <label class="form-label">CO₂ Emissions (kg):</label>
-                  <input type="text" class="form-control" id="tricycle_result" disabled />
-                </div>
-              </div>
-            </div>
-          </div>
-
-
-      <div class="total-section mt-4" aria-live="polite">
-        <strong>Total Monthly Carbon Footprint (kg CO₂):</strong>
-        <span id="total">0.00</span>
+   <body>
+      <div class="navbar d-flex justify-content-between align-items-center">
+         <div><i class="fas fa-leaf me-2"></i>GoEcoTrack: Your Footprint, Your Future</div>
+         <a href="/dashboard" class="btn btn-outline-light">
+         <i class="fas fa-arrow-left me-2"></i> Back to Dashboard
+         </a>
       </div>
 
-      <input type="hidden" id="gasoline_result_hidden" name="gasoline_result" />
-      <input type="hidden" id="diesel_result_hidden" name="diesel_result" />
-      <input type="hidden" id="tricycle_result_hidden" name="tricycle_result" />
-      <input type="hidden" id="jeep_result_hidden" name="jeep_result" />
-      <input type="hidden" id="van_result_hidden" name="van_result" />
-      <input type="hidden" id="bus_result_hidden" name="bus_result" />
-      <input type="hidden" id="total_hidden" name="total" />
+      <div class="container mt-4">
+      <h3 class="text-center">Transportation Carbon Footprint</h3>
+      <p class="lead text-center">Enter your monthly fuel usage and public transport spending.</p>
+      <form method="POST" action="/calculate/category/transportation">
+         <div class="accordion" id="transportAccordion">
 
-      <div class="mt-3">
-      <button type="submit" class="btn btn-success w-100">Save to History</button>
+         <!-- Private Vehicle Usage -->
+         <div class="accordion-item">
+            <h2 class="accordion-header" id="privateVehicleHeader">
+               <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#privateVehicleCollapse">
+               Private Vehicle Usage (liters/month)
+               </button>
+            </h2>
+
+            <div id="privateVehicleCollapse" class="accordion-collapse collapse show" data-bs-parent="#transportAccordion">
+               <div class="accordion-body">
+                  <div class="row g-3">
+                     <div class="col-md-6">
+                        <label for="gasoline" class="form-label">Gasoline (liters):</label>
+                        <input type="number" step="0.1" min="0" value="0"
+                           class="form-control" id="gasoline" name="gasoline"
+                           placeholder="e.g. 3000"
+                           required
+                           onfocus="if(this.value==0)this.value='';"
+                           onblur="if(this.value=='')this.value='0';"
+                           oninput="calculateTransportationFootprint()" />
+                     </div>
+                     <div class="col-md-6">
+                        <label class="form-label">CO₂ Emissions (kg):</label>
+                        <input type="text" class="form-control" id="gasoline_result" disabled />
+                     </div>
+                     <div class="col-md-6">
+                        <label for="diesel" class="form-label">Diesel (liters):</label>
+                        <input type="number" step="0.1" min="0" value="0"
+                           class="form-control" id="diesel" name="diesel"
+                           placeholder="e.g. 3000"
+                           required
+                           onfocus="if(this.value==0)this.value='';"
+                           onblur="if(this.value=='')this.value='0';"
+                           oninput="calculateTransportationFootprint()" />
+                     </div>
+                     <div class="col-md-6">
+                        <label class="form-label">CO₂ Emissions (kg):</label>
+                        <input type="text" class="form-control" id="diesel_result" disabled />
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+
+         <!-- Public Transport -->
+         <div class="accordion-item">
+            <h2 class="accordion-header" id="publicTransportHeader">
+               <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#publicTransportCollapse">
+               Public Transport Expenses (PHP/month)
+               </button>
+            </h2>
+            <div id="publicTransportCollapse" class="accordion-collapse collapse" data-bs-parent="#transportAccordion">
+               <div class="accordion-body">
+                  <div class="row g-3">
+                     <div class="col-md-6">
+                        <label for="bus" class="form-label">Bus:</label>
+                        <input type="number" step="0.1" min="0" value="0"
+                           class="form-control" id="bus" name="bus"
+                           placeholder="e.g. 3000"
+                           required
+                           onfocus="if(this.value==0)this.value='';"
+                           onblur="if(this.value=='')this.value='0';"
+                           oninput="calculateTransportationFootprint()" />
+                     </div>
+                     <div class="col-md-6">
+                        <label class="form-label">CO₂ Emissions (kg):</label>
+                        <input type="text" class="form-control" id="bus_result" disabled />
+                     </div>
+                     <div class="col-md-6">
+                        <label for="jeep" class="form-label">Jeep:</label>
+                        <input type="number" step="0.1" min="0" value="0"
+                           class="form-control" id="jeep" name="jeep"
+                           placeholder="e.g. 3000"
+                           required
+                           onfocus="if(this.value==0)this.value='';"
+                           onblur="if(this.value=='')this.value='0';"
+                           oninput="calculateTransportationFootprint()" />
+                     </div>
+                     <div class="col-md-6">
+                        <label class="form-label">CO₂ Emissions (kg):</label>
+                        <input type="text" class="form-control" id="jeep_result" disabled />
+                     </div>
+                     <div class="col-md-6">
+                        <label for="van" class="form-label">Van:</label>
+                        <input type="number" step="0.1" min="0" value="0"
+                           class="form-control" id="van" name="van"
+                           placeholder="e.g. 3000"
+                           required
+                           onfocus="if(this.value==0)this.value='';"
+                           onblur="if(this.value=='')this.value='0';"
+                           oninput="calculateTransportationFootprint()" />
+                     </div>
+                     <div class="col-md-6">
+                        <label class="form-label">CO₂ Emissions (kg):</label>
+                        <input type="text" class="form-control" id="van_result" disabled />
+                     </div>
+                     <div class="col-md-6">
+                        <label for="tricycle" class="form-label">Tricycle:</label>
+                        <input type="number" step="0.1" min="0" value="0"
+                           class="form-control" id="tricycle" name="tricycle"
+                           placeholder="e.g. 3000"
+                           required
+                           onfocus="if(this.value==0)this.value='';"
+                           onblur="if(this.value=='')this.value='0';"
+                           oninput="calculateTransportationFootprint()" />
+                     </div>
+                     <div class="col-md-6">
+                        <label class="form-label">CO₂ Emissions (kg):</label>
+                        <input type="text" class="form-control" id="tricycle_result" disabled />
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <div class="total-section mt-4" aria-live="polite">
+               <strong>Total Monthly Carbon Footprint (kg CO₂):</strong>
+               <span id="total">0.00</span>
+            </div>
+
+            <input type="hidden" id="gasoline_result_hidden" name="gasoline_result" />
+            <input type="hidden" id="diesel_result_hidden" name="diesel_result" />
+            <input type="hidden" id="tricycle_result_hidden" name="tricycle_result" />
+            <input type="hidden" id="jeep_result_hidden" name="jeep_result" />
+            <input type="hidden" id="van_result_hidden" name="van_result" />
+            <input type="hidden" id="bus_result_hidden" name="bus_result" />
+            <input type="hidden" id="total_hidden" name="total" />
+            <div class="mt-3">
+               <button type="submit" class="btn btn-success w-100">Save to History</button>
+            </div>
+            
+            <!-- Tips container (hidden by default) -->
+            <div id="tipsContainer" class="alert alert-success mt-3 d-none" role="alert">
+               <h4 class="alert-heading">Eco-Friendly Tips:</h4>
+               <ul></ul>
+            </div>
+      </form>
       </div>
 
-  <!-- Tips container (hidden by default) -->
-    <div id="tipsContainer" class="alert alert-success mt-3 d-none" role="alert">
-      <h4 class="alert-heading">Eco-Friendly Tips:</h4>
-      <ul></ul>
-    </div>
+      <!-- Bootstrap JS Bundle (with Popper) -->
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
       
-    </form>
-  </div>
-  
-  <!-- Bootstrap JS Bundle (with Popper) -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
- 
-</body>
+   </body>
 </html>

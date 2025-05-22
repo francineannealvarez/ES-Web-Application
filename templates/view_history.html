@@ -1,172 +1,360 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Carbon Footprint History</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <style>
-        body, html {
-      height: 100%;
-  margin: 0;
-  padding: 0;
-      font-family: 'Nunito', sans-serif;
-      background: linear-gradient(135deg, #d9f8c4, #f6f6eb);
-      color: #2e4939;
-    }
+   <head>
+      <meta charset="UTF-8">
+      <title>Carbon Footprint History</title>
+      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+      <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+      <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-        .navbar {
-            background-color: #2e5339;
-            padding: 1rem 2rem;
-            color: white;
-            font-size: 1.2rem;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-        }
+      <style>
+         body, html {
+         height: 100%;
+         margin: 0;
+         padding: 0;
+         font-family: 'Nunito', sans-serif;
+         background: linear-gradient(135deg, #d9f8c4, #f6f6eb);
+         color: #2e4939;
+         }
 
-        .header-title {
-            background: linear-gradient(90deg, #2e5339, #4a7c59);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            font-size: 2.8rem;
-            font-weight: 700;
-        }
+         .navbar {
+         background-color: #2e5339;
+         padding: 1rem 2rem;
+         color: white;
+         font-size: 1.2rem;
+         position: sticky;
+         top: 0;
+         z-index: 1000;
+         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+         }
 
-        .form-section {
-            background-color: #ffffff;
-            border-radius: 20px;
-            padding: 2rem;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-        }
+         .header-title {
+         background: linear-gradient(90deg, #2e5339, #4a7c59);
+         -webkit-background-clip: text;
+         -webkit-text-fill-color: transparent;
+         font-size: 2.8rem;
+         font-weight: 700;
+         }
 
-        .btn-custom {
-            background-color: #2e5339;
-            color: white;
-            border: none;
-            border-radius: 10px;
-            transition: 0.3s ease;
-        }
+         .form-section {
+         background-color: #ffffff;
+         border-radius: 20px;
+         padding: 2rem;
+         box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+         }
 
-        .btn-custom:hover {
-            background-color: #3e694c;
-        }
+         .btn-custom {
+         background-color: #2e5339;
+         color: white;
+         border: none;
+         border-radius: 10px;
+         transition: 0.3s ease;
+         }
 
-        .glass-card {
-            background: white;
-            border-radius: 20px;
-            padding: 1.5rem;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
-            border-left: 5px solid #4a7c59;
-            transition: transform 0.2s ease, box-shadow 0.3s ease;
-        }
+         .btn-custom:hover {
+         background-color: #3e694c;
+         }
 
-        .glass-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 14px 30px rgba(0, 0, 0, 0.12);
-        }
+         .glass-card {
+         background: white;
+         border-radius: 20px;
+         padding: 1.5rem;
+         box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+         border-left: 5px solid #4a7c59;
+         transition: transform 0.2s ease, box-shadow 0.3s ease;
+         }
 
-        .record-meta {
-            font-size: 0.9rem;
-            color: #444;
-        }
+         .glass-card:hover {
+         transform: translateY(-5px);
+         box-shadow: 0 14px 30px rgba(0, 0, 0, 0.12);
+         }
 
-        .record-value {
-            font-weight: 600;
-            font-size: 1.1rem;
-            color: #1c2d23;
-        }
+         .record-meta {
+         font-size: 0.9rem;
+         color: #444;
+         }
 
-        .no-data {
-            font-size: 1.2rem;
-            padding: 1rem;
-            background-color: #fff3cd;
-            border-radius: 10px;
-            border-left: 4px solid #ffa000;
-        }
+         .record-value {
+         font-weight: 600;
+         font-size: 1.1rem;
+         color: #1c2d23;
+         }
 
-        .category-select {
-            background-color: #f6fdf8;
-        }
+         .no-data {
+         font-size: 1.2rem;
+         padding: 1rem;
+         background-color: #fff3cd;
+         border-radius: 10px;
+         border-left: 4px solid #ffa000;
+         }
 
-        .btn-outline-success {
-            border-color: #3e694c;
-            color: #3e694c;
-        }
+         .category-select {
+         background-color: #f6fdf8;
+         }
 
-        .btn-outline-success:hover {
-            background-color: #3e694c;
-            color: #fff;
-        }
+         .btn-outline-success {
+         border-color: #3e694c;
+         color: #3e694c;
+         }
 
-        .section-divider {
-            height: 2px;
-            background: linear-gradient(to right, #2e5339, #4a7c59);
-            border: none;
-            margin: 3rem 0 2rem 0;
-        }
-    </style>
-</head>
-<body>
+         .btn-outline-success:hover {
+         background-color: #3e694c;
+         color: #fff;
+         }
 
-<div class="navbar d-flex justify-content-between align-items-center">
-    <div><i class="fas fa-leaf me-2"></i>GoEcoTrack: Your Footprint, Your Future</div>
-    <a href="/dashboard" class="btn btn-outline-light">
-        <i class="fas fa-arrow-left me-2"></i> Back to Dashboard
-    </a>
-</div>
+         .section-divider {
+         height: 2px;
+         background: linear-gradient(to right, #2e5339, #4a7c59);
+         border: none;
+         margin: 3rem 0 2rem 0;
+         }
 
-<div class="container py-5">
-    <h2 class="text-center mb-4 header-title">Your Carbon Footprint History</h2>
+         /* Blur background when modal is open */
+         .modal-backdrop.show {
+         backdrop-filter: blur(5px);
+         background-color: rgba(0, 0, 0, 0.3); /* semi-transparent dark */
+         }
 
-    <div class="form-section mb-5">
-        <form method="POST">
+         /* Horizontal scroll container for pie charts */
+         .pie-chart-row {
+         display: grid;
+         grid-template-columns: repeat(4, 1fr); /* 4 columns */
+         gap: 1rem;
+         padding-bottom: 1rem;
+         }
+
+         .pie-chart-container {
+         /* Ensure charts have a minimum width */
+         min-width: 0; /* to allow shrink if needed */
+         width: 100%;
+         }
+      </style>
+   </head>
+
+   <body>
+      <div class="navbar d-flex justify-content-between align-items-center">
+         <div><i class="fas fa-leaf me-2"></i>GoEcoTrack: Your Footprint, Your Future</div>
+         <a href="/dashboard" class="btn btn-outline-light">
+         <i class="fas fa-arrow-left me-2"></i> Back to Dashboard
+         </a>
+      </div>
+
+      <div class="container py-5">
+      <h2 class="text-center mb-4 header-title">Your Carbon Footprint History</h2>
+      <div class="form-section mb-5">
+         <form method="POST" id="filterForm">
             <div class="row justify-content-center">
-                <div class="col-md-6 mb-3">
-                    <select name="category" class="form-select custom-select category-select" required>
-                        <option value="">🌿 Select Category</option>
-                        <option value="household">🏠 Household</option>
-                        <option value="transportation">🚗 Transportation</option>
-                        <option value="food">🍽️ Food Consumption</option>
-                        <option value="assessment">📊 Full Assessment</option>
-                    </select>
-                </div>
-                <div class="col-md-2 mb-3">
-                    <button type="submit" class="btn btn-custom w-100">View</button>
-                </div>
+               <div class="col-md-4 mb-3">
+                  <select name="category" class="form-select category-select" id="categorySelect" required>
+                     <option value="">🌿 Select Category</option>
+                     <option value="household" {{ 'selected' if category == 'household' else '' }}>🏠 Household</option>
+                     <option value="transportation" {{ 'selected' if category == 'transportation' else '' }}>🚗 Transportation</option>
+                     <option value="food" {{ 'selected' if category == 'food' else '' }}>🍽️ Food Consumption</option>
+                     <option value="assessment" {{ 'selected' if category == 'assessment' else '' }}>📊 Full Assessment</option>
+                  </select>
+               </div>
+               {% if category and available_months %}
+               <div class="col-md-4 mb-3">
+                  <select name="month" class="form-select category-select" id="monthSelect" onchange="this.form.submit()" required>
+                     <option value="">📅 Select Year-Month</option>
+                     {% for month in available_months %}
+                     <option value="{{ month }}" {{ 'selected' if selected_month == month else '' }}>
+                     {{ month }}
+                     </option>
+                     {% endfor %}
+                  </select>
+               </div>
+               {% endif %}
             </div>
-        </form>
-    </div>
+         </form>
+      </div>
 
-    {% if records %}
-        <h5 class="text-center mb-4 text-muted">📁 Viewing history for <strong>{{ category|capitalize }}</strong></h5>
+      {% if records %}
+      <div class="my-4" style="max-width: 100%; overflow-x: auto;">
+         <canvas id="carbonBarChart" style="max-height: 300px; width: 100%;"></canvas>
+         {% if category == 'assessment' and records %}
+         <button class="btn btn-outline-success mt-3" data-bs-toggle="modal" data-bs-target="#pieChartModal">
+         🥧 View Data in Pie Charts
+         </button>
+         {% set grouped_records = {} %}
+         {% for row in records %}
+         {% set month_label = row['Full_AssessmentDate'].strftime("%Y %B") %}
+         {% if month_label not in grouped_records %}
+         {% set _ = grouped_records.update({month_label: []}) %}
+         {% endif %}
+         {% set _ = grouped_records[month_label].append(row) %}
+         {% endfor %}
 
-        <div class="row g-4">
-            {% for row in records %}
-                <div class="col-md-6 col-lg-4">
-                    <div class="glass-card">
-                        {% for key, value in row.items() %}
-                            <div class="mb-3">
-                                <div class="record-meta">
-                                    <i class="fa-regular fa-circle-dot me-2 text-success"></i>{{ key.replace('_', ' ') }}
-                                </div>
-                                <div class="record-value">{{ value }}</div>
-                            </div>
+         <!-- Pie Chart Modal -->
+         <div class="modal fade" id="pieChartModal" tabindex="-1" aria-labelledby="pieChartModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-xl modal-dialog-scrollable">
+               <div class="modal-content">
+                  <div class="modal-header">
+                     <h5 class="modal-title" id="pieChartModalLabel">Full Assessment Breakdown</h5>
+                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                     <div class="pie-chart-row">
+                        {% for row in records %}
+                        <div class="pie-chart-container">
+                           <canvas id="pieChart{{ loop.index }}"></canvas>
+                           <p class="mt-2 fw-bold text-center">
+                              {{ row['Full_AssessmentDate'].strftime("%B %d, %Y") }} |
+                              {{ row['Full_AssessmentDate'].strftime("%I:%M %p").lstrip('0') }}
+                           </p>
+                        </div>
                         {% endfor %}
-                    </div>
-                </div>
-            {% endfor %}
-        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+         {% endif %}
+      </div>
 
-    {% elif category %}
-        <div class="text-center mt-4 no-data">
-            <i class="fas fa-leaf me-2 text-warning"></i>
-            No history found for <strong>{{ category }}</strong>.
-        </div>
-    {% endif %}
+      <script>
+         document.addEventListener('DOMContentLoaded', function () {
+             {% for row in records %}
+             const ctx{{ loop.index }} = document.getElementById('pieChart{{ loop.index }}').getContext('2d');
+             new Chart(ctx{{ loop.index }}, {
+                 type: 'pie',
+                 data: {
+                     labels: ['Household', 'Transportation', 'Food'],
+                     datasets: [{
+                         label: 'Carbon Contribution',
+                         data: [
+                             {{ row['Household_Total'] }},
+                             {{ row['Transportation_Total'] }},
+                             {{ row['Food_Consumption_Total'] }}
+                         ],
+                         backgroundColor: ['#6abf69', '#3b82f6', '#facc15'],
+                         borderColor: ['#2e5339', '#2e5339', '#2e5339'],
+                         borderWidth: 1
+                     }]
+                 },
+                 options: {
+                     responsive: true,
+                     plugins: {
+                         legend: {
+                             position: 'bottom'
+                         }
+                     }
+                 }
+             });
+             {% endfor %}
+         });
+      </script>
 
-</div>
+      <script>
+         const ctx = document.getElementById('carbonBarChart').getContext('2d');
+         const data = {
+             labels: [{% for row in records|reverse %}"{{ row['timestamp'] if 'timestamp' in row else row['Full_AssessmentDate'] }}",{% endfor %}],
+             datasets: [{
+                 label: 'Carbon Footprint (kg CO₂)',
+                 backgroundColor: '#4a7c59',
+                 borderColor: '#2e5339',
+                 borderWidth: 1,
+                 data: [{% for row in records|reverse %}
+                     {% if category == 'household' %}
+                         {{ row['Total_CarbonFootprint_Household'] }},
+                     {% elif category == 'transportation' %}
+                         {{ row['Total_CarbonFootprint_Transportation'] }},
+                     {% elif category == 'food' %}
+                         {{ row['Total_CarbonFootprint_Food'] }},
+                     {% elif category == 'assessment' %}
+                         {{ row['Overall_Total'] }},
+                     {% endif %}
+                 {% endfor %}]
+             }]
+         };
+         
+         const config = {
+             type: 'bar',
+             data: data,
+             options: {
+                 responsive: true,
+                 maintainAspectRatio: false,
+                 plugins: {
+                     legend: { display: false },
+                     title: {
+                         display: true,
+                         text: 'Carbon Footprint Overview'
+                     }
+                 },
+                 scales: {
+                     y: {
+                         beginAtZero: true,
+                         title: {
+                             display: true,
+                             text: 'kg CO₂'
+                         }
+                     },
+                     x: {
+                         title: {
+                             display: true,
+                             text: 'Date'
+                     }
+                     }
+                 }
+             }
+         };
+         
+         new Chart(ctx, config);
+      </script>
 
-</body>
+      {% endif %}
+      {% if records %}
+      <h5 class="text-center mb-4 text-muted">
+         📁 Viewing history for <strong>{{ category|capitalize }}</strong> - <strong>{{ selected_month }}</strong>
+      </h5>
+      <div class="row g-4">
+         {% for row in records %}
+         <div class="col-md-6 col-lg-4">
+            <div class="glass-card">
+               <div class="mb-3 record-meta fw-bold">
+
+                  <!-- Show whichever date field exists, formatted nicely -->
+                  {% if row.Full_AssessmentDate %}
+                  {{ row.Full_AssessmentDate.strftime("%B %d, %Y %I:%M %p") }}
+                  {% elif row.timestamp %}
+                  {{ row.timestamp.strftime("%B %d, %Y %I:%M %p") }}
+                  {% else %}
+                  Date not available
+                  {% endif %}
+               </div>
+               {% for key, value in row.items() %}
+               {% if key != 'timestamp' and key != 'Full_AssessmentDate' %}
+               <div class="mb-3">
+                  <div class="record-meta">
+                     <i class="fa-regular fa-circle-dot me-2 text-success"></i>{{ key.replace('_', ' ') }}
+                  </div>
+                  <div class="record-value">{{ value }}</div>
+               </div>
+               {% endif %}
+               {% endfor %}
+            </div>
+         </div>
+         {% endfor %}
+      </div>
+      {% elif selected_month %}
+      <div class="text-center mt-4 no-data">
+         <i class="fas fa-leaf me-2 text-warning"></i>
+         No history found for <strong>{{ category }}</strong> in <strong>{{ selected_month }}</strong>.
+      </div>
+      {% endif %}
+      <script>
+
+         // Reset month selection if category changes
+         document.getElementById('categorySelect').addEventListener('change', function() {
+           const monthSelect = document.getElementById('monthSelect');
+           if (monthSelect) {
+             monthSelect.selectedIndex = 0; // reset month select to first option
+           }
+           // Submit form
+           document.getElementById('filterForm').submit();
+         });
+      </script>
+      
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+   </body>
 </html>
