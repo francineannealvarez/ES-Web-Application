@@ -16,8 +16,8 @@ It was built to raise awareness about sustainability and support smarter, greene
 We all contribute to climate change — but we can also be part of the solution.  
 **GoEcoTrack** empowers users to:
 
-- 🌽 Track their **carbon emissions from food**
-- 💡 Log **energy and electricity use**
+- 🌽 Track their **carbon emissions**
+- 💡 Log **energy, food and electricity use**
 - 🏠 Add **household and personal habits**
 - 📊 Visualize how daily choices affect the planet
 - 🌱 Commit to small, meaningful improvements
